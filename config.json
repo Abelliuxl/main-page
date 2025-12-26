@@ -1,0 +1,162 @@
+{
+  "site": {
+    "title": "My Macintosh",
+    "menuLogo": "My Macintosh",
+    "menuItems": ["File", "Edit", "View", "Special", ""]
+  },
+
+  "profile": {
+    "name": "Your Name",
+    "avatar": "👤",
+    "bio": "Welcome to my digital workspace! I'm a passionate developer who loves creating elegant solutions to complex problems.",
+    "background": "I've been building software for over 5 years, focusing on web development and creating memorable user experiences. This portfolio is inspired by the classic Macintosh interface from 1984.",
+    "skills": ["JavaScript", "Python", "React", "Node.js", "CSS", "Git"]
+  },
+
+  "projects": [
+    {
+      "title": "Retro UI Kit",
+      "icon": "🎨",
+      "description": "A collection of retro-styled UI components inspired by 1980s interface design.",
+      "year": "2024",
+      "link": "#"
+    },
+    {
+      "title": "Task Manager",
+      "icon": "⚡",
+      "description": "A minimalist task management application with keyboard-driven navigation.",
+      "year": "2024",
+      "link": "#"
+    },
+    {
+      "title": "Data Visualizer",
+      "icon": "📊",
+      "description": "Interactive charts and graphs for exploring complex datasets.",
+      "year": "2023",
+      "link": "#"
+    }
+  ],
+
+  "writings": [
+    {
+      "title": "The Beauty of Constraints",
+      "date": "December 2024",
+      "excerpt": "How working within limitations can spark creativity and lead to innovative solutions.",
+      "link": "#"
+    },
+    {
+      "title": "Why I Love Retro Computing",
+      "date": "November 2024",
+      "excerpt": "Exploring the lessons we can learn from early computer interfaces and design principles.",
+      "link": "#"
+    },
+    {
+      "title": "Building for the Long Term",
+      "date": "October 2024",
+      "excerpt": "Thoughts on creating sustainable software that stands the test of time.",
+      "link": "#"
+    }
+  ],
+
+  "notes": [
+    {
+      "title": "Current Focus",
+      "icon": "💡",
+      "content": "Working on improving accessibility in web applications. Every user deserves a great experience."
+    },
+    {
+      "title": "Reading List",
+      "icon": "📚",
+      "type": "list",
+      "items": [
+        "The Design of Everyday Things",
+        "Don't Make Me Think",
+        "Clean Code"
+      ]
+    },
+    {
+      "title": "Goals",
+      "icon": "🎯",
+      "type": "list",
+      "items": [
+        "Contribute to open source",
+        "Learn a new programming language",
+        "Build something fun every month"
+      ]
+    }
+  ],
+
+  "contact": {
+    "email": "hello@example.com",
+    "items": [
+      {
+        "icon": "📧",
+        "label": "Email",
+        "value": "hello@example.com",
+        "link": "mailto:hello@example.com"
+      },
+      {
+        "icon": "🐦",
+        "label": "Twitter",
+        "value": "@yourhandle",
+        "link": "https://twitter.com/yourhandle"
+      },
+      {
+        "icon": "💼",
+        "label": "LinkedIn",
+        "value": "your-profile",
+        "link": "https://linkedin.com/in/yourprofile"
+      },
+      {
+        "icon": "🐙",
+        "label": "GitHub",
+        "value": "yourusername",
+        "link": "https://github.com/yourusername"
+      }
+    ],
+    "formEnabled": true,
+    "formAction": "#"
+  },
+
+  "links": [
+    {
+      "title": "Friends & Colleagues",
+      "icon": "🌟",
+      "items": [
+        {"name": "Jane's Portfolio", "url": "#"},
+        {"name": "Bob's Blog", "url": "#"},
+        {"name": "Alice's Projects", "url": "#"}
+      ]
+    },
+    {
+      "title": "Resources",
+      "icon": "🔧",
+      "items": [
+        {"name": "MDN Web Docs", "url": "https://developer.mozilla.org"},
+        {"name": "CSS-Tricks", "url": "https://css-tricks.com"},
+        {"name": "Smashing Magazine", "url": "https://www.smashingmagazine.com"}
+      ]
+    },
+    {
+      "title": "Fun Stuff",
+      "icon": "🎮",
+      "items": [
+        {"name": "Internet Archive", "url": "https://archive.org"},
+        {"name": "Retro Games Online", "url": "#"},
+        {"name": "Pixel Art Tutorials", "url": "#"}
+      ]
+    }
+  ],
+
+  "desktop": {
+    "icons": [
+      {"id": "about", "label": "About", "icon": "👤", "window": "about-window"},
+      {"id": "projects", "label": "Projects", "icon": "📁", "window": "projects-window"},
+      {"id": "writing", "label": "Writing", "icon": "📝", "window": "writing-window"},
+      {"id": "notes", "label": "Notes", "icon": "📋", "window": "notes-window"},
+      {"id": "contact", "label": "Contact", "icon": "✉️", "window": "contact-window"},
+      {"id": "links", "label": "Links", "icon": "🔗", "window": "links-window"}
+    ],
+    "defaultOpenWindow": "about-window"
+  }
+}

@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macintosh Portfolio - 1984</title>
+    <style>
+        /* ========================================
+           1. CSS VARIABLES (Design Tokens)
+           ======================================== */
+        :root {
+            /* Colors - 1-bit Monochrome */
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-25: #e6e6e6;
+            --color-gray-50: #b3b3b3;
+            --color-gray-75: #808080;
+
+            /* Font Families */
+            --font-family-system: "Chicago", "Geneva", "Helvetica", Arial, sans-serif;
+            --font-family-mono: "Monaco", "Courier New", monospace;
+
+            /* Font Sizes */
+            --font-size-xs: 9px;
+            --font-size-sm: 10px;
+            --font-size-md: 12px;
+            --font-size-lg: 14px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+
+            /* Line Heights */
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+
+            /* Spacing (4px grid) */
+            --spacing-0: 0px;
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --spacing-10: 40px;
+            --spacing-12: 48px;
+            --spacing-16: 64px;
+
+            /* Borders */
+            --border-width-thick: 4px;
+            --border-width-thin: 2px;
+            --border-width-hairline: 1px;
+
+            /* Shadows */
+            --shadow-hard: 4px 4px 0 var(--color-black);
+            --shadow-hard-lg: 6px 6px 0 var(--color-black);
+
+            /* Component Sizes */
+            --menubar-height: 24px;
+            --window-border: 4px;
+            --window-titlebar-height: 20px;
+            --window-min-width: 280px;
+            --window-max-width: 600px;
+            --icon-size: 48px;
+            --icon-label-width: 80px;
+            --button-border: 3px;
+            --scrollbar-width: 16px;
+        }
+
+        /* ========================================
+           2. RESET & BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            line-height: var(--line-height-normal);
+            background: var(--color-white);
+            color: var(--color-black);
+        }
+
+        /* ========================================
+           3. MENU BAR
+           ======================================== */
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--menubar-height);
+            background: var(--color-white);
+            border-bottom: var(--border-width-thin) solid var(--color-black);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-3);
+            z-index: 1000;
+            box-shadow: 0 2px 0 var(--color-black);
+        }
+
+        .menu-bar .logo {
+            font-weight: bold;
+            font-size: var(--font-size-sm);
+            padding-right: var(--spacing-4);
+            border-right: var(--border-width-hairline) solid var(--color-black);
+        }
+
+        .menu-bar .menu-items {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-left: var(--spacing-4);
+        }
+
+        .menu-bar .menu-item {
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-bar .menu-item:hover::after {
+            content: attr(data-dropdown);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--color-white);
+            border: var(--border-width-thin) solid var(--color-black);
+            padding: var(--spacing-2);
+            min-width: 120px;
+            box-shadow: var(--shadow-hard);
+            z-index: 1001;
+        }
+
+        .menu-bar .clock {
+            margin-left: auto;
+            font-size: var(--font-size-sm);
+            font-family: var(--font-family-mono);
+        }
+
+        /* ========================================
+           4. DESKTOP AREA
+           ======================================== */
+        .desktop {
+            position: absolute;
+            top: var(--menubar-height);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-white);
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                );
+        }
+
+        /* ========================================
+           5. DESKTOP ICONS
+           ======================================== */
+        .desktop-icons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-6);
+            padding: var(--spacing-6);
+            position: absolute;
+            top: var(--menubar-height);
+            right: var(--spacing-6);
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-1);
+            cursor: pointer;
+            padding: var(--spacing-2);
+            border: var(--border-width-hairline) solid transparent;
+            transition: background 0ms;
+        }
+
+        .desktop-icon:hover {
+            background: var(--color-gray-25);
+        }
+
+        .desktop-icon.selected {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .desktop-icon .icon-img {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            border: var(--border-width-thin) solid var(--color-black);
+            background: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            image-rendering: pixelated;
+        }
+
+        .desktop-icon.selected .icon-img {
+            border-color: var(--color-white);
+        }
+
+        .desktop-icon .icon-label {
+            font-size: var(--font-size-xs);
+            text-align: center;
+            width: var(--icon-label-width);
+            word-wrap: break-word;
+        }
+
+        /* ========================================
+           6. WINDOW
+           ======================================== */
+        .window {
+            position: absolute;
+            min-width: var(--window-min-width);
+            max-width: var(--window-max-width);
+            background: var(--color-white);
+            border: var(--window-border) solid var(--color-black);
+            box-shadow: var(--shadow-hard-lg);
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .window.active {
+            z-index: 200;
+        }
+
+        .window.open {
+            display: flex;
+            animation: windowOpen 200ms ease-out;
+        }
+
+        @keyframes windowOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .window-titlebar {
+            height: var(--window-titlebar-height);
+            background: var(--color-black);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-2);
+            cursor: move;
+            user-select: none;
+        }
+
+        .window-titlebar.inactive {
+            background: var(--color-gray-50);
+            color: var(--color-black);
+        }
+
+        .window-titlebar .title {
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+
+        .window-titlebar .controls {
+            display: flex;
+            gap: var(--spacing-2);
+        }
+
+        .window-close-btn {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--color-white);
+            background: var(--color-black);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .window-close-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 0;
+            border-top: 2px solid var(--color-white);
+        }
+
+        .window-close-btn:hover {
+            background: var(--color-white);
+        }
+
+        .window-close-btn:hover::after {
+            border-color: var(--color-black);
+        }
+
+        .window-content {
+            padding: var(--spacing-4);
+            overflow-y: auto;
+            max-height: calc(100vh - var(--menubar-height) - var(--window-titlebar-height) - 120px);
+        }
+
+        /* Custom Scrollbar */
+        .window-content::-webkit-scrollbar {
+            width: var(--scrollbar-width);
+            background: var(--color-white);
+            border-left: var(--border-width-thin) solid var(--color-black);
+        }
+
+        .window-content::-webkit-scrollbar-thumb {
+            background: repeating-linear-gradient(
+                0deg,
+                var(--color-black),
+                var(--color-black) 2px,
+                var(--color-white) 2px,
+                var(--color-white) 4px
+            );
+            border: var(--border-width-thin) solid var(--color-black);
+        }
+
+        .window-content::-webkit-scrollbar-thumb:hover {
+            background: var(--color-black);
+        }
+
+        /* ========================================
+           7. CONTENT STYLES
+           ======================================== */
+        .content h1 {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-3);
+            border-bottom: var(--border-width-thick) solid var(--color-black);
+            padding-bottom: var(--spacing-2);
+        }
+
+        .content h2 {
+            font-size: var(--font-size-xl);
+            margin: var(--spacing-4) 0 var(--spacing-2);
+        }
+
+        .content h3 {
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-3) 0 var(--spacing-2);
+        }
+
+        .content p {
+            margin-bottom: var(--spacing-3);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .content ul, .content ol {
+            margin-left: var(--spacing-6);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .content li {
+            margin-bottom: var(--spacing-2);
+        }
+
+        .content a {
+            color: var(--color-black);
+            text-decoration: underline;
+        }
+
+        .content a:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .content .avatar {
+            width: 80px;
+            height: 80px;
+            border: var(--border-width-thick) solid var(--color-black);
+            background: var(--color-gray-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: var(--spacing-4);
+        }
+
+        .content .skill-tag {
+            display: inline-block;
+            border: var(--border-width-thin) solid var(--color-black);
+            padding: var(--spacing-1) var(--spacing-2);
+            margin: var(--spacing-1);
+            font-size: var(--font-size-xs);
+            background: var(--color-white);
+        }
+
+        .content .project-item,
+        .content .writing-item,
+        .content .note-item,
+        .content .link-item {
+            border: var(--border-width-thin) solid var(--color-black);
+            padding: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .content .project-item h3,
+        .content .writing-item h3,
+        .content .note-item h3 {
+            margin-top: 0;
+        }
+
+        .content .date {
+            font-size: var(--font-size-xs);
+            font-family: var(--font-family-mono);
+            color: var(--color-gray-75);
+        }
+
+        .content .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-3);
+            padding: var(--spacing-2);
+            border: var(--border-width-hairline) solid var(--color-gray-50);
+        }
+
+        .content .contact-item:hover {
+            background: var(--color-gray-25);
+        }
+
+        .content input,
+        .content textarea {
+            width: 100%;
+            border: var(--border-width-thin) solid var(--color-black);
+            padding: var(--spacing-2);
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-2);
+            background: var(--color-white);
+        }
+
+        .content input:focus,
+        .content textarea:focus {
+            outline: none;
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        /* ========================================
+           8. BUTTON
+           ======================================== */
+        .btn {
+            display: inline-block;
+            border: var(--button-border) solid var(--color-black);
+            background: var(--color-white);
+            color: var(--color-black);
+            padding: var(--spacing-2) var(--spacing-4);
+            font-size: var(--font-size-md);
+            font-family: var(--font-family-system);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0ms;
+        }
+
+        .btn:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .btn:active {
+            background: var(--color-white);
+            color: var(--color-black);
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        /* ========================================
+           9. MOBILE NAVIGATION
+           ======================================== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-top: var(--border-width-thick) solid var(--color-black);
+            z-index: 999;
+        }
+
+        .mobile-nav .nav-items {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .mobile-nav .nav-items::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-nav .nav-item {
+            flex: 0 0 auto;
+            padding: var(--spacing-2) var(--spacing-3);
+            border-right: var(--border-width-hairline) solid var(--color-black);
+            cursor: pointer;
+            font-size: var(--font-size-xs);
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .mobile-nav .nav-item.active {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .mobile-nav .nav-item:hover {
+            background: var(--color-gray-25);
+        }
+
+        .mobile-nav .nav-item.active:hover {
+            background: var(--color-black);
+        }
+
+        /* ========================================
+           10. MOBILE CONTENT AREA
+           ======================================== */
+        .mobile-content {
+            display: none;
+            position: absolute;
+            top: var(--menubar-height);
+            left: 0;
+            right: 0;
+            bottom: 48px;
+            overflow-y: auto;
+            padding: var(--spacing-4);
+        }
+
+        .mobile-content section {
+            display: none;
+        }
+
+        .mobile-content section.active {
+            display: block;
+            animation: fadeIn 150ms ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ========================================
+           11. RESPONSIVE DESIGN
+           ======================================== */
+
+        /* Mobile First Styles */
+        @media (max-width: 767px) {
+            .desktop-icons {
+                display: none;
+            }
+
+            .window {
+                display: none !important;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .mobile-content {
+                display: block;
+            }
+
+            .menu-bar .logo {
+                font-size: var(--font-size-xs);
+            }
+
+            .menu-bar .menu-items {
+                display: none;
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            .mobile-nav {
+                display: none;
+            }
+
+            .mobile-content {
+                display: none;
+            }
+
+            .desktop-icons {
+                display: flex;
+            }
+
+            .window {
+                display: none;
+            }
+
+            .window.open {
+                display: flex;
+            }
+        }
+
+        /* ========================================
+           12. UTILITY CLASSES
+           ======================================== */
+        .text-center { text-align: center; }
+        .text-mono { font-family: var(--font-family-mono); }
+        .mb-2 { margin-bottom: var(--spacing-2); }
+        .mb-4 { margin-bottom: var(--spacing-4); }
+        .mt-4 { margin-top: var(--spacing-4); }
+
+        .divider {
+            border-top: var(--border-width-thin) solid var(--color-black);
+            margin: var(--spacing-4) 0;
+        }
+
+        /* Pixel Art Icon Placeholders */
+        .pixel-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .pixel-icon::before {
+            content: '█';
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+        <div class="logo">My Macintosh</div>
+        <div class="menu-items">
+            <div class="menu-item" data-dropdown="">File</div>
+            <div class="menu-item" data-dropdown="">Edit</div>
+            <div class="menu-item" data-dropdown="">View</div>
+            <div class="menu-item" data-dropdown="">Special</div>
+            <div class="menu-item" data-dropdown=""></div>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <!-- Desktop Area -->
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" data-window="about-window" onclick="toggleWindow('about-window')">
+                <div class="icon-img">👤</div>
+                <div class="icon-label">About</div>
+            </div>
+            <div class="desktop-icon" data-window="projects-window" onclick="toggleWindow('projects-window')">
+                <div class="icon-img">📁</div>
+                <div class="icon-label">Projects</div>
+            </div>
+            <div class="desktop-icon" data-window="writing-window" onclick="toggleWindow('writing-window')">
+                <div class="icon-img">📝</div>
+                <div class="icon-label">Writing</div>
+            </div>
+            <div class="desktop-icon" data-window="notes-window" onclick="toggleWindow('notes-window')">
+                <div class="icon-img">📋</div>
+                <div class="icon-label">Notes</div>
+            </div>
+            <div class="desktop-icon" data-window="contact-window" onclick="toggleWindow('contact-window')">
+                <div class="icon-img">✉️</div>
+                <div class="icon-label">Contact</div>
+            </div>
+            <div class="desktop-icon" data-window="links-window" onclick="toggleWindow('links-window')">
+                <div class="icon-img">🔗</div>
+                <div class="icon-label">Links</div>
+            </div>
+        </div>
+
+        <!-- About Window -->
+        <div class="window" id="about-window" style="top: 80px; left: 80px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('about-window')"></div>
+                </div>
+                <div class="title">About</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <div class="avatar">👤</div>
+                    <h1>About Me</h1>
+                    <p>Welcome to my digital workspace! I'm a passionate developer who loves creating elegant solutions to complex problems.</p>
+                    <h2>Skills</h2>
+                    <div>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">Git</span>
+                    </div>
+                    <h2 class="mt-4">Background</h2>
+                    <p>I've been building software for over 5 years, focusing on web development and creating memorable user experiences. This portfolio is inspired by the classic Macintosh interface from 1984.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Window -->
+        <div class="window" id="projects-window" style="top: 120px; left: 150px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('projects-window')"></div>
+                </div>
+                <div class="title">Projects</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Projects</h1>
+                    <div class="project-item">
+                        <h3>🎨 Retro UI Kit</h3>
+                        <p>A collection of retro-styled UI components inspired by 1980s interface design.</p>
+                        <span class="date">2024</span>
+                    </div>
+                    <div class="project-item">
+                        <h3>⚡ Task Manager</h3>
+                        <p>A minimalist task management application with keyboard-driven navigation.</p>
+                        <span class="date">2024</span>
+                    </div>
+                    <div class="project-item">
+                        <h3>📊 Data Visualizer</h3>
+                        <p>Interactive charts and graphs for exploring complex datasets.</p>
+                        <span class="date">2023</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Window -->
+        <div class="window" id="writing-window" style="top: 160px; left: 220px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('writing-window')"></div>
+                </div>
+                <div class="title">Writing</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Writing</h1>
+                    <div class="writing-item">
+                        <h3>The Beauty of Constraints</h3>
+                        <p class="date">December 2024</p>
+                        <p>How working within limitations can spark creativity and lead to innovative solutions.</p>
+                        <a href="#">Read more →</a>
+                    </div>
+                    <div class="writing-item">
+                        <h3>Why I Love Retro Computing</h3>
+                        <p class="date">November 2024</p>
+                        <p>Exploring the lessons we can learn from early computer interfaces and design principles.</p>
+                        <a href="#">Read more →</a>
+                    </div>
+                    <div class="writing-item">
+                        <h3>Building for the Long Term</h3>
+                        <p class="date">October 2024</p>
+                        <p>Thoughts on creating sustainable software that stands the test of time.</p>
+                        <a href="#">Read more →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Window -->
+        <div class="window" id="notes-window" style="top: 200px; left: 290px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('notes-window')"></div>
+                </div>
+                <div class="title">Notes</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Notes</h1>
+                    <div class="note-item">
+                        <h3>💡 Current Focus</h3>
+                        <p>Working on improving accessibility in web applications. Every user deserves a great experience.</p>
+                    </div>
+                    <div class="note-item">
+                        <h3>📚 Reading List</h3>
+                        <ul>
+                            <li>The Design of Everyday Things</li>
+                            <li>Don't Make Me Think</li>
+                            <li>Clean Code</li>
+                        </ul>
+                    </div>
+                    <div class="note-item">
+                        <h3>🎯 Goals</h3>
+                        <ul>
+                            <li>Contribute to open source</li>
+                            <li>Learn a new programming language</li>
+                            <li>Build something fun every month</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Window -->
+        <div class="window" id="contact-window" style="top: 240px; left: 360px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('contact-window')"></div>
+                </div>
+                <div class="title">Contact</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Contact</h1>
+                    <p>Feel free to reach out! I'm always happy to connect.</p>
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <a href="mailto:hello@example.com">hello@example.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🐦</span>
+                        <a href="#">Twitter</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🐙</span>
+                        <a href="#">GitHub</a>
+                    </div>
+                    <div class="divider"></div>
+                    <h2>Send a Message</h2>
+                    <form onsubmit="handleSubmit(event)">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea rows="5" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links Window -->
+        <div class="window" id="links-window" style="top: 280px; left: 430px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('links-window')"></div>
+                </div>
+                <div class="title">Links</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Links</h1>
+                    <div class="link-item">
+                        <h3>🌟 Friends & Colleagues</h3>
+                        <ul>
+                            <li><a href="#">Jane's Portfolio</a></li>
+                            <li><a href="#">Bob's Blog</a></li>
+                            <li><a href="#">Alice's Projects</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-item">
+                        <h3>🔧 Resources</h3>
+                        <ul>
+                            <li><a href="#">MDN Web Docs</a></li>
+                            <li><a href="#">CSS-Tricks</a></li>
+                            <li><a href="#">Smashing Magazine</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-item">
+                        <h3>🎮 Fun Stuff</h3>
+                        <ul>
+                            <li><a href="#">Internet Archive</a></li>
+                            <li><a href="#">Retro Games Online</a></li>
+                            <li><a href="#">Pixel Art Tutorials</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <div class="nav-items">
+            <div class="nav-item active" data-section="about" onclick="showSection('about')">
+                About
+            </div>
+            <div class="nav-item" data-section="projects" onclick="showSection('projects')">
+                Projects
+            </div>
+            <div class="nav-item" data-section="writing" onclick="showSection('writing')">
+                Writing
+            </div>
+            <div class="nav-item" data-section="notes" onclick="showSection('notes')">
+                Notes
+            </div>
+            <div class="nav-item" data-section="contact" onclick="showSection('contact')">
+                Contact
+            </div>
+            <div class="nav-item" data-section="links" onclick="showSection('links')">
+                Links
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Content Area -->
+    <div class="mobile-content">
+        <section id="about" class="active">
+            <div class="content">
+                <div class="avatar">👤</div>
+                <h1>About Me</h1>
+                <p>Welcome to my digital workspace! I'm a passionate developer who loves creating elegant solutions to complex problems.</p>
+                <h2>Skills</h2>
+                <div>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">CSS</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+                <h2 class="mt-4">Background</h2>
+                <p>I've been building software for over 5 years, focusing on web development and creating memorable user experiences. This portfolio is inspired by the classic Macintosh interface from 1984.</p>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="content">
+                <h1>Projects</h1>
+                <div class="project-item">
+                    <h3>🎨 Retro UI Kit</h3>
+                    <p>A collection of retro-styled UI components inspired by 1980s interface design.</p>
+                    <span class="date">2024</span>
+                </div>
+                <div class="project-item">
+                    <h3>⚡ Task Manager</h3>
+                    <p>A minimalist task management application with keyboard-driven navigation.</p>
+                    <span class="date">2024</span>
+                </div>
+                <div class="project-item">
+                    <h3>📊 Data Visualizer</h3>
+                    <p>Interactive charts and graphs for exploring complex datasets.</p>
+                    <span class="date">2023</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="writing">
+            <div class="content">
+                <h1>Writing</h1>
+                <div class="writing-item">
+                    <h3>The Beauty of Constraints</h3>
+                    <p class="date">December 2024</p>
+                    <p>How working within limitations can spark creativity and lead to innovative solutions.</p>
+                    <a href="#">Read more →</a>
+                </div>
+                <div class="writing-item">
+                    <h3>Why I Love Retro Computing</h3>
+                    <p class="date">November 2024</p>
+                    <p>Exploring the lessons we can learn from early computer interfaces and design principles.</p>
+                    <a href="#">Read more →</a>
+                </div>
+                <div class="writing-item">
+                    <h3>Building for the Long Term</h3>
+                    <p class="date">October 2024</p>
+                    <p>Thoughts on creating sustainable software that stands the test of time.</p>
+                    <a href="#">Read more →</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="notes">
+            <div class="content">
+                <h1>Notes</h1>
+                <div class="note-item">
+                    <h3>💡 Current Focus</h3>
+                    <p>Working on improving accessibility in web applications. Every user deserves a great experience.</p>
+                </div>
+                <div class="note-item">
+                    <h3>📚 Reading List</h3>
+                    <ul>
+                        <li>The Design of Everyday Things</li>
+                        <li>Don't Make Me Think</li>
+                        <li>Clean Code</li>
+                    </ul>
+                </div>
+                <div class="note-item">
+                    <h3>🎯 Goals</h3>
+                    <ul>
+                        <li>Contribute to open source</li>
+                        <li>Learn a new programming language</li>
+                        <li>Build something fun every month</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="content">
+                <h1>Contact</h1>
+                <p>Feel free to reach out! I'm always happy to connect.</p>
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:hello@example.com">hello@example.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>🐦</span>
+                    <a href="#">Twitter</a>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <a href="#">LinkedIn</a>
+                </div>
+                <div class="contact-item">
+                    <span>🐙</span>
+                    <a href="#">GitHub</a>
+                </div>
+                <div class="divider"></div>
+                <h2>Send a Message</h2>
+                <form onsubmit="handleSubmit(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="links">
+            <div class="content">
+                <h1>Links</h1>
+                <div class="link-item">
+                    <h3>🌟 Friends & Colleagues</h3>
+                    <ul>
+                        <li><a href="#">Jane's Portfolio</a></li>
+                        <li><a href="#">Bob's Blog</a></li>
+                        <li><a href="#">Alice's Projects</a></li>
+                    </ul>
+                </div>
+                <div class="link-item">
+                    <h3>🔧 Resources</h3>
+                    <ul>
+                        <li><a href="#">MDN Web Docs</a></li>
+                        <li><a href="#">CSS-Tricks</a></li>
+                        <li><a href="#">Smashing Magazine</a></li>
+                    </ul>
+                </div>
+                <div class="link-item">
+                    <h3>🎮 Fun Stuff</h3>
+                    <ul>
+                        <li><a href="#">Internet Archive</a></li>
+                        <li><a href="#">Retro Games Online</a></li>
+                        <li><a href="#">Pixel Art Tutorials</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIG LOADING
+        // ========================================
+        let config = null;
+
+        async function loadConfig() {
+            try {
+                const response = await fetch('config.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                config = await response.json();
+                console.log('Config loaded successfully:', config);
+                initializeUI();
+            } catch (error) {
+                console.error('Failed to load config:', error);
+
+                // Show error message on desktop
+                const desktop = document.getElementById('desktop');
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 20px;';
+                errorMsg.innerHTML = `
+                    <h2>⚠️ Configuration Error</h2>
+                    <p>Could not load config.json</p>
+                    <p style="font-size: 11px; margin-top: 10px;">Please open this page through a web server (http://localhost:8000) instead of file://</p>
+                    <p style="font-size: 10px; margin-top: 10px; font-family: monospace;">Error: ${error.message}</p>
+                `;
+                desktop.appendChild(errorMsg);
+
+                // Keep the hardcoded content as fallback - don't call initializeUI()
+                // The HTML already has default content that will be displayed
+            }
+        }
+
+        function initializeUI() {
+            renderMenuBar();
+            renderDesktopIcons();
+            renderAllWindows();
+            renderMobileNav();
+            renderMobileContent();
+
+            // Open default window
+            if (window.innerWidth >= 768 && config.desktop.defaultOpenWindow) {
+                setTimeout(() => {
+                    toggleWindow(config.desktop.defaultOpenWindow);
+                }, 300);
+            }
+        }
+
+        // ========================================
+        // RENDERING FUNCTIONS
+        // ========================================
+        function renderMenuBar() {
+            document.querySelector('.menu-bar .logo').textContent = config.site.menuLogo;
+            const menuItemsContainer = document.querySelector('.menu-bar .menu-items');
+            menuItemsContainer.innerHTML = config.site.menuItems.map(item =>
+                `<div class="menu-item" data-dropdown="">${item}</div>`
+            ).join('');
+        }
+
+        function renderDesktopIcons() {
+            const iconsContainer = document.querySelector('.desktop-icons');
+            iconsContainer.innerHTML = config.desktop.icons.map(icon =>
+                `<div class="desktop-icon" data-window="${icon.window}" onclick="toggleWindow('${icon.window}')">
+                    <div class="icon-img">${icon.icon}</div>
+                    <div class="icon-label">${icon.label}</div>
+                </div>`
+            ).join('');
+        }
+
+        function renderAllWindows() {
+            renderAboutWindow();
+            renderProjectsWindow();
+            renderWritingWindow();
+            renderNotesWindow();
+            renderContactWindow();
+            renderLinksWindow();
+        }
+
+        function renderAboutWindow() {
+            const content = document.querySelector('#about-window .window-content .content');
+            content.innerHTML = `
+                <div class="avatar">${config.profile.avatar}</div>
+                <h1>About Me</h1>
+                <p>${config.profile.bio}</p>
+                <h2>Skills</h2>
+                <div>
+                    ${config.profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                </div>
+                <h2 class="mt-4">Background</h2>
+                <p>${config.profile.background}</p>
+            `;
+        }
+
+        function renderProjectsWindow() {
+            const content = document.querySelector('#projects-window .window-content .content');
+            content.innerHTML = `
+                <h1>Projects</h1>
+                ${config.projects.map(project => `
+                    <div class="project-item">
+                        <h3>${project.icon} ${project.title}</h3>
+                        <p>${project.description}</p>
+                        <span class="date">${project.year}</span>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderWritingWindow() {
+            const content = document.querySelector('#writing-window .window-content .content');
+            content.innerHTML = `
+                <h1>Writing</h1>
+                ${config.writings.map(writing => `
+                    <div class="writing-item">
+                        <h3>${writing.title}</h3>
+                        <p class="date">${writing.date}</p>
+                        <p>${writing.excerpt}</p>
+                        <a href="${writing.link}">Read more →</a>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderNotesWindow() {
+            const content = document.querySelector('#notes-window .window-content .content');
+            content.innerHTML = `
+                <h1>Notes</h1>
+                ${config.notes.map(note => {
+                    if (note.type === 'list') {
+                        return `
+                            <div class="note-item">
+                                <h3>${note.icon} ${note.title}</h3>
+                                <ul>
+                                    ${note.items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="note-item">
+                                <h3>${note.icon} ${note.title}</h3>
+                                <p>${note.content}</p>
+                            </div>
+                        `;
+                    }
+                }).join('')}
+            `;
+        }
+
+        function renderContactWindow() {
+            const content = document.querySelector('#contact-window .window-content .content');
+            const contactItems = config.contact.items.map(item =>
+                `<div class="contact-item">
+                    <span>${item.icon}</span>
+                    <a href="${item.link}">${item.value}</a>
+                </div>`
+            ).join('');
+
+            const formHtml = config.contact.formEnabled ? `
+                <div class="divider"></div>
+                <h2>Send a Message</h2>
+                <form onsubmit="handleSubmit(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            ` : '';
+
+            content.innerHTML = `
+                <h1>Contact</h1>
+                <p>Feel free to reach out! I'm always happy to connect.</p>
+                ${contactItems}
+                ${formHtml}
+            `;
+        }
+
+        function renderLinksWindow() {
+            const content = document.querySelector('#links-window .window-content .content');
+            content.innerHTML = `
+                <h1>Links</h1>
+                ${config.links.map(category => `
+                    <div class="link-item">
+                        <h3>${category.icon} ${category.title}</h3>
+                        <ul>
+                            ${category.items.map(link => `<li><a href="${link.url}">${link.name}</a></li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderMobileNav() {
+            const navItems = document.querySelector('.mobile-nav .nav-items');
+            navItems.innerHTML = config.desktop.icons.map((icon, index) =>
+                `<div class="nav-item ${index === 0 ? 'active' : ''}" data-section="${icon.id}" onclick="showSection('${icon.id}')">${icon.label}</div>`
+            ).join('');
+        }
+
+        function renderMobileContent() {
+            const container = document.querySelector('.mobile-content');
+
+            // About section
+            const aboutSection = document.getElementById('about');
+            aboutSection.querySelector('.content').innerHTML = `
+                <div class="avatar">${config.profile.avatar}</div>
+                <h1>About Me</h1>
+                <p>${config.profile.bio}</p>
+                <h2>Skills</h2>
+                <div>
+                    ${config.profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                </div>
+                <h2 class="mt-4">Background</h2>
+                <p>${config.profile.background}</p>
+            `;
+
+            // Projects section
+            const projectsSection = document.getElementById('projects');
+            projectsSection.querySelector('.content').innerHTML = `
+                <h1>Projects</h1>
+                ${config.projects.map(project => `
+                    <div class="project-item">
+                        <h3>${project.icon} ${project.title}</h3>
+                        <p>${project.description}</p>
+                        <span class="date">${project.year}</span>
+                    </div>
+                `).join('')}
+            `;
+
+            // Writing section
+            const writingSection = document.getElementById('writing');
+            writingSection.querySelector('.content').innerHTML = `
+                <h1>Writing</h1>
+                ${config.writings.map(writing => `
+                    <div class="writing-item">
+                        <h3>${writing.title}</h3>
+                        <p class="date">${writing.date}</p>
+                        <p>${writing.excerpt}</p>
+                        <a href="${writing.link}">Read more →</a>
+                    </div>
+                `).join('')}
+            `;
+
+            // Notes section
+            const notesSection = document.getElementById('notes');
+            notesSection.querySelector('.content').innerHTML = `
+                <h1>Notes</h1>
+                ${config.notes.map(note => {
+                    if (note.type === 'list') {
+                        return `
+                            <div class="note-item">
+                                <h3>${note.icon} ${note.title}</h3>
+                                <ul>
+                                    ${note.items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="note-item">
+                                <h3>${note.icon} ${note.title}</h3>
+                                <p>${note.content}</p>
+                            </div>
+                        `;
+                    }
+                }).join('')}
+            `;
+
+            // Contact section
+            const contactSection = document.getElementById('contact');
+            const contactItems = config.contact.items.map(item =>
+                `<div class="contact-item">
+                    <span>${item.icon}</span>
+                    <a href="${item.link}">${item.value}</a>
+                </div>`
+            ).join('');
+
+            const formHtml = config.contact.formEnabled ? `
+                <div class="divider"></div>
+                <h2>Send a Message</h2>
+                <form onsubmit="handleSubmit(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            ` : '';
+
+            contactSection.querySelector('.content').innerHTML = `
+                <h1>Contact</h1>
+                <p>Feel free to reach out! I'm always happy to connect.</p>
+                ${contactItems}
+                ${formHtml}
+            `;
+
+            // Links section
+            const linksSection = document.getElementById('links');
+            linksSection.querySelector('.content').innerHTML = `
+                <h1>Links</h1>
+                ${config.links.map(category => `
+                    <div class="link-item">
+                        <h3>${category.icon} ${category.title}</h3>
+                        <ul>
+                            ${category.items.map(link => `<li><a href="${link.url}">${link.name}</a></li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // ========================================
+        // CLOCK UPDATE
+        // ========================================
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ========================================
+        // 2. WINDOW MANAGEMENT
+        // ========================================
+        let activeWindow = null;
+        let highestZIndex = 200;
+        const openWindows = new Set();
+
+        function toggleWindow(windowId) {
+            const windowEl = document.getElementById(windowId);
+
+            if (windowEl.classList.contains('open')) {
+                // If already open, just activate it
+                activateWindow(windowEl);
+            } else {
+                // Open the window
+                openWindows.add(windowId);
+                windowEl.classList.add('open');
+                activateWindow(windowEl);
+
+                // Stagger position slightly for multiple windows
+                const offset = openWindows.size * 20;
+                windowEl.style.top = parseInt(windowEl.style.top || 100) + offset + 'px';
+                windowEl.style.left = parseInt(windowEl.style.left || 100) + offset + 'px';
+            }
+        }
+
+        function activateWindow(windowEl) {
+            // Deactivate all windows
+            document.querySelectorAll('.window').forEach(w => {
+                w.classList.remove('active');
+                const titlebar = w.querySelector('.window-titlebar');
+                titlebar.classList.add('inactive');
+            });
+
+            // Activate clicked window
+            windowEl.classList.add('active');
+            windowEl.querySelector('.window-titlebar').classList.remove('inactive');
+            windowEl.style.zIndex = ++highestZIndex;
+            activeWindow = windowEl;
+
+            // Highlight corresponding icon
+            document.querySelectorAll('.desktop-icon').forEach(icon => {
+                icon.classList.remove('selected');
+            });
+            const windowId = windowEl.id;
+            const correspondingIcon = document.querySelector(`.desktop-icon[data-window="${windowId}"]`);
+            if (correspondingIcon) {
+                correspondingIcon.classList.add('selected');
+            }
+        }
+
+        function closeWindow(windowId) {
+            const windowEl = document.getElementById(windowId);
+            windowEl.classList.remove('open');
+            openWindows.delete(windowId);
+
+            // Remove icon selection
+            const correspondingIcon = document.querySelector(`.desktop-icon[data-window="${windowId}"]`);
+            if (correspondingIcon) {
+                correspondingIcon.classList.remove('selected');
+            }
+
+            // Activate another window if available
+            if (openWindows.size > 0) {
+                const remainingWindows = Array.from(openWindows);
+                const lastWindow = document.getElementById(remainingWindows[remainingWindows.length - 1]);
+                activateWindow(lastWindow);
+            }
+        }
+
+        // ========================================
+        // 3. WINDOW DRAGGING
+        // ========================================
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let currentDragWindow = null;
+
+        document.querySelectorAll('.window-titlebar').forEach(titlebar => {
+            titlebar.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('window-close-btn')) return;
+
+                isDragging = true;
+                currentDragWindow = titlebar.closest('.window');
+                activateWindow(currentDragWindow);
+
+                const rect = currentDragWindow.getBoundingClientRect();
+                dragOffset.x = e.clientX - rect.left;
+                dragOffset.y = e.clientY - rect.top;
+
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging || !currentDragWindow) return;
+
+            let newX = e.clientX - dragOffset.x;
+            let newY = e.clientY - dragOffset.y;
+
+            // Boundary constraints (keep at least 100px visible)
+            const windowWidth = currentDragWindow.offsetWidth;
+            const windowHeight = currentDragWindow.offsetHeight;
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 100;
+
+            if (newX < -windowWidth + 100) newX = -windowWidth + 100;
+            if (newX > maxX) newX = maxX;
+            if (newY < 24) newY = 24; // Keep below menu bar
+            if (newY > maxY) newY = maxY;
+
+            currentDragWindow.style.left = newX + 'px';
+            currentDragWindow.style.top = newY + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            currentDragWindow = null;
+        });
+
+        // ========================================
+        // 4. WINDOW ACTIVATION ON CLICK
+        // ========================================
+        document.querySelectorAll('.window').forEach(windowEl => {
+            windowEl.addEventListener('mousedown', () => {
+                activateWindow(windowEl);
+            });
+        });
+
+        // ========================================
+        // 5. MOBILE NAVIGATION
+        // ========================================
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.mobile-content section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update nav items
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.mobile-nav .nav-item[data-section="${sectionId}"]`).classList.add('active');
+        }
+
+        // ========================================
+        // 6. KEYBOARD SHORTCUTS
+        // ========================================
+        document.addEventListener('keydown', (e) => {
+            // ESC: Close active window
+            if (e.key === 'Escape' && activeWindow) {
+                closeWindow(activeWindow.id);
+            }
+
+            // Cmd/Ctrl + W: Close active window
+            if ((e.metaKey || e.ctrlKey) && e.key === 'w' && activeWindow) {
+                e.preventDefault();
+                closeWindow(activeWindow.id);
+            }
+
+            // Tab: Cycle through windows (desktop only)
+            if (e.key === 'Tab' && window.innerWidth >= 768 && openWindows.size > 0) {
+                e.preventDefault();
+                const windowsArray = Array.from(openWindows);
+                const currentIndex = windowsArray.indexOf(activeWindow?.id || '');
+                const nextIndex = (currentIndex + 1) % windowsArray.length;
+                const nextWindow = document.getElementById(windowsArray[nextIndex]);
+                activateWindow(nextWindow);
+            }
+        });
+
+        // ========================================
+        // 7. FORM HANDLING
+        // ========================================
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Simulate form submission
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Show success message (retro alert style)
+            alert('Message sent!\n\nThank you for reaching out.\n\n- Close -');
+
+            // Reset form
+            form.reset();
+        }
+
+        // ========================================
+        // 8. INITIALIZATION
+        // ========================================
+        // Load config and initialize the app
+        loadConfig();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Adjust behavior on resize if needed
+        });
+    </script>
+</body>
+</html>
