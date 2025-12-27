@@ -88,6 +88,7 @@ php -S localhost:8000
 只需要上传：
 - `index.html`
 - `config.json`
+- `favicon.png`（网站图标）
 
 ## 自定义样式
 
@@ -117,6 +118,7 @@ php -S localhost:8000
 .
 ├── index.html      # 主页面（包含所有样式和脚本）
 ├── config.json     # 配置文件（编辑这个更新内容）
+├── favicon.png     # 网站图标
 └── README.md       # 说明文档
 ```
 
