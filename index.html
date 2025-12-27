@@ -273,6 +273,15 @@
             user-select: none;
         }
 
+        /* Ensure cursor consistency during drag */
+        body.dragging {
+            cursor: move !important;
+        }
+
+        body.dragging * {
+            cursor: move !important;
+        }
+
         .window-titlebar.inactive {
             background: var(--color-gray-50);
             color: var(--color-black);
@@ -1490,11 +1499,33 @@
 
                 isDragging = true;
                 currentDragWindow = titlebar.closest('.window');
-                activateWindow(currentDragWindow);
 
-                const rect = currentDragWindow.getBoundingClientRect();
-                dragOffset.x = e.clientX - rect.left;
-                dragOffset.y = e.clientY - rect.top;
+                // Set cursor immediately to prevent cursor change
+                document.body.classList.add('dragging');
+
+                // Get current window position from style or compute from getBoundingClientRect
+                let currentLeft, currentTop;
+                
+                if (currentDragWindow.style.left && currentDragWindow.style.left !== 'auto') {
+                    currentLeft = parseInt(currentDragWindow.style.left);
+                } else {
+                    currentLeft = currentDragWindow.getBoundingClientRect().left;
+                    currentDragWindow.style.left = currentLeft + 'px';
+                }
+                
+                if (currentDragWindow.style.top && currentDragWindow.style.top !== 'auto') {
+                    currentTop = parseInt(currentDragWindow.style.top);
+                } else {
+                    currentTop = currentDragWindow.getBoundingClientRect().top;
+                    currentDragWindow.style.top = currentTop + 'px';
+                }
+
+                // Calculate offset using the actual window position
+                dragOffset.x = e.clientX - currentLeft;
+                dragOffset.y = e.clientY - currentTop;
+
+                // Activate window immediately
+                activateWindow(currentDragWindow);
 
                 e.preventDefault();
             });
@@ -1522,6 +1553,10 @@
         });
 
         document.addEventListener('mouseup', () => {
+            if (isDragging && currentDragWindow) {
+                // Restore cursor
+                document.body.classList.remove('dragging');
+            }
             isDragging = false;
             currentDragWindow = null;
         });
@@ -1530,7 +1565,11 @@
         // 4. WINDOW ACTIVATION ON CLICK
         // ========================================
         document.querySelectorAll('.window').forEach(windowEl => {
-            windowEl.addEventListener('mousedown', () => {
+            windowEl.addEventListener('mousedown', (e) => {
+                // Skip if the click originated from titlebar (already handled there)
+                if (e.target.closest('.window-titlebar')) {
+                    return;
+                }
                 activateWindow(windowEl);
             });
         });
