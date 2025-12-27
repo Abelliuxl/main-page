@@ -1,5 +1,9 @@
 # Macintosh Portfolio 1984
 
+<div align="center">
+  <img src="favicon.png" alt="Project Icon" width="120" height="120">
+</div>
+
 一个 1980 年代早期 Apple Macintosh 风格的响应式个人主页。
 
 ## 特性
