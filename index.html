@@ -418,7 +418,6 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            filter: grayscale(1) contrast(1.25);
         }
 
         .content .skill-tag {
@@ -693,19 +692,19 @@
         <!-- Desktop Icons -->
         <div class="desktop-icons">
             <div class="desktop-icon" data-window="about-window" onclick="toggleWindow('about-window')">
-                <div class="icon-img">👤</div>
+                <div class="icon-img">⚕️</div>
                 <div class="icon-label">About</div>
             </div>
             <div class="desktop-icon" data-window="projects-window" onclick="toggleWindow('projects-window')">
-                <div class="icon-img">📁</div>
-                <div class="icon-label">Projects</div>
+                <div class="icon-img">💾</div>
+                <div class="icon-label">Apps</div>
             </div>
             <div class="desktop-icon" data-window="writing-window" onclick="toggleWindow('writing-window')">
-                <div class="icon-img">📝</div>
-                <div class="icon-label">Writing</div>
+                <div class="icon-img">⌘</div>
+                <div class="icon-label">Projects</div>
             </div>
             <div class="desktop-icon" data-window="notes-window" onclick="toggleWindow('notes-window')">
-                <div class="icon-img">📋</div>
+                <div class="icon-img">📝</div>
                 <div class="icon-label">Notes</div>
             </div>
             <div class="desktop-icon" data-window="contact-window" onclick="toggleWindow('contact-window')">
@@ -753,12 +752,12 @@
                 <div class="controls">
                     <div class="window-close-btn" onclick="closeWindow('projects-window')"></div>
                 </div>
-                <div class="title">Projects</div>
+                <div class="title">Apps</div>
                 <div class="controls"></div>
             </div>
             <div class="window-content">
                 <div class="content">
-                    <h1>Projects</h1>
+                    <h1>Apps</h1>
                     <div class="project-item">
                         <h3>🎨 Retro UI Kit</h3>
                         <p>A collection of retro-styled UI components inspired by 1980s interface design.</p>
@@ -784,12 +783,12 @@
                 <div class="controls">
                     <div class="window-close-btn" onclick="closeWindow('writing-window')"></div>
                 </div>
-                <div class="title">Writing</div>
+                <div class="title">Projects</div>
                 <div class="controls"></div>
             </div>
             <div class="window-content">
                 <div class="content">
-                    <h1>Writing</h1>
+                    <h1>Projects</h1>
                     <div class="writing-item">
                         <h3>The Beauty of Constraints</h3>
                         <p class="date">December 2024</p>
@@ -937,10 +936,10 @@
                 About
             </div>
             <div class="nav-item" data-section="projects" onclick="showSection('projects')">
-                Projects
+                Apps
             </div>
             <div class="nav-item" data-section="writing" onclick="showSection('writing')">
-                Writing
+                Projects
             </div>
             <div class="nav-item" data-section="notes" onclick="showSection('notes')">
                 Notes
@@ -1113,7 +1112,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260429-1506';
+        const CONFIG_VERSION = '20260429-1522';
 
         async function loadConfig() {
             try {
@@ -1214,9 +1213,10 @@
 
         function renderProjectsWindow() {
             const content = document.querySelector('#projects-window .window-content .content');
+            const apps = config.apps || config.projects;
             content.innerHTML = `
-                <h1>Projects</h1>
-                ${config.projects.map(project => `
+                <h1>Apps</h1>
+                ${apps.map(project => `
                     <div class="project-item">
                         <h3>${project.icon} ${project.title}</h3>
                         <p>${project.description}</p>
@@ -1229,14 +1229,15 @@
 
         function renderWritingWindow() {
             const content = document.querySelector('#writing-window .window-content .content');
+            const projects = config.githubProjects || [];
             content.innerHTML = `
-                <h1>Writing</h1>
-                ${config.writings.map(writing => `
-                    <div class="writing-item">
-                        <h3>${writing.title}</h3>
-                        <p class="date">${writing.date}</p>
-                        <p>${writing.excerpt}</p>
-                        <a href="${writing.link}">Read more →</a>
+                <h1>Projects</h1>
+                ${projects.map(project => `
+                    <div class="project-item">
+                        <h3>${project.icon} ${project.title}</h3>
+                        <p>${project.description}</p>
+                        <span class="date">${project.year}</span>
+                        ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
                     </div>
                 `).join('')}
             `;
@@ -1337,9 +1338,10 @@
 
             // Projects section
             const projectsSection = document.getElementById('projects');
+            const apps = config.apps || config.projects;
             projectsSection.querySelector('.content').innerHTML = `
-                <h1>Projects</h1>
-                ${config.projects.map(project => `
+                <h1>Apps</h1>
+                ${apps.map(project => `
                     <div class="project-item">
                         <h3>${project.icon} ${project.title}</h3>
                         <p>${project.description}</p>
@@ -1351,14 +1353,15 @@
 
             // Writing section
             const writingSection = document.getElementById('writing');
+            const projects = config.githubProjects || [];
             writingSection.querySelector('.content').innerHTML = `
-                <h1>Writing</h1>
-                ${config.writings.map(writing => `
-                    <div class="writing-item">
-                        <h3>${writing.title}</h3>
-                        <p class="date">${writing.date}</p>
-                        <p>${writing.excerpt}</p>
-                        <a href="${writing.link}">Read more →</a>
+                <h1>Projects</h1>
+                ${projects.map(project => `
+                    <div class="project-item">
+                        <h3>${project.icon} ${project.title}</h3>
+                        <p>${project.description}</p>
+                        <span class="date">${project.year}</span>
+                        ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
                     </div>
                 `).join('')}
             `;

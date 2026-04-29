@@ -2,22 +2,36 @@
   "site": {
     "title": "Abelliuxl Macintosh",
     "menuLogo": "Abelliuxl",
-    "menuItems": ["File", "Edit", "View", "Special", ""]
+    "menuItems": [
+      "File",
+      "Edit",
+      "View",
+      "Special",
+      ""
+    ]
   },
-
   "profile": {
     "name": "Abelliuxl",
     "avatar": "https://avatars.githubusercontent.com/u/35425033?v=4",
     "bio": "Licensed Doctor, Unlicensed AI Therapist. I build small, practical tools around medicine, games, automation, and AI.",
     "background": "This is my personal Macintosh-style workspace: part portfolio, part toolbox, part lab notebook. Most of the things here are built to solve a real annoyance first, then kept small enough to understand and maintain.",
-    "skills": ["Python", "JavaScript", "Lua", "Go", "Swift", "Automation", "World of Warcraft", "AI Tools", "Web Apps"]
+    "skills": [
+      "Python",
+      "JavaScript",
+      "Lua",
+      "Go",
+      "Swift",
+      "Automation",
+      "World of Warcraft",
+      "AI Tools",
+      "Web Apps"
+    ]
   },
-
   "projects": [
     {
       "title": "Chatbutte",
       "icon": "💬",
-      "description": "A standalone web app hosted on this server. Open it from here when you want the chat workspace.",
+      "description": "Standalone web service hosted on server94.",
       "year": "Live",
       "link": "/chatbutte/",
       "linkLabel": "Open Chatbutte"
@@ -25,45 +39,12 @@
     {
       "title": "WOW Pal Data",
       "icon": "📊",
-      "description": "A World of Warcraft data page hosted as a separate mini-site on server94.",
+      "description": "World of Warcraft data page hosted as a separate web service.",
       "year": "Live",
       "link": "/wow-pal-data/",
       "linkLabel": "Open WOW Pal Data"
-    },
-    {
-      "title": "weauto",
-      "icon": "🤖",
-      "description": "A macOS OCR-based WeChat robot service for local automation experiments.",
-      "year": "Python",
-      "link": "https://github.com/Abelliuxl/weauto",
-      "linkLabel": "View on GitHub"
-    },
-    {
-      "title": "HideDesktopIcon",
-      "icon": "🖥️",
-      "description": "A lightweight macOS menu bar tool for hiding and showing desktop icons.",
-      "year": "Swift",
-      "link": "https://github.com/Abelliuxl/HideDesktopIcon",
-      "linkLabel": "View on GitHub"
-    },
-    {
-      "title": "CopyEnglishName",
-      "icon": "📋",
-      "description": "A World of Warcraft addon for copying English names of items, spells, quests, and other game data.",
-      "year": "Lua",
-      "link": "https://github.com/Abelliuxl/CopyEnglishName",
-      "linkLabel": "View on GitHub"
-    },
-    {
-      "title": "TUNTray",
-      "icon": "🧰",
-      "description": "A Windows tray GUI for starting, stopping, and switching tun2socks proxy servers.",
-      "year": "Go",
-      "link": "https://github.com/Abelliuxl/TUNTray",
-      "linkLabel": "View on GitHub"
     }
   ],
-
   "writings": [
     {
       "title": "Tools should stay small",
@@ -84,7 +65,6 @@
       "link": "https://github.com/Abelliuxl/main-page"
     }
   ],
-
   "notes": [
     {
       "title": "Current Focus",
@@ -112,7 +92,6 @@
       ]
     }
   ],
-
   "contact": {
     "email": "",
     "items": [
@@ -138,43 +117,349 @@
     "formEnabled": false,
     "formAction": "#"
   },
-
   "links": [
     {
       "title": "Hosted Apps",
       "icon": "🖱️",
       "items": [
-        {"name": "Chatbutte", "url": "/chatbutte/"},
-        {"name": "WOW Pal Data", "url": "/wow-pal-data/"}
+        {
+          "name": "Chatbutte",
+          "url": "/chatbutte/"
+        },
+        {
+          "name": "WOW Pal Data",
+          "url": "/wow-pal-data/"
+        }
       ]
     },
     {
       "title": "Code",
       "icon": "⌘",
       "items": [
-        {"name": "GitHub Profile", "url": "https://github.com/Abelliuxl"},
-        {"name": "main-page", "url": "https://github.com/Abelliuxl/main-page"},
-        {"name": "chatbutte", "url": "https://github.com/Abelliuxl/chatbutte"}
+        {
+          "name": "GitHub Profile",
+          "url": "https://github.com/Abelliuxl"
+        },
+        {
+          "name": "main-page",
+          "url": "https://github.com/Abelliuxl/main-page"
+        },
+        {
+          "name": "chatbutte",
+          "url": "https://github.com/Abelliuxl/chatbutte"
+        }
       ]
     },
     {
       "title": "Social",
       "icon": "📡",
       "items": [
-        {"name": "X / @thunderbloo", "url": "https://x.com/thunderbloo"}
+        {
+          "name": "X / @thunderbloo",
+          "url": "https://x.com/thunderbloo"
+        }
       ]
     }
   ],
-
   "desktop": {
     "icons": [
-      {"id": "about", "label": "About", "icon": "⚕️", "window": "about-window"},
-      {"id": "projects", "label": "Apps", "icon": "💾", "window": "projects-window"},
-      {"id": "writing", "label": "Notes", "icon": "📝", "window": "writing-window"},
-      {"id": "notes", "label": "Desk", "icon": "📋", "window": "notes-window"},
-      {"id": "contact", "label": "Contact", "icon": "✉️", "window": "contact-window"},
-      {"id": "links", "label": "Links", "icon": "🔗", "window": "links-window"}
+      {
+        "id": "about",
+        "label": "About",
+        "icon": "⚕️",
+        "window": "about-window"
+      },
+      {
+        "id": "projects",
+        "label": "Apps",
+        "icon": "💾",
+        "window": "projects-window"
+      },
+      {
+        "id": "writing",
+        "label": "Projects",
+        "icon": "⌘",
+        "window": "writing-window"
+      },
+      {
+        "id": "notes",
+        "label": "Notes",
+        "icon": "📝",
+        "window": "notes-window"
+      },
+      {
+        "id": "contact",
+        "label": "Contact",
+        "icon": "✉️",
+        "window": "contact-window"
+      },
+      {
+        "id": "links",
+        "label": "Links",
+        "icon": "🔗",
+        "window": "links-window"
+      }
     ],
     "defaultOpenWindow": "about-window"
-  }
+  },
+  "apps": [
+    {
+      "title": "Chatbutte",
+      "icon": "💬",
+      "description": "Standalone web service hosted on server94.",
+      "year": "Live",
+      "link": "/chatbutte/",
+      "linkLabel": "Open Chatbutte"
+    },
+    {
+      "title": "WOW Pal Data",
+      "icon": "📊",
+      "description": "World of Warcraft data page hosted as a separate web service.",
+      "year": "Live",
+      "link": "/wow-pal-data/",
+      "linkLabel": "Open WOW Pal Data"
+    }
+  ],
+  "githubProjects": [
+    {
+      "title": "main-page",
+      "icon": "⌘",
+      "description": "HTML project on GitHub.",
+      "year": "HTML",
+      "link": "https://github.com/Abelliuxl/main-page",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "BlizzQuestFrameSkin",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/BlizzQuestFrameSkin",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "BlizzDamageMeterSkin",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/BlizzDamageMeterSkin",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "ez-translate-lite (fork)",
+      "icon": "↪",
+      "description": "JavaScript project on GitHub.",
+      "year": "JavaScript",
+      "link": "https://github.com/Abelliuxl/ez-translate-lite",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "weauto",
+      "icon": "⌘",
+      "description": "微信纯OCR机器人服务（macOS）",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/weauto",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "weauto-bridge",
+      "icon": "⌘",
+      "description": "Python project on GitHub.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/weauto-bridge",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "raidbots-cn-extension",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/raidbots-cn-extension",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "CraftSim (fork)",
+      "icon": "↪",
+      "description": "GitHub project on GitHub.",
+      "year": "GitHub",
+      "link": "https://github.com/Abelliuxl/CraftSim",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "ClayToolBox",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/ClayToolBox",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "HideDesktopIcon",
+      "icon": "⌘",
+      "description": "A lightweight macOS tool to hide/show desktop icons with one click, featuring status bar integration, multi-language support, and auto-launch on startup.",
+      "year": "Swift",
+      "link": "https://github.com/Abelliuxl/HideDesktopIcon",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "ScriptRunner",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/ScriptRunner",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "LCG_for_CopyEnglishName",
+      "icon": "⌘",
+      "description": "This project processes data from wow_tools to generate Lua chunks compatible with the CopyEnglishName project (https://github.com/Abelliuxl/CopyEnglishName). ",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/LCG_for_CopyEnglishName",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "TUNTray",
+      "icon": "⌘",
+      "description": "🛠️ A lightweight Windows tray GUI for xjasonlyu/tun2socks — start, stop, and switch proxy servers with ease",
+      "year": "Go",
+      "link": "https://github.com/Abelliuxl/TUNTray",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "bilibili-web-client",
+      "icon": "⌘",
+      "description": "Kotlin project on GitHub.",
+      "year": "Kotlin",
+      "link": "https://github.com/Abelliuxl/bilibili-web-client",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "fps2x",
+      "icon": "⌘",
+      "description": "Go project on GitHub.",
+      "year": "Go",
+      "link": "https://github.com/Abelliuxl/fps2x",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "chatbutte",
+      "icon": "⌘",
+      "description": "JavaScript project on GitHub.",
+      "year": "JavaScript",
+      "link": "https://github.com/Abelliuxl/chatbutte",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "StringVault",
+      "icon": "⌘",
+      "description": "StringVault - Secure string storage system with admin authentication, session security, and data backup capabilities.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/StringVault",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "Mythic_Performance_Tracker",
+      "icon": "⌘",
+      "description": "Mythic Performance Tracker: A  Python tool that crawls Mythic+ dungeon performance data from Warcraft Logs and generates interactive HTML visualization reports with analytics.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/Mythic_Performance_Tracker",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "TaimeiBot",
+      "icon": "⌘",
+      "description": "🤖 TaimeiBot Pro - Professional World of Warcraft Kook Bot  A professional World of Warcraft bot based on khl.py, featuring talent queries, AI chat, auto-translation, voice capabilities, and professional process management. Designed for 24/7 stable operation and comprehensive gaming assistance.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/TaimeiBot",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "raider_data",
+      "icon": "⌘",
+      "description": "Python script to extract data of the top 5 players' rankings in World of Warcraft from the website raider.io. The obtained data can be further used to retrieve specific talents and other information through the raider.io API. ",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/raider_data",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "Abelliuxl",
+      "icon": "⌘",
+      "description": "GitHub project on GitHub.",
+      "year": "GitHub",
+      "link": "https://github.com/Abelliuxl/Abelliuxl",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "clash-for-linux-backup (fork)",
+      "icon": "↪",
+      "description": "Linux最完整的Clash for Linux的备份仓库，完全可以使用！由Yizuko进行修复及维护",
+      "year": "GitHub",
+      "link": "https://github.com/Abelliuxl/clash-for-linux-backup",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "AI-Image-Renamer",
+      "icon": "⌘",
+      "description": "Smart image renaming tool that uses AI to generate descriptive filenames automatically. Features    include duplicate detection, batch processing, GPU acceleration, and CSV logging. Built with   PyTorch and Salesforce BLIP model for intelligent image captioning.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/AI-Image-Renamer",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "NodeTea",
+      "icon": "⌘",
+      "description": "A real-time chat and file management web application built with Node.js, HTML, CSS, and JavaScript",
+      "year": "JavaScript",
+      "link": "https://github.com/Abelliuxl/NodeTea",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "TalentBGReplacer",
+      "icon": "⌘",
+      "description": "TalentBGReplacer is a World of Warcraft addon that allows users to customize talent background images.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/TalentBGReplacer",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "CopyEnglishName",
+      "icon": "⌘",
+      "description": "A simple World of Warcraft addon to copy the English names of items, spells, quests, etc. Ideal for players on non-English clients who need to search for information on sites like Wowhead.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/CopyEnglishName",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "CurseZip",
+      "icon": "⌘",
+      "description": "CurseZip is a Go-based command-line tool designed to package game mod files into .zip or .tar.gz archives, with flexible exclusion rules for unwanted files and directories.",
+      "year": "Go",
+      "link": "https://github.com/Abelliuxl/CurseZip",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "CopyEnglishName_Data",
+      "icon": "⌘",
+      "description": "Lua project on GitHub.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/CopyEnglishName_Data",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "Abelliuxl.github.io",
+      "icon": "⌘",
+      "description": "HTML project on GitHub.",
+      "year": "HTML",
+      "link": "https://github.com/Abelliuxl/Abelliuxl.github.io",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "ChineseWoWClassSpecAbbreviations",
+      "icon": "⌘",
+      "description": "GitHub project on GitHub.",
+      "year": "GitHub",
+      "link": "https://github.com/Abelliuxl/ChineseWoWClassSpecAbbreviations",
+      "linkLabel": "View on GitHub"
+    }
+  ]
 }
