@@ -1105,10 +1105,11 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
+        const CONFIG_VERSION = '20260429-1506';
 
         async function loadConfig() {
             try {
-                const response = await fetch('config.json');
+                const response = await fetch(`config.json?v=${CONFIG_VERSION}`, { cache: 'no-store' });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
