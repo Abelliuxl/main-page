@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Macintosh Portfolio - 1984</title>
+    <title>Abelliuxl Macintosh</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <style>
@@ -435,6 +435,13 @@
         .content .writing-item h3,
         .content .note-item h3 {
             margin-top: 0;
+        }
+
+        .content .project-link {
+            display: inline-block;
+            margin-top: var(--spacing-2);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
         }
 
         .content .date {
@@ -1197,6 +1204,7 @@
                         <h3>${project.icon} ${project.title}</h3>
                         <p>${project.description}</p>
                         <span class="date">${project.year}</span>
+                        ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
                     </div>
                 `).join('')}
             `;
@@ -1319,6 +1327,7 @@
                         <h3>${project.icon} ${project.title}</h3>
                         <p>${project.description}</p>
                         <span class="date">${project.year}</span>
+                        ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
                     </div>
                 `).join('')}
             `;

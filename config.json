@@ -1,60 +1,87 @@
 {
   "site": {
-    "title": "My Macintosh",
-    "menuLogo": "My Macintosh",
+    "title": "Abelliuxl Macintosh",
+    "menuLogo": "Abelliuxl",
     "menuItems": ["File", "Edit", "View", "Special", ""]
   },
 
   "profile": {
-    "name": "Your Name",
-    "avatar": "👤",
-    "bio": "Welcome to my digital workspace! I'm a passionate developer who loves creating elegant solutions to complex problems.",
-    "background": "I've been building software for over 5 years, focusing on web development and creating memorable user experiences. This portfolio is inspired by the classic Macintosh interface from 1984.",
-    "skills": ["JavaScript", "Python", "React", "Node.js", "CSS", "Git"]
+    "name": "Abelliuxl",
+    "avatar": "⚕️",
+    "bio": "Licensed Doctor, Unlicensed AI Therapist. I build small, practical tools around medicine, games, automation, and AI.",
+    "background": "This is my personal Macintosh-style workspace: part portfolio, part toolbox, part lab notebook. Most of the things here are built to solve a real annoyance first, then kept small enough to understand and maintain.",
+    "skills": ["Python", "JavaScript", "Lua", "Go", "Swift", "Automation", "World of Warcraft", "AI Tools", "Web Apps"]
   },
 
   "projects": [
     {
-      "title": "Retro UI Kit",
-      "icon": "🎨",
-      "description": "A collection of retro-styled UI components inspired by 1980s interface design.",
-      "year": "2024",
-      "link": "#"
+      "title": "Chatbutte",
+      "icon": "💬",
+      "description": "A standalone web app hosted on this server. Open it from here when you want the chat workspace.",
+      "year": "Live",
+      "link": "/chatbutte/",
+      "linkLabel": "Open Chatbutte"
     },
     {
-      "title": "Task Manager",
-      "icon": "⚡",
-      "description": "A minimalist task management application with keyboard-driven navigation.",
-      "year": "2024",
-      "link": "#"
-    },
-    {
-      "title": "Data Visualizer",
+      "title": "WOW Pal Data",
       "icon": "📊",
-      "description": "Interactive charts and graphs for exploring complex datasets.",
-      "year": "2023",
-      "link": "#"
+      "description": "A World of Warcraft data page hosted as a separate mini-site on server94.",
+      "year": "Live",
+      "link": "/wow-pal-data/",
+      "linkLabel": "Open WOW Pal Data"
+    },
+    {
+      "title": "weauto",
+      "icon": "🤖",
+      "description": "A macOS OCR-based WeChat robot service for local automation experiments.",
+      "year": "Python",
+      "link": "https://github.com/Abelliuxl/weauto",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "HideDesktopIcon",
+      "icon": "🖥️",
+      "description": "A lightweight macOS menu bar tool for hiding and showing desktop icons.",
+      "year": "Swift",
+      "link": "https://github.com/Abelliuxl/HideDesktopIcon",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "CopyEnglishName",
+      "icon": "📋",
+      "description": "A World of Warcraft addon for copying English names of items, spells, quests, and other game data.",
+      "year": "Lua",
+      "link": "https://github.com/Abelliuxl/CopyEnglishName",
+      "linkLabel": "View on GitHub"
+    },
+    {
+      "title": "TUNTray",
+      "icon": "🧰",
+      "description": "A Windows tray GUI for starting, stopping, and switching tun2socks proxy servers.",
+      "year": "Go",
+      "link": "https://github.com/Abelliuxl/TUNTray",
+      "linkLabel": "View on GitHub"
     }
   ],
 
   "writings": [
     {
-      "title": "The Beauty of Constraints",
-      "date": "December 2024",
-      "excerpt": "How working within limitations can spark creativity and lead to innovative solutions.",
-      "link": "#"
+      "title": "Tools should stay small",
+      "date": "Working note",
+      "excerpt": "The best personal tools usually start with one concrete problem and keep their shape close to the workflow.",
+      "link": "https://github.com/Abelliuxl"
     },
     {
-      "title": "Why I Love Retro Computing",
-      "date": "November 2024",
-      "excerpt": "Exploring the lessons we can learn from early computer interfaces and design principles.",
-      "link": "#"
+      "title": "Medicine, games, and automation",
+      "date": "Workspace theme",
+      "excerpt": "My projects tend to sit between clinical thinking, World of Warcraft data, local automation, and practical AI helpers.",
+      "link": "https://github.com/Abelliuxl"
     },
     {
-      "title": "Building for the Long Term",
-      "date": "October 2024",
-      "excerpt": "Thoughts on creating sustainable software that stands the test of time.",
-      "link": "#"
+      "title": "A quiet desktop for noisy ideas",
+      "date": "Site note",
+      "excerpt": "This page keeps the old Macintosh metaphor because a simple desktop still works well for a personal control panel.",
+      "link": "https://github.com/Abelliuxl/main-page"
     }
   ],
 
@@ -62,98 +89,89 @@
     {
       "title": "Current Focus",
       "icon": "💡",
-      "content": "Working on improving accessibility in web applications. Every user deserves a great experience."
+      "content": "Building practical AI and automation tools that are useful before they are impressive."
     },
     {
-      "title": "Reading List",
-      "icon": "📚",
+      "title": "Public Work",
+      "icon": "🗂️",
       "type": "list",
       "items": [
-        "The Design of Everyday Things",
-        "Don't Make Me Think",
-        "Clean Code"
+        "World of Warcraft addons and data utilities",
+        "Local automation for macOS and Windows",
+        "Small web apps that can live on a personal server"
       ]
     },
     {
-      "title": "Goals",
-      "icon": "🎯",
+      "title": "Rules",
+      "icon": "🧭",
       "type": "list",
       "items": [
-        "Contribute to open source",
-        "Learn a new programming language",
-        "Build something fun every month"
+        "Make the tool solve one real problem",
+        "Keep deployment simple enough to remember",
+        "Prefer readable systems over clever ones"
       ]
     }
   ],
 
   "contact": {
-    "email": "hello@example.com",
+    "email": "",
     "items": [
-      {
-        "icon": "📧",
-        "label": "Email",
-        "value": "hello@example.com",
-        "link": "mailto:hello@example.com"
-      },
-      {
-        "icon": "🐦",
-        "label": "Twitter",
-        "value": "@yourhandle",
-        "link": "https://twitter.com/yourhandle"
-      },
-      {
-        "icon": "💼",
-        "label": "LinkedIn",
-        "value": "your-profile",
-        "link": "https://linkedin.com/in/yourprofile"
-      },
       {
         "icon": "🐙",
         "label": "GitHub",
-        "value": "yourusername",
-        "link": "https://github.com/yourusername"
+        "value": "github.com/Abelliuxl",
+        "link": "https://github.com/Abelliuxl"
+      },
+      {
+        "icon": "𝕏",
+        "label": "X",
+        "value": "@thunderbloo",
+        "link": "https://x.com/thunderbloo"
+      },
+      {
+        "icon": "🌐",
+        "label": "Website",
+        "value": "liuxl.com.cn",
+        "link": "https://liuxl.com.cn/"
       }
     ],
-    "formEnabled": true,
+    "formEnabled": false,
     "formAction": "#"
   },
 
   "links": [
     {
-      "title": "Friends & Colleagues",
-      "icon": "🌟",
+      "title": "Hosted Apps",
+      "icon": "🖱️",
       "items": [
-        {"name": "Jane's Portfolio", "url": "#"},
-        {"name": "Bob's Blog", "url": "#"},
-        {"name": "Alice's Projects", "url": "#"}
+        {"name": "Chatbutte", "url": "/chatbutte/"},
+        {"name": "WOW Pal Data", "url": "/wow-pal-data/"}
       ]
     },
     {
-      "title": "Resources",
-      "icon": "🔧",
+      "title": "Code",
+      "icon": "⌘",
       "items": [
-        {"name": "MDN Web Docs", "url": "https://developer.mozilla.org"},
-        {"name": "CSS-Tricks", "url": "https://css-tricks.com"},
-        {"name": "Smashing Magazine", "url": "https://www.smashingmagazine.com"}
+        {"name": "GitHub Profile", "url": "https://github.com/Abelliuxl"},
+        {"name": "main-page", "url": "https://github.com/Abelliuxl/main-page"},
+        {"name": "chatbutte", "url": "https://github.com/Abelliuxl/chatbutte"}
       ]
     },
     {
-      "title": "Fun Stuff",
-      "icon": "🎮",
+      "title": "Social",
+      "icon": "📡",
       "items": [
-        {"name": "Internet Archive", "url": "https://archive.org"},
-        {"name": "Retro Games Online", "url": "#"},
-        {"name": "Pixel Art Tutorials", "url": "#"}
+        {"name": "X / @thunderbloo", "url": "https://x.com/thunderbloo"}
       ]
     }
   ],
 
   "desktop": {
     "icons": [
-      {"id": "about", "label": "About", "icon": "👤", "window": "about-window"},
-      {"id": "projects", "label": "Projects", "icon": "📁", "window": "projects-window"},
-      {"id": "writing", "label": "Writing", "icon": "📝", "window": "writing-window"},
-      {"id": "notes", "label": "Notes", "icon": "📋", "window": "notes-window"},
+      {"id": "about", "label": "About", "icon": "⚕️", "window": "about-window"},
+      {"id": "projects", "label": "Apps", "icon": "💾", "window": "projects-window"},
+      {"id": "writing", "label": "Notes", "icon": "📝", "window": "writing-window"},
+      {"id": "notes", "label": "Desk", "icon": "📋", "window": "notes-window"},
       {"id": "contact", "label": "Contact", "icon": "✉️", "window": "contact-window"},
       {"id": "links", "label": "Links", "icon": "🔗", "window": "links-window"}
     ],
