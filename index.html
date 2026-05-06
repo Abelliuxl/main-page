@@ -263,6 +263,72 @@
             }
         }
 
+        .article-launcher {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: min(360px, calc(100vw - 32px));
+            background: var(--color-white);
+            border: var(--window-border) solid var(--color-black);
+            box-shadow: var(--shadow-hard-lg);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -46%) scale(0.92);
+            transition: opacity 120ms ease-out, transform 180ms ease-out;
+        }
+
+        .article-launcher.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .article-launcher .window-titlebar {
+            cursor: default;
+        }
+
+        .article-launcher-body {
+            padding: var(--spacing-4);
+        }
+
+        .article-launcher-title {
+            font-size: var(--font-size-md);
+            font-weight: bold;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .article-launcher-status {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .article-progress {
+            height: 18px;
+            border: var(--border-width-thin) solid var(--color-black);
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    var(--color-white),
+                    var(--color-white) 6px,
+                    var(--color-gray-25) 6px,
+                    var(--color-gray-25) 8px
+                );
+            overflow: hidden;
+        }
+
+        .article-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--color-black);
+            transition: width 760ms steps(18, end);
+        }
+
+        .article-launcher.active .article-progress-fill {
+            width: 100%;
+        }
+
         .window-titlebar {
             height: var(--window-titlebar-height);
             background: var(--color-black);
@@ -847,7 +913,7 @@
                         <h3>When Ctrl+Arrow Would Not Switch Spaces</h3>
                         <p class="date">2026-05-07</p>
                         <p>A debugging note on SideClick, CGEvent, Hammerspoon, and macOS Mission Control.</p>
-                        <a href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
+                        <a data-blog-link href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
                     </div>
                 </div>
             </div>
@@ -1071,7 +1137,7 @@
                     <h3>When Ctrl+Arrow Would Not Switch Spaces</h3>
                     <p class="date">2026-05-07</p>
                     <p>A debugging note on SideClick, CGEvent, Hammerspoon, and macOS Mission Control.</p>
-                    <a href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
+                    <a data-blog-link href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
                 </div>
             </div>
         </section>
@@ -1164,12 +1230,28 @@
         </section>
     </div>
 
+    <div class="article-launcher" id="article-launcher" aria-hidden="true">
+        <div class="window-titlebar">
+            <div class="controls"></div>
+            <div class="title">Opening Article</div>
+            <div class="controls"></div>
+        </div>
+        <div class="article-launcher-body">
+            <div class="article-launcher-title">Blog Article</div>
+            <div class="article-launcher-status">Preparing document...</div>
+            <div class="article-progress" aria-hidden="true">
+                <div class="article-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ========================================
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260507-0122';
+        const CONFIG_VERSION = '20260507-0127';
+        let articleLaunchTimer = null;
 
         async function loadConfig() {
             try {
@@ -1312,7 +1394,7 @@
                         <p class="date">${post.date}</p>
                         <p>${post.excerpt}</p>
                         ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}</div>` : ''}
-                        ${post.link && post.link !== '#' ? `<a class="project-link" href="${post.link}">Read article</a>` : ''}
+                        ${post.link && post.link !== '#' ? `<a class="project-link" data-blog-link href="${post.link}">Read article</a>` : ''}
                     </div>
                 `).join('')}
             `;
@@ -1452,7 +1534,7 @@
                         <p class="date">${post.date}</p>
                         <p>${post.excerpt}</p>
                         ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}</div>` : ''}
-                        ${post.link && post.link !== '#' ? `<a class="project-link" href="${post.link}">Read article</a>` : ''}
+                        ${post.link && post.link !== '#' ? `<a class="project-link" data-blog-link href="${post.link}">Read article</a>` : ''}
                     </div>
                 `).join('')}
             `;
@@ -1762,7 +1844,54 @@
         }
 
         // ========================================
-        // 8. INITIALIZATION
+        // 8. BLOG ARTICLE TRANSITION
+        // ========================================
+        function openArticleWithTransition(url) {
+            const launcher = document.getElementById('article-launcher');
+            if (!launcher) {
+                window.location.href = url;
+                return;
+            }
+
+            clearTimeout(articleLaunchTimer);
+            launcher.classList.remove('active');
+            launcher.setAttribute('aria-hidden', 'false');
+
+            const fill = launcher.querySelector('.article-progress-fill');
+            if (fill) {
+                fill.style.transition = 'none';
+                fill.style.width = '0%';
+                fill.offsetHeight;
+                fill.style.transition = '';
+                fill.style.width = '';
+            }
+
+            requestAnimationFrame(() => {
+                launcher.classList.add('active');
+            });
+
+            articleLaunchTimer = setTimeout(() => {
+                window.location.href = url;
+            }, 880);
+        }
+
+        document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[data-blog-link]');
+            if (!link) {
+                return;
+            }
+
+            const url = link.getAttribute('href');
+            if (!url || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === '_blank') {
+                return;
+            }
+
+            event.preventDefault();
+            openArticleWithTransition(url);
+        });
+
+        // ========================================
+        // 9. INITIALIZATION
         // ========================================
         // Load config and initialize the app
         loadConfig();
