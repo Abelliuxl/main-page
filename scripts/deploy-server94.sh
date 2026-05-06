@@ -7,17 +7,42 @@ REMOTE_DIR="${REMOTE_DIR:-/home/ubuntu/main-page}"
 SSH_KEY="${SSH_KEY:-$HOME/.ssh/server94.pem}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SSH_OPTS=(-o IdentitiesOnly=yes -i "${SSH_KEY}")
+RSYNC_SSH="ssh -o IdentitiesOnly=yes -i ${SSH_KEY}"
+
+retry() {
+  local attempt
+  for attempt in 1 2 3 4 5; do
+    if "$@"; then
+      return 0
+    fi
+    echo "Attempt ${attempt} failed; retrying..."
+    sleep 3
+  done
+
+  echo "Command failed after retries: $*" >&2
+  return 1
+}
 
 echo "Building blog..."
 node "${ROOT_DIR}/scripts/build-blog.mjs"
 
 echo "Deploying ${ROOT_DIR} -> ${REMOTE_HOST}:${REMOTE_DIR}"
-ssh -o IdentitiesOnly=yes -i "${SSH_KEY}" "${REMOTE_HOST}" "mkdir -p '${REMOTE_DIR}'"
-rsync -az --delete \
-  -e "ssh -o IdentitiesOnly=yes -i ${SSH_KEY}" \
-  --exclude ".git/" \
-  --exclude ".claude/" \
-  --exclude ".DS_Store" \
-  "${ROOT_DIR}/" "${REMOTE_HOST}:${REMOTE_DIR}/"
+retry ssh "${SSH_OPTS[@]}" "${REMOTE_HOST}" "mkdir -p '${REMOTE_DIR}'"
+retry rsync -az \
+  -e "${RSYNC_SSH}" \
+  "${ROOT_DIR}/README.md" \
+  "${ROOT_DIR}/AGENTS.md" \
+  "${ROOT_DIR}/config.json" \
+  "${ROOT_DIR}/index.html" \
+  "${REMOTE_HOST}:${REMOTE_DIR}/"
+
+retry rsync -az --delete \
+  -e "${RSYNC_SSH}" \
+  "${ROOT_DIR}/blog/" "${REMOTE_HOST}:${REMOTE_DIR}/blog/"
+
+retry rsync -az --delete \
+  -e "${RSYNC_SSH}" \
+  "${ROOT_DIR}/scripts/" "${REMOTE_HOST}:${REMOTE_DIR}/scripts/"
 
 echo "Deployment complete."
