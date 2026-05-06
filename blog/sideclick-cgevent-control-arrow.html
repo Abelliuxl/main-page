@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>When Ctrl+Arrow Would Not Switch Spaces - Abelliuxl Macintosh</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-25: #e6e6e6;
+            --color-gray-50: #b3b3b3;
+            --color-gray-75: #808080;
+            --font-family-system: "Chicago", "Geneva", "Helvetica", Arial, sans-serif;
+            --font-family-mono: "Monaco", "Courier New", monospace;
+            --font-size-xs: 9px;
+            --font-size-sm: 10px;
+            --font-size-md: 12px;
+            --font-size-lg: 14px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --menubar-height: 24px;
+            --border-width-thick: 4px;
+            --border-width-thin: 2px;
+            --border-width-hairline: 1px;
+            --shadow-hard-lg: 6px 6px 0 var(--color-black);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            line-height: var(--line-height-normal);
+            background: var(--color-white);
+            color: var(--color-black);
+        }
+
+        body {
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                );
+            padding-top: var(--menubar-height);
+        }
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--menubar-height);
+            background: var(--color-white);
+            border-bottom: var(--border-width-thin) solid var(--color-black);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-3);
+            z-index: 1000;
+            box-shadow: 0 2px 0 var(--color-black);
+        }
+
+        .menu-bar .logo {
+            font-weight: bold;
+            font-size: var(--font-size-sm);
+            padding-right: var(--spacing-4);
+            border-right: var(--border-width-hairline) solid var(--color-black);
+        }
+
+        .menu-bar .menu-items {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-left: var(--spacing-4);
+        }
+
+        .menu-bar .menu-item,
+        .menu-bar .clock {
+            font-size: var(--font-size-sm);
+        }
+
+        .menu-bar .clock {
+            margin-left: auto;
+            font-family: var(--font-family-mono);
+        }
+
+        main {
+            width: min(880px, calc(100vw - 32px));
+            margin: var(--spacing-8) auto;
+        }
+
+        .window {
+            background: var(--color-white);
+            border: var(--border-width-thick) solid var(--color-black);
+            box-shadow: var(--shadow-hard-lg);
+        }
+
+        .window-titlebar {
+            height: 20px;
+            background: var(--color-black);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+        }
+
+        .window-content {
+            padding: var(--spacing-6);
+        }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: var(--font-size-2xl);
+            line-height: 1.2;
+            border-bottom: var(--border-width-thick) solid var(--color-black);
+            padding-bottom: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+        }
+
+        h2 {
+            font-size: var(--font-size-xl);
+            margin: var(--spacing-6) 0 var(--spacing-2);
+        }
+
+        h3 {
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-4) 0 var(--spacing-2);
+        }
+
+        p {
+            margin-bottom: var(--spacing-3);
+            line-height: var(--line-height-relaxed);
+        }
+
+        ul,
+        ol {
+            margin: 0 0 var(--spacing-3) var(--spacing-6);
+            line-height: var(--line-height-relaxed);
+        }
+
+        li {
+            margin-bottom: var(--spacing-2);
+        }
+
+        a {
+            color: var(--color-black);
+            text-decoration: underline;
+        }
+
+        a:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .meta,
+        .back-link {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-4);
+            color: var(--color-black);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .tag {
+            border: var(--border-width-hairline) solid var(--color-black);
+            padding: 0 var(--spacing-1);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+        }
+
+        code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            background: var(--color-gray-25);
+            padding: 0 var(--spacing-1);
+        }
+
+        pre {
+            border: var(--border-width-thin) solid var(--color-black);
+            background: var(--color-white);
+            padding: var(--spacing-3);
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: var(--border-width-thick) solid var(--color-black);
+            padding-left: var(--spacing-3);
+            margin: var(--spacing-4) 0;
+            color: var(--color-black);
+        }
+
+        @media (max-width: 767px) {
+            .menu-bar .menu-items {
+                display: none;
+            }
+
+            main {
+                width: calc(100vw - 16px);
+                margin: var(--spacing-4) auto;
+            }
+
+            .window-content {
+                padding: var(--spacing-4);
+            }
+
+            h1 {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logo">Abelliuxl</div>
+        <div class="menu-items">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Special</div>
+            <div class="menu-item">Blog</div>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <main>
+        <div class="window">
+            <div class="window-titlebar">Blog Article</div>
+            <div class="window-content">
+                <article>
+                    <a class="back-link" href="/">← Back to Macintosh desktop</a>
+                    <h1>当 Ctrl+方向键就是不肯切换桌面</h1>
+                    <p class="meta">2026-05-07 · macOS / Swift / CGEvent / SideClick</p>
+                    <div class="tags">
+                        <span class="tag">macOS</span>
+                        <span class="tag">Swift</span>
+                        <span class="tag">CGEvent</span>
+                        <span class="tag">SideClick</span>
+                    </div>
+                    <p>SideClick 是一个很小的 macOS 菜单栏工具：监听鼠标侧键，然后发送一个用户配置好的键盘快捷键。最开始的目标非常朴素：把鼠标后退/前进侧键映射成 <code>Ctrl+Left</code> 和 <code>Ctrl+Right</code>，用来切换 Spaces 桌面。</p>
+
+<p>这个需求听起来像是几行 <code>CGEvent</code> 就能完成。实际调试过程证明，macOS 的系统级快捷键比普通应用快捷键挑剔得多。</p>
+
+<h2>现象</h2>
+
+<p>普通快捷键很快就工作了，例如：</p>
+
+<ul>
+<li><code>Cmd+C</code> 能复制。</li>
+<li><code>Cmd+V</code> 能粘贴。</li>
+<li>单独发送方向键，也能被网页键盘检测工具识别。</li>
+<li>单独发送 Ctrl，后来也能被识别。</li>
+</ul>
+
+<p>但只要组合成 <code>Ctrl+Left</code> 或 <code>Ctrl+Right</code>，Mission Control 就不切桌面。期间还出现过一个特别迷惑的状态：网页能看到 Ctrl，却看不到方向键。</p>
+
+<h2>走过的弯路</h2>
+
+<h3>1. 只给方向键加 flags</h3>
+
+<p>最直觉的做法是创建方向键事件，然后把 Control flag 塞进去：</p>
+
+<pre><code>event.flags = [.maskControl]
+event.post(tap: .cghidEventTap)</code></pre>
+
+<p>这对某些普通应用快捷键有用，但对 Spaces 切换不稳定。系统好像看到了一个“带 Ctrl 标记的方向键”，但没有把它当成一次真实的 Ctrl+方向键输入。</p>
+
+<h3>2. 真的发 Ctrl down/up，但主键没有 flags</h3>
+
+<p>于是换成物理键盘顺序：</p>
+
+<pre><code>Ctrl down
+Arrow down
+Arrow up
+Ctrl up</code></pre>
+
+<p>这让“Ctrl 被按下”更真实，但如果主键那一帧没有正确被系统归类，系统快捷键匹配器仍然可能把它当成普通方向键。类似问题在测试 <code>Ctrl+Space</code> 时也出现过：输入法切换会变得不稳定，甚至走到长按选择器那条路径。</p>
+
+<h3>3. 直接切 Spaces</h3>
+
+<p>我们还试过绕开快捷键，动态调用 SkyLight 私有 API 读取和切换 Space。终端里同一套 API 能切，但放进 app 后体验很别扭，也会引入“已经在最左/最右边”等额外状态。</p>
+
+<p>这条路线最后被撤掉了。SideClick 的目标还是键盘映射工具，不应该为了一个快捷键把自己变成半个窗口管理器。</p>
+
+<h2>转折点：看 Hammerspoon 怎么做</h2>
+
+<p>最后去看成熟工具的实现。Hammerspoon 的 <code>hs.eventtap.event.newKeyEventSequence</code> 很接近 Apple 文档建议的模型：为每个 modifier 和主键生成一组有顺序的 key down / key up 事件。</p>
+
+<p>它的核心思路不是“给主键伪造 flags”，而是构造一组完整的虚拟按键序列：</p>
+
+<pre><code>Ctrl down
+Arrow down
+Arrow up
+Ctrl up</code></pre>
+
+<p>关键差异在事件来源和投递位置：</p>
+
+<ul>
+<li>使用 private <code>CGEventSource</code>，也就是 <code>CGEventSourceStateID(rawValue: -1)</code>。</li>
+<li>投递到 <code>.cgSessionEventTap</code>。</li>
+<li>不手动给每个事件塞 flags，让系统从完整事件序列里维护 modifier 状态。</li>
+</ul>
+
+<h2>最终可用的实现</h2>
+
+<p>最终 SideClick 的发送逻辑变成这样：</p>
+
+<pre><code>let source = CGEventSource(stateID: CGEventSourceStateID(rawValue: -1)!)
+
+postKey(source: source, keyCode: controlKeyCode, keyDown: true)
+postKey(source: source, keyCode: arrowKeyCode, keyDown: true)
+postKey(source: source, keyCode: arrowKeyCode, keyDown: false)
+postKey(source: source, keyCode: controlKeyCode, keyDown: false)</code></pre>
+
+<p>每个事件都投递到 session event tap：</p>
+
+<pre><code>event.post(tap: .cgSessionEventTap)</code></pre>
+
+<p>改完以后，<code>Ctrl+Left</code> / <code>Ctrl+Right</code> 开始能稳定触发 Spaces 切换。这次成功不是因为某个神奇延迟，而是事件模型终于像一个系统愿意接受的虚拟键盘输入。</p>
+
+<h2>为什么 Karabiner 更稳</h2>
+
+<p>Karabiner-Elements 走的是另一条更底层的路：它通过虚拟 HID 键盘把事件发给系统。换句话说，它不是像普通 app 一样“post CGEvent”，而是更接近真正插了一把键盘。</p>
+
+<blockquote>
+<p>如果目标是生产级键盘重映射，虚拟 HID 是更稳的架构；如果目标是一个小工具，Hammerspoon 风格的 private source + session tap 已经是 CGEvent 路线里相当实用的做法。</p>
+</blockquote>
+
+<h2>这次学到的东西</h2>
+
+<ul>
+<li>普通应用快捷键能工作，不代表系统级快捷键也会工作。</li>
+<li>网页键盘检测工具只能证明事件是否到达网页，不能完全代表 Mission Control 的系统热键路径。</li>
+<li>对 macOS 组合键，flags、event source、event tap、按键顺序都可能影响结果。</li>
+<li>遇到系统输入问题时，直接看 Hammerspoon、Karabiner、yabai 这类成熟项目，比继续猜更快。</li>
+</ul>
+
+<blockquote>
+<p>最终修复并不复杂。复杂的是确认哪一层在吞事件：鼠标侧键、Input Monitoring、Accessibility、CGEvent flags、Mission Control，还是 Spaces 本身。</p>
+</blockquote>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.html">Hammerspoon hs.eventtap</a></li>
+<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.event.html">Hammerspoon hs.eventtap.event</a></li>
+<li><a href="https://karabiner-elements.pqrs.org/docs/manual/misc/event-modification-chaining/">Karabiner-Elements event modification chain</a></li>
+<li><a href="https://developer.apple.com/documentation/coregraphics/1456564-cgeventcreatekeyboardevent">Apple CGEvent keyboard event documentation</a></li>
+</ul>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

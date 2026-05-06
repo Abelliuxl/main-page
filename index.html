@@ -431,6 +431,7 @@
 
         .content .project-item,
         .content .writing-item,
+        .content .blog-item,
         .content .note-item,
         .content .link-item {
             border: var(--border-width-thin) solid var(--color-black);
@@ -440,8 +441,23 @@
 
         .content .project-item h3,
         .content .writing-item h3,
+        .content .blog-item h3,
         .content .note-item h3 {
             margin-top: 0;
+        }
+
+        .content .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            margin: var(--spacing-2) 0;
+        }
+
+        .content .blog-tag {
+            border: var(--border-width-hairline) solid var(--color-black);
+            padding: 0 var(--spacing-1);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
         }
 
         .content .project-link {
@@ -703,6 +719,10 @@
                 <div class="icon-img">⌘</div>
                 <div class="icon-label">Projects</div>
             </div>
+            <div class="desktop-icon" data-window="blog-window" onclick="toggleWindow('blog-window')">
+                <div class="icon-img">▤</div>
+                <div class="icon-label">Blog</div>
+            </div>
             <div class="desktop-icon" data-window="notes-window" onclick="toggleWindow('notes-window')">
                 <div class="icon-img">📝</div>
                 <div class="icon-label">Notes</div>
@@ -806,6 +826,28 @@
                         <p class="date">October 2024</p>
                         <p>Thoughts on creating sustainable software that stands the test of time.</p>
                         <a href="#">Read more →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Window -->
+        <div class="window" id="blog-window" style="top: 180px; left: 250px;">
+            <div class="window-titlebar">
+                <div class="controls">
+                    <div class="window-close-btn" onclick="closeWindow('blog-window')"></div>
+                </div>
+                <div class="title">Blog</div>
+                <div class="controls"></div>
+            </div>
+            <div class="window-content">
+                <div class="content">
+                    <h1>Blog</h1>
+                    <div class="blog-item">
+                        <h3>When Ctrl+Arrow Would Not Switch Spaces</h3>
+                        <p class="date">2026-05-07</p>
+                        <p>A debugging note on SideClick, CGEvent, Hammerspoon, and macOS Mission Control.</p>
+                        <a href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
                     </div>
                 </div>
             </div>
@@ -941,6 +983,9 @@
             <div class="nav-item" data-section="writing" onclick="showSection('writing')">
                 Projects
             </div>
+            <div class="nav-item" data-section="blog" onclick="showSection('blog')">
+                Blog
+            </div>
             <div class="nav-item" data-section="notes" onclick="showSection('notes')">
                 Notes
             </div>
@@ -1015,6 +1060,18 @@
                     <p class="date">October 2024</p>
                     <p>Thoughts on creating sustainable software that stands the test of time.</p>
                     <a href="#">Read more →</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog">
+            <div class="content">
+                <h1>Blog</h1>
+                <div class="blog-item">
+                    <h3>When Ctrl+Arrow Would Not Switch Spaces</h3>
+                    <p class="date">2026-05-07</p>
+                    <p>A debugging note on SideClick, CGEvent, Hammerspoon, and macOS Mission Control.</p>
+                    <a href="/blog/sideclick-cgevent-control-arrow.html">Read article →</a>
                 </div>
             </div>
         </section>
@@ -1112,7 +1169,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260429-1522';
+        const CONFIG_VERSION = '20260507-0122';
 
         async function loadConfig() {
             try {
@@ -1183,6 +1240,7 @@
             renderAboutWindow();
             renderProjectsWindow();
             renderWritingWindow();
+            renderBlogWindow();
             renderNotesWindow();
             renderContactWindow();
             renderLinksWindow();
@@ -1238,6 +1296,23 @@
                         <p>${project.description}</p>
                         <span class="date">${project.year}</span>
                         ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderBlogWindow() {
+            const content = document.querySelector('#blog-window .window-content .content');
+            const posts = config.blogPosts || config.writings || [];
+            content.innerHTML = `
+                <h1>Blog</h1>
+                ${posts.map(post => `
+                    <div class="blog-item">
+                        <h3>${post.title}</h3>
+                        <p class="date">${post.date}</p>
+                        <p>${post.excerpt}</p>
+                        ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}</div>` : ''}
+                        ${post.link && post.link !== '#' ? `<a class="project-link" href="${post.link}">Read article</a>` : ''}
                     </div>
                 `).join('')}
             `;
@@ -1362,6 +1437,22 @@
                         <p>${project.description}</p>
                         <span class="date">${project.year}</span>
                         ${project.link && project.link !== '#' ? `<br><a class="project-link" href="${project.link}">${project.linkLabel || 'Open'}</a>` : ''}
+                    </div>
+                `).join('')}
+            `;
+
+            // Blog section
+            const blogSection = document.getElementById('blog');
+            const posts = config.blogPosts || config.writings || [];
+            blogSection.querySelector('.content').innerHTML = `
+                <h1>Blog</h1>
+                ${posts.map(post => `
+                    <div class="blog-item">
+                        <h3>${post.title}</h3>
+                        <p class="date">${post.date}</p>
+                        <p>${post.excerpt}</p>
+                        ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}</div>` : ''}
+                        ${post.link && post.link !== '#' ? `<a class="project-link" href="${post.link}">Read article</a>` : ''}
                     </div>
                 `).join('')}
             `;

@@ -65,6 +65,20 @@
       "link": "https://github.com/Abelliuxl/main-page"
     }
   ],
+  "blogPosts": [
+    {
+      "title": "When Ctrl+Arrow Would Not Switch Spaces",
+      "date": "2026-05-07",
+      "excerpt": "A debugging note on SideClick, CGEvent, Hammerspoon, and why macOS Mission Control only accepted the final private-source event sequence.",
+      "link": "/blog/sideclick-cgevent-control-arrow.html",
+      "tags": [
+        "macOS",
+        "Swift",
+        "CGEvent",
+        "SideClick"
+      ]
+    }
+  ],
   "notes": [
     {
       "title": "Current Focus",
@@ -180,6 +194,12 @@
         "label": "Projects",
         "icon": "⌘",
         "window": "writing-window"
+      },
+      {
+        "id": "blog",
+        "label": "Blog",
+        "icon": "▤",
+        "window": "blog-window"
       },
       {
         "id": "notes",

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Abelliuxl Macintosh</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-25: #e6e6e6;
+            --color-gray-50: #b3b3b3;
+            --color-gray-75: #808080;
+            --font-family-system: "Chicago", "Geneva", "Helvetica", Arial, sans-serif;
+            --font-family-mono: "Monaco", "Courier New", monospace;
+            --font-size-xs: 9px;
+            --font-size-sm: 10px;
+            --font-size-md: 12px;
+            --font-size-lg: 14px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --menubar-height: 24px;
+            --border-width-thick: 4px;
+            --border-width-thin: 2px;
+            --border-width-hairline: 1px;
+            --shadow-hard-lg: 6px 6px 0 var(--color-black);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            line-height: var(--line-height-normal);
+            background: var(--color-white);
+            color: var(--color-black);
+        }
+
+        body {
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 1px,
+                    var(--color-gray-25) 1px,
+                    var(--color-gray-25) 2px
+                );
+            padding-top: var(--menubar-height);
+        }
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--menubar-height);
+            background: var(--color-white);
+            border-bottom: var(--border-width-thin) solid var(--color-black);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-3);
+            z-index: 1000;
+            box-shadow: 0 2px 0 var(--color-black);
+        }
+
+        .menu-bar .logo {
+            font-weight: bold;
+            font-size: var(--font-size-sm);
+            padding-right: var(--spacing-4);
+            border-right: var(--border-width-hairline) solid var(--color-black);
+        }
+
+        .menu-bar .menu-items {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-left: var(--spacing-4);
+        }
+
+        .menu-bar .menu-item,
+        .menu-bar .clock {
+            font-size: var(--font-size-sm);
+        }
+
+        .menu-bar .clock {
+            margin-left: auto;
+            font-family: var(--font-family-mono);
+        }
+
+        main {
+            width: min(880px, calc(100vw - 32px));
+            margin: var(--spacing-8) auto;
+        }
+
+        .window {
+            background: var(--color-white);
+            border: var(--border-width-thick) solid var(--color-black);
+            box-shadow: var(--shadow-hard-lg);
+        }
+
+        .window-titlebar {
+            height: 20px;
+            background: var(--color-black);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+        }
+
+        .window-content {
+            padding: var(--spacing-6);
+        }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: var(--font-size-2xl);
+            line-height: 1.2;
+            border-bottom: var(--border-width-thick) solid var(--color-black);
+            padding-bottom: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+        }
+
+        h2 {
+            font-size: var(--font-size-xl);
+            margin: var(--spacing-6) 0 var(--spacing-2);
+        }
+
+        h3 {
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-4) 0 var(--spacing-2);
+        }
+
+        p {
+            margin-bottom: var(--spacing-3);
+            line-height: var(--line-height-relaxed);
+        }
+
+        ul,
+        ol {
+            margin: 0 0 var(--spacing-3) var(--spacing-6);
+            line-height: var(--line-height-relaxed);
+        }
+
+        li {
+            margin-bottom: var(--spacing-2);
+        }
+
+        a {
+            color: var(--color-black);
+            text-decoration: underline;
+        }
+
+        a:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .meta,
+        .back-link {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-4);
+            color: var(--color-black);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .tag {
+            border: var(--border-width-hairline) solid var(--color-black);
+            padding: 0 var(--spacing-1);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+        }
+
+        code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            background: var(--color-gray-25);
+            padding: 0 var(--spacing-1);
+        }
+
+        pre {
+            border: var(--border-width-thin) solid var(--color-black);
+            background: var(--color-white);
+            padding: var(--spacing-3);
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: var(--border-width-thick) solid var(--color-black);
+            padding-left: var(--spacing-3);
+            margin: var(--spacing-4) 0;
+            color: var(--color-black);
+        }
+
+        @media (max-width: 767px) {
+            .menu-bar .menu-items {
+                display: none;
+            }
+
+            main {
+                width: calc(100vw - 16px);
+                margin: var(--spacing-4) auto;
+            }
+
+            .window-content {
+                padding: var(--spacing-4);
+            }
+
+            h1 {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logo">Abelliuxl</div>
+        <div class="menu-items">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Special</div>
+            <div class="menu-item">Blog</div>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <main>
+        <div class="window">
+            <div class="window-titlebar">Blog Article</div>
+            <div class="window-content">
+                <article>
+                    <a class="back-link" href="/">← Back to Macintosh desktop</a>
+                    <h1>{{displayTitle}}</h1>
+                    <p class="meta">{{date}} · {{tagLine}}</p>
+                    <div class="tags">
+                        {{tags}}
+                    </div>
+                    {{body}}
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
