@@ -1,6 +1,7 @@
 {
   "site": {
     "title": "Abelliuxl Macintosh",
+    "url": "https://liuxl.com.cn",
     "menuLogo": "Abelliuxl",
     "menuItems": [
       "File",
@@ -81,34 +82,48 @@
   ],
   "notes": [
     {
-      "title": "Current Focus",
-      "icon": "💡",
-      "content": "Building practical AI and automation tools that are useful before they are impressive."
-    },
-    {
-      "title": "Public Work",
-      "icon": "🗂️",
-      "type": "list",
-      "items": [
-        "World of Warcraft addons and data utilities",
-        "Local automation for macOS and Windows",
-        "Small web apps that can live on a personal server"
+      "id": "current-focus",
+      "author": "Abelliuxl",
+      "handle": "@thunderbloo",
+      "date": "2026-05-07",
+      "content": "Building practical AI and automation tools that are useful before they are impressive.",
+      "tags": [
+        "AI",
+        "Automation"
       ]
     },
     {
-      "title": "Rules",
-      "icon": "🧭",
-      "type": "list",
-      "items": [
-        "Make the tool solve one real problem",
-        "Keep deployment simple enough to remember",
-        "Prefer readable systems over clever ones"
+      "id": "public-work",
+      "author": "Abelliuxl",
+      "handle": "@thunderbloo",
+      "date": "2026-05-07",
+      "content": "Most of my public work sits between World of Warcraft addons, local automation, small web apps, and tools that can live on a personal server.",
+      "tags": [
+        "WoW",
+        "Tools"
+      ]
+    },
+    {
+      "id": "rules",
+      "author": "Abelliuxl",
+      "handle": "@thunderbloo",
+      "date": "2026-05-07",
+      "content": "Make the tool solve one real problem. Keep deployment simple enough to remember. Prefer readable systems over clever ones.",
+      "tags": [
+        "IndieWeb",
+        "Software"
       ]
     }
   ],
   "contact": {
-    "email": "",
+    "email": "sylar19951010@gmail.com",
     "items": [
+      {
+        "icon": "✉️",
+        "label": "Email",
+        "value": "sylar19951010@gmail.com",
+        "link": "mailto:sylar19951010@gmail.com"
+      },
       {
         "icon": "🐙",
         "label": "GitHub",
