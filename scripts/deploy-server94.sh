@@ -43,6 +43,10 @@ retry rsync -az --delete \
 
 retry rsync -az --delete \
   -e "${RSYNC_SSH}" \
+  "${ROOT_DIR}/assets/" "${REMOTE_HOST}:${REMOTE_DIR}/assets/"
+
+retry rsync -az --delete \
+  -e "${RSYNC_SSH}" \
   "${ROOT_DIR}/scripts/" "${REMOTE_HOST}:${REMOTE_DIR}/scripts/"
 
 echo "Deployment complete."

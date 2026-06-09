@@ -1,6 +1,7 @@
 # Agent Notes
 
-This is a static Macintosh-style personal homepage. Keep the 1-bit black and white visual language intact.
+This is a static Mac OS X Aqua-style personal homepage. Keep the existing
+desktop, window, and mobile navigation language intact.
 
 ## Blog Workflow
 
@@ -44,13 +45,20 @@ For mobile layout, ensure code blocks wrap and there is no horizontal page overf
 
 ## Deploy
 
-Deploy to server94 with:
+The production website is published directly to server94. After building and
+verifying the site, deploy with:
 
 ```bash
 ./scripts/deploy-server94.sh
 ```
 
 The deploy script builds the blog first, then rsyncs the static site to `/home/ubuntu/main-page` on `server94`.
+
+Do not run `git commit`, `git push`, create pull requests, or otherwise manage
+GitHub unless the user explicitly asks for that separate task. GitHub repository
+maintenance is handled by the user and is not part of publishing this website.
+For normal content updates, "publish", "push", or "deploy" means running the
+server94 deploy script above.
 
 ## Style Rules
 

@@ -75,6 +75,8 @@
             --window-max-width: 600px;
             --icon-size: 48px;
             --icon-label-width: 80px;
+            --desktop-icon-slot-height: 82px;
+            --desktop-icons-width: 128px;
             --button-border: 3px;
             --scrollbar-width: 16px;
         }
@@ -164,9 +166,59 @@
         }
 
         .menu-bar .clock {
-            margin-left: auto;
+            margin-left: var(--spacing-3);
             font-size: var(--font-size-sm);
             font-family: var(--font-family-mono);
+        }
+
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: auto;
+            padding: 2px;
+            border: var(--border-width-hairline) solid rgba(54, 76, 112, 0.6);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.58);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+        }
+
+        .language-button {
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #182235;
+            padding: 1px var(--spacing-2);
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-xs);
+            line-height: 14px;
+            cursor: pointer;
+        }
+
+        .language-button.active {
+            background: linear-gradient(180deg, #707070, #3d3d3d);
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .mobile-language-button {
+            display: none;
+            width: 22px;
+            height: 20px;
+            margin-left: auto;
+            border: var(--border-width-hairline) solid rgba(54, 76, 112, 0.6);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.72);
+            color: #182235;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            line-height: 16px;
+            cursor: pointer;
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.88),
+                0 1px 2px rgba(0, 0, 0, 0.18);
         }
 
         /* ========================================
@@ -197,24 +249,31 @@
            ======================================== */
         .desktop-icons {
             display: flex;
-            flex-direction: column;
-            gap: var(--spacing-6);
-            padding: var(--spacing-6);
+            flex-flow: column wrap-reverse;
+            align-content: flex-start;
+            justify-content: flex-start;
+            gap: var(--spacing-3);
+            padding: var(--spacing-5);
             position: absolute;
-            top: var(--menubar-height);
-            right: var(--spacing-6);
+            inset: 0 0 0 50%;
+            pointer-events: none;
         }
 
         .desktop-icon {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             gap: var(--spacing-1);
             cursor: pointer;
             padding: var(--spacing-2);
+            width: calc(var(--icon-label-width) + (var(--spacing-2) * 2));
+            height: var(--desktop-icon-slot-height);
+            flex: 0 0 var(--desktop-icon-slot-height);
             border: var(--border-width-hairline) solid transparent;
             border-radius: 8px;
             transition: background 0ms;
+            pointer-events: auto;
         }
 
         .desktop-icon:hover {
@@ -254,7 +313,7 @@
             font-size: var(--font-size-xs);
             text-align: center;
             width: var(--icon-label-width);
-            word-wrap: break-word;
+            overflow-wrap: anywhere;
             padding: 1px var(--spacing-1);
             color: var(--color-black);
             background: rgba(255, 255, 255, 0.78);
@@ -275,8 +334,13 @@
            ======================================== */
         .window {
             position: absolute;
-            min-width: var(--window-min-width);
+            width: min(
+                var(--window-max-width),
+                calc(100vw - var(--desktop-icons-width) - (var(--spacing-6) * 2))
+            );
+            min-width: min(var(--window-min-width), calc(100vw - (var(--spacing-4) * 2)));
             max-width: var(--window-max-width);
+            max-height: calc(100% - (var(--spacing-4) * 2));
             background: var(--color-aqua-window);
             border: var(--window-border) solid rgba(43, 66, 102, 0.88);
             box-shadow: var(--shadow-hard-lg);
@@ -387,25 +451,17 @@
         .window-titlebar {
             height: var(--window-titlebar-height);
             background:
-                linear-gradient(180deg, #bfe1ff 0%, #59a6ff 42%, #146fdd 48%, #0751c9 100%),
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(255,255,255,0.26),
-                    rgba(255,255,255,0.26) 1px,
-                    rgba(0,0,0,0.06) 1px,
-                    rgba(0,0,0,0.06) 3px
-                );
-            background-blend-mode: normal, multiply;
-            color: var(--color-white);
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: var(--color-black);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 var(--spacing-2);
             cursor: move;
             user-select: none;
-            border-bottom: var(--border-width-hairline) solid rgba(1, 36, 112, 0.82);
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
             position: relative;
-            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.45);
+            text-shadow: 0 1px 0 var(--color-white);
         }
 
         /* Ensure cursor consistency during drag */
@@ -512,6 +568,8 @@
         .window-content {
             padding: var(--spacing-4);
             overflow-y: auto;
+            overflow-x: hidden;
+            min-width: 0;
             max-height: calc(100vh - var(--menubar-height) - var(--window-titlebar-height) - 120px);
             background-color: var(--color-white);
             background-image:
@@ -571,6 +629,7 @@
         .content p {
             margin-bottom: var(--spacing-3);
             line-height: var(--line-height-relaxed);
+            overflow-wrap: anywhere;
         }
 
         .content ul, .content ol {
@@ -630,6 +689,16 @@
                 0 1px 2px rgba(0, 0, 0, 0.18);
         }
 
+        .content .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+        }
+
+        .content .skill-list .skill-tag {
+            margin: 0;
+        }
+
         .content .project-item,
         .content .writing-item,
         .content .blog-item,
@@ -650,6 +719,47 @@
         .content .blog-item h3,
         .content .note-item h3 {
             margin-top: 0;
+        }
+
+        .content .project-title {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .content .project-title > span:last-child {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .content .project-icon {
+            width: 32px;
+            height: 32px;
+            flex: 0 0 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.34);
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow:
+                inset 0 1px 0 var(--color-white),
+                0 1px 2px rgba(0, 0, 0, 0.14);
+        }
+
+        .content .project-icon-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        .content .project-icon-fallback {
+            font-size: var(--font-size-lg);
+            line-height: 1;
         }
 
         .content .blog-tags {
@@ -752,6 +862,11 @@
             background: rgba(255, 255, 255, 0.72);
             filter: none;
             border-radius: 8px;
+        }
+
+        .content .contact-item a {
+            min-width: 0;
+            overflow-wrap: anywhere;
         }
 
         .content .contact-item:hover {
@@ -924,6 +1039,7 @@
 
             .mobile-content {
                 display: block;
+                overflow-x: hidden;
             }
 
             .menu-bar .logo {
@@ -933,10 +1049,55 @@
             .menu-bar .menu-items {
                 display: none;
             }
+
+            .language-switcher {
+                display: none;
+            }
+
+            .mobile-language-button {
+                display: block;
+            }
+
+            .mobile-content .content,
+            .mobile-content .content p {
+                min-width: 0;
+                max-width: 100%;
+                overflow-wrap: anywhere;
+            }
         }
 
         /* Desktop Styles */
         @media (min-width: 768px) {
+            :root {
+                --font-size-xs: 10px;
+                --font-size-sm: 12px;
+                --font-size-md: 14px;
+                --font-size-lg: 16px;
+                --font-size-xl: 21px;
+                --font-size-2xl: 28px;
+
+                --spacing-1: 5px;
+                --spacing-2: 10px;
+                --spacing-3: 14px;
+                --spacing-4: 18px;
+                --spacing-5: 23px;
+                --spacing-6: 28px;
+                --spacing-8: 36px;
+                --spacing-10: 46px;
+                --spacing-12: 55px;
+                --spacing-16: 74px;
+
+                --menubar-height: 28px;
+                --window-titlebar-height: 28px;
+                --window-min-width: 340px;
+                --window-max-width: 720px;
+                --icon-size: 56px;
+                --icon-label-width: 96px;
+                --desktop-icon-slot-height: 96px;
+                --desktop-icons-width: 148px;
+                --scrollbar-width: 18px;
+            }
+
             .mobile-nav {
                 display: none;
             }
@@ -955,6 +1116,28 @@
 
             .window.open {
                 display: flex;
+            }
+
+            .window-close-btn,
+            .window-titlebar .controls:first-child::before,
+            .window-titlebar .controls:first-child::after {
+                width: 15px;
+                height: 15px;
+            }
+
+            .window-close-btn::after {
+                font-size: 10px;
+            }
+
+            .content .avatar {
+                width: 96px;
+                height: 96px;
+            }
+
+            .content .project-icon {
+                width: 38px;
+                height: 38px;
+                flex-basis: 38px;
             }
         }
 
@@ -997,6 +1180,11 @@
             <div class="menu-item" data-dropdown="">Special</div>
             <div class="menu-item" data-dropdown=""></div>
         </div>
+        <div class="language-switcher" role="group" aria-label="Language">
+            <button class="language-button active" type="button" data-language="en" onclick="setLanguage('en')">EN</button>
+            <button class="language-button" type="button" data-language="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+        <button class="mobile-language-button" type="button" onclick="toggleLanguage()" aria-label="切换到中文" title="切换到中文">⋮</button>
         <div class="clock" id="clock">00:00:00</div>
     </div>
 
@@ -1479,8 +1667,11 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260507-1734';
+        const CONFIG_VERSION = '20260609-1415';
         let articleLaunchTimer = null;
+        const requestedLanguage = new URLSearchParams(window.location.search).get('lang');
+        let currentLanguage = requestedLanguage === 'zh' ||
+            (requestedLanguage !== 'en' && localStorage.getItem('homepage-language') === 'zh') ? 'zh' : 'en';
 
         async function loadConfig() {
             try {
@@ -1512,11 +1703,7 @@
         }
 
         function initializeUI() {
-            renderMenuBar();
-            renderDesktopIcons();
-            renderAllWindows();
-            renderMobileNav();
-            renderMobileContent();
+            renderHomepage();
 
             // Open default window
             if (window.innerWidth >= 768 && config.desktop.defaultOpenWindow) {
@@ -1529,22 +1716,131 @@
         // ========================================
         // RENDERING FUNCTIONS
         // ========================================
+        function localeConfig() {
+            return currentLanguage === 'zh' ? (config.i18n?.zh || {}) : {};
+        }
+
+        function translated(path, fallback) {
+            const value = path.split('.').reduce((current, key) => current?.[key], localeConfig());
+            return value === undefined ? fallback : value;
+        }
+
+        function localizedItem(item, collection, key) {
+            const override = localeConfig()[collection]?.[item[key]];
+            return override ? { ...item, ...override } : item;
+        }
+
+        function localizedProfile() {
+            return { ...config.profile, ...(localeConfig().profile || {}) };
+        }
+
+        function localizedIcons() {
+            const labels = localeConfig().desktopLabels || {};
+            return config.desktop.icons.map(icon => ({
+                ...icon,
+                label: labels[icon.id] || icon.label,
+            }));
+        }
+
+        function localizedApps() {
+            return (config.apps || config.projects).map(item => localizedItem(item, 'apps', 'title'));
+        }
+
+        function localizedProjects() {
+            return (config.githubProjects || []).map(item => localizedItem(item, 'githubProjects', 'title'));
+        }
+
+        function localizedPosts() {
+            return (config.blogPosts || config.writings || []).map(item => localizedItem(item, 'blogPosts', 'link'));
+        }
+
+        function localizedLinks() {
+            const overrides = localeConfig().links || {};
+            return config.links.map(category => {
+                const categoryOverride = overrides[category.title] || {};
+                const itemOverrides = categoryOverride.items || {};
+                return {
+                    ...category,
+                    ...categoryOverride,
+                    items: category.items.map(item => ({
+                        ...item,
+                        name: itemOverrides[item.name] || item.name,
+                    })),
+                };
+            });
+        }
+
+        function renderHomepage() {
+            document.documentElement.lang = currentLanguage === 'zh' ? 'zh-CN' : 'en';
+            renderLanguageSwitcher();
+            renderMenuBar();
+            renderDesktopIcons();
+            renderWindowTitles();
+            renderAllWindows();
+            renderMobileNav();
+            renderMobileContent();
+            renderArticleLauncher();
+            requestAnimationFrame(updateDesktopLayout);
+        }
+
+        function setLanguage(language) {
+            if (!config || !['en', 'zh'].includes(language)) {
+                return;
+            }
+
+            const activeSection = document.querySelector('.mobile-content section.active')?.id || 'about';
+            currentLanguage = language;
+            localStorage.setItem('homepage-language', language);
+            renderHomepage();
+
+            if (window.innerWidth < 768) {
+                showSection(activeSection);
+            }
+        }
+
+        function toggleLanguage() {
+            setLanguage(currentLanguage === 'en' ? 'zh' : 'en');
+        }
+
+        function renderLanguageSwitcher() {
+            document.querySelectorAll('.language-button').forEach(button => {
+                const active = button.dataset.language === currentLanguage;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+
+            const mobileButton = document.querySelector('.mobile-language-button');
+            const label = currentLanguage === 'en' ? '切换到中文' : 'Switch to English';
+            mobileButton.setAttribute('aria-label', label);
+            mobileButton.title = label;
+        }
+
         function renderMenuBar() {
-            document.querySelector('.menu-bar .logo').textContent = config.site.menuLogo;
+            const site = { ...config.site, ...(localeConfig().site || {}) };
+            document.querySelector('.menu-bar .logo').textContent = site.menuLogo;
             const menuItemsContainer = document.querySelector('.menu-bar .menu-items');
-            menuItemsContainer.innerHTML = config.site.menuItems.map(item =>
-                `<div class="menu-item" data-dropdown="">${item}</div>`
+            menuItemsContainer.innerHTML = site.menuItems.map(item =>
+                `<div class="menu-item" data-dropdown="">${escapeHtml(item)}</div>`
             ).join('');
         }
 
         function renderDesktopIcons() {
             const iconsContainer = document.querySelector('.desktop-icons');
-            iconsContainer.innerHTML = config.desktop.icons.map(icon =>
+            iconsContainer.innerHTML = localizedIcons().map(icon =>
                 `<div class="desktop-icon" data-window="${icon.window}" onclick="toggleWindow('${icon.window}')">
-                    <div class="icon-img">${icon.icon}</div>
-                    <div class="icon-label">${icon.label}</div>
+                    <div class="icon-img">${escapeHtml(icon.icon)}</div>
+                    <div class="icon-label">${escapeHtml(icon.label)}</div>
                 </div>`
             ).join('');
+        }
+
+        function renderWindowTitles() {
+            localizedIcons().forEach(icon => {
+                const title = document.querySelector(`#${icon.window} .window-titlebar .title`);
+                if (title) {
+                    title.textContent = icon.label;
+                }
+            });
         }
 
         function renderAllWindows() {
@@ -1559,25 +1855,16 @@
 
         function renderAboutWindow() {
             const content = document.querySelector('#about-window .window-content .content');
-            content.innerHTML = `
-                ${renderAvatar()}
-                <h1>About Me</h1>
-                <p>${config.profile.bio}</p>
-                <h2>Skills</h2>
-                <div>
-                    ${config.profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                </div>
-                <h2 class="mt-4">Background</h2>
-                <p>${config.profile.background}</p>
-            `;
+            content.innerHTML = renderAboutContent();
         }
 
         function renderAvatar() {
-            const avatar = config.profile.avatar || '';
+            const profile = localizedProfile();
+            const avatar = profile.avatar || '';
             if (/^https?:\/\//.test(avatar)) {
-                return `<div class="avatar"><img src="${avatar}" alt="${config.profile.name || 'Profile'} avatar"></div>`;
+                return `<div class="avatar"><img src="${escapeHtml(avatar)}" alt="${escapeHtml(profile.name || 'Profile')} avatar"></div>`;
             }
-            return `<div class="avatar">${avatar}</div>`;
+            return `<div class="avatar">${escapeHtml(avatar)}</div>`;
         }
 
         function escapeHtml(value) {
@@ -1626,7 +1913,7 @@
         }
 
         function allNotes() {
-            return config.notes || [];
+            return (config.notes || []).map(item => localizedItem(item, 'notes', 'id'));
         }
 
         function renderNoteCard(note) {
@@ -1645,7 +1932,7 @@
                     <p class="note-text">${escapeHtml(note.content || '')}</p>
                     ${tags.length > 0 ? `<div class="blog-tags">${tags.map(tag => `<span class="blog-tag">#${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
                     <div class="x-actions">
-                        <a class="x-action" href="${shareUrl}" target="_blank" rel="noopener noreferrer">Post to X</a>
+                        <a class="x-action" href="${shareUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(translated('ui.postToX', 'Post to X'))}</a>
                     </div>
                 </div>
             `;
@@ -1653,98 +1940,147 @@
 
         function renderProjectsWindow() {
             const content = document.querySelector('#projects-window .window-content .content');
-            const apps = config.apps || config.projects;
-            content.innerHTML = `
-                <h1>Apps</h1>
-                ${apps.map(project => `
-                    <div class="project-item">
-                        <h3>${project.link && project.link !== '#' ? `<a class="item-title-link" href="${project.link}">${escapeHtml(project.icon)} ${escapeHtml(project.title)}</a>` : `${escapeHtml(project.icon)} ${escapeHtml(project.title)}`}</h3>
-                        <p>${escapeHtml(project.description)}</p>
-                        <span class="date">${escapeHtml(project.year)}</span>
-                    </div>
-                `).join('')}
-            `;
+            content.innerHTML = renderProjectsContent();
         }
 
         function renderWritingWindow() {
             const content = document.querySelector('#writing-window .window-content .content');
-            const projects = config.githubProjects || [];
-            content.innerHTML = `
-                <h1>Projects</h1>
-                ${projects.map(project => `
-                    <div class="project-item">
-                        <h3>${project.link && project.link !== '#' ? `<a class="item-title-link" href="${project.link}">${escapeHtml(project.icon)} ${escapeHtml(project.title)}</a>` : `${escapeHtml(project.icon)} ${escapeHtml(project.title)}`}</h3>
-                        <p>${escapeHtml(project.description)}</p>
-                        <span class="date">${escapeHtml(project.year)}</span>
-                    </div>
-                `).join('')}
-            `;
+            content.innerHTML = renderWritingContent();
         }
 
         function renderBlogWindow() {
             const content = document.querySelector('#blog-window .window-content .content');
-            const posts = config.blogPosts || config.writings || [];
-            content.innerHTML = `
-                <h1>Blog</h1>
+            content.innerHTML = renderBlogContent();
+        }
+
+        function renderNotesWindow() {
+            const content = document.querySelector('#notes-window .window-content .content');
+            content.innerHTML = renderNotesContent();
+        }
+
+        function renderContactWindow() {
+            const content = document.querySelector('#contact-window .window-content .content');
+            content.innerHTML = renderContactContent();
+        }
+
+        function renderLinksWindow() {
+            const content = document.querySelector('#links-window .window-content .content');
+            content.innerHTML = renderLinksContent();
+        }
+
+        function renderAboutContent() {
+            const profile = localizedProfile();
+            return `
+                ${renderAvatar()}
+                <h1>${escapeHtml(translated('ui.about', 'About Me'))}</h1>
+                <p>${escapeHtml(profile.bio)}</p>
+                <h2>${escapeHtml(translated('ui.skills', 'Skills'))}</h2>
+                <div class="skill-list">
+                    ${profile.skills.map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('')}
+                </div>
+                <h2 class="mt-4">${escapeHtml(translated('ui.background', 'Background'))}</h2>
+                <p>${escapeHtml(profile.background)}</p>
+            `;
+        }
+
+        function renderProjectCards(projects) {
+            return projects.map(project => `
+                <div class="project-item">
+                    <h3>${project.link && project.link !== '#' ? `<a class="item-title-link project-title" href="${escapeHtml(project.link)}">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></a>` : `<span class="project-title">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></span>`}</h3>
+                    <p>${escapeHtml(project.description)}</p>
+                    <span class="date">${escapeHtml(project.year)}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderProjectIcon(project) {
+            const fallback = escapeHtml(project.icon || '⌘');
+            if (!project.iconImage) {
+                return `<span class="project-icon" aria-hidden="true"><span class="project-icon-fallback">${fallback}</span></span>`;
+            }
+
+            return `
+                <span class="project-icon" aria-hidden="true">
+                    <img class="project-icon-image" src="${escapeHtml(project.iconImage)}" alt="" onerror="this.hidden=true; this.nextElementSibling.hidden=false">
+                    <span class="project-icon-fallback" hidden>${fallback}</span>
+                </span>
+            `;
+        }
+
+        function renderProjectsContent() {
+            return `
+                <h1>${escapeHtml(translated('ui.apps', 'Apps'))}</h1>
+                ${renderProjectCards(localizedApps())}
+            `;
+        }
+
+        function renderWritingContent() {
+            return `
+                <h1>${escapeHtml(translated('ui.projects', 'Projects'))}</h1>
+                ${renderProjectCards(localizedProjects())}
+            `;
+        }
+
+        function renderBlogContent() {
+            const posts = localizedPosts();
+            return `
+                <h1>${escapeHtml(translated('ui.blog', 'Blog'))}</h1>
                 ${posts.map(post => `
                     <div class="blog-item">
-                        <h3>${post.link && post.link !== '#' ? `<a class="item-title-link" data-blog-link href="${post.link}">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</h3>
+                        <h3>${post.link && post.link !== '#' ? `<a class="item-title-link" data-blog-link href="${escapeHtml(post.link)}">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</h3>
                         <p class="date">${escapeHtml(post.date)}</p>
                         <p>${escapeHtml(post.excerpt)}</p>
                         ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
                         <div class="x-actions">
-                            ${post.link && post.link !== '#' ? `<a class="x-action" target="_blank" rel="noopener noreferrer" href="${buildXIntentUrl({ text: blogShareText(post), url: absoluteSiteUrl(post.link), hashtags: normalizeTags(post.tags) })}">Share to X</a>` : ''}
+                            ${post.link && post.link !== '#' ? `<a class="x-action" target="_blank" rel="noopener noreferrer" href="${buildXIntentUrl({ text: blogShareText(post), url: absoluteSiteUrl(post.link), hashtags: normalizeTags(post.tags) })}">${escapeHtml(translated('ui.shareToX', 'Share to X'))}</a>` : ''}
                         </div>
                     </div>
                 `).join('')}
             `;
         }
 
-        function renderNotesWindow() {
-            const content = document.querySelector('#notes-window .window-content .content');
-            content.innerHTML = `
-                <h1>Notes</h1>
+        function renderNotesContent() {
+            return `
+                <h1>${escapeHtml(translated('ui.notes', 'Notes'))}</h1>
                 ${allNotes().map(renderNoteCard).join('')}
             `;
         }
 
-        function renderContactWindow() {
-            const content = document.querySelector('#contact-window .window-content .content');
+        function renderContactContent() {
             const contactItems = config.contact.items.map(item =>
                 `<div class="contact-item">
-                    <span>${item.icon}</span>
-                    <a href="${item.link}">${item.value}</a>
+                    <span>${escapeHtml(item.icon)}</span>
+                    <a href="${escapeHtml(item.link)}">${escapeHtml(item.value)}</a>
                 </div>`
             ).join('');
 
             const formHtml = config.contact.formEnabled ? `
                 <div class="divider"></div>
-                <h2>Send a Message</h2>
+                <h2>${escapeHtml(translated('ui.sendMessage', 'Send a Message'))}</h2>
                 <form onsubmit="handleSubmit(event)">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea rows="5" placeholder="Your Message" required></textarea>
-                    <button type="submit" class="btn">Send Message</button>
+                    <input type="text" placeholder="${escapeHtml(translated('ui.yourName', 'Your Name'))}" required>
+                    <input type="email" placeholder="${escapeHtml(translated('ui.yourEmail', 'Your Email'))}" required>
+                    <textarea rows="5" placeholder="${escapeHtml(translated('ui.yourMessage', 'Your Message'))}" required></textarea>
+                    <button type="submit" class="btn">${escapeHtml(translated('ui.sendMessage', 'Send Message'))}</button>
                 </form>
             ` : '';
 
-            content.innerHTML = `
-                <h1>Contact</h1>
-                <p>Feel free to reach out! I'm always happy to connect.</p>
+            return `
+                <h1>${escapeHtml(translated('ui.contact', 'Contact'))}</h1>
+                <p>${escapeHtml(translated('ui.contactIntro', "Feel free to reach out! I'm always happy to connect."))}</p>
                 ${contactItems}
                 ${formHtml}
             `;
         }
 
-        function renderLinksWindow() {
-            const content = document.querySelector('#links-window .window-content .content');
-            content.innerHTML = `
-                <h1>Links</h1>
-                ${config.links.map(category => `
+        function renderLinksContent() {
+            return `
+                <h1>${escapeHtml(translated('ui.links', 'Links'))}</h1>
+                ${localizedLinks().map(category => `
                     <div class="link-item">
-                        <h3>${category.icon} ${category.title}</h3>
+                        <h3>${escapeHtml(category.icon)} ${escapeHtml(category.title)}</h3>
                         <ul>
-                            ${category.items.map(link => `<li><a href="${link.url}">${link.name}</a></li>`).join('')}
+                            ${category.items.map(link => `<li><a href="${escapeHtml(link.url)}">${escapeHtml(link.name)}</a></li>`).join('')}
                         </ul>
                     </div>
                 `).join('')}
@@ -1753,121 +2089,25 @@
 
         function renderMobileNav() {
             const navItems = document.querySelector('.mobile-nav .nav-items');
-            navItems.innerHTML = config.desktop.icons.map((icon, index) =>
-                `<div class="nav-item ${index === 0 ? 'active' : ''}" data-section="${icon.id}" onclick="showSection('${icon.id}')">${icon.label}</div>`
+            navItems.innerHTML = localizedIcons().map((icon, index) =>
+                `<div class="nav-item ${index === 0 ? 'active' : ''}" data-section="${icon.id}" onclick="showSection('${icon.id}')">${escapeHtml(icon.label)}</div>`
             ).join('');
         }
 
         function renderMobileContent() {
-            const container = document.querySelector('.mobile-content');
+            document.querySelector('#about .content').innerHTML = renderAboutContent();
+            document.querySelector('#projects .content').innerHTML = renderProjectsContent();
+            document.querySelector('#writing .content').innerHTML = renderWritingContent();
+            document.querySelector('#blog .content').innerHTML = renderBlogContent();
+            document.querySelector('#notes .content').innerHTML = renderNotesContent();
+            document.querySelector('#contact .content').innerHTML = renderContactContent();
+            document.querySelector('#links .content').innerHTML = renderLinksContent();
+        }
 
-            // About section
-            const aboutSection = document.getElementById('about');
-            aboutSection.querySelector('.content').innerHTML = `
-                ${renderAvatar()}
-                <h1>About Me</h1>
-                <p>${config.profile.bio}</p>
-                <h2>Skills</h2>
-                <div>
-                    ${config.profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                </div>
-                <h2 class="mt-4">Background</h2>
-                <p>${config.profile.background}</p>
-            `;
-
-            // Projects section
-            const projectsSection = document.getElementById('projects');
-            const apps = config.apps || config.projects;
-            projectsSection.querySelector('.content').innerHTML = `
-                <h1>Apps</h1>
-                ${apps.map(project => `
-                    <div class="project-item">
-                        <h3>${project.link && project.link !== '#' ? `<a class="item-title-link" href="${project.link}">${escapeHtml(project.icon)} ${escapeHtml(project.title)}</a>` : `${escapeHtml(project.icon)} ${escapeHtml(project.title)}`}</h3>
-                        <p>${escapeHtml(project.description)}</p>
-                        <span class="date">${escapeHtml(project.year)}</span>
-                    </div>
-                `).join('')}
-            `;
-
-            // Writing section
-            const writingSection = document.getElementById('writing');
-            const projects = config.githubProjects || [];
-            writingSection.querySelector('.content').innerHTML = `
-                <h1>Projects</h1>
-                ${projects.map(project => `
-                    <div class="project-item">
-                        <h3>${project.link && project.link !== '#' ? `<a class="item-title-link" href="${project.link}">${escapeHtml(project.icon)} ${escapeHtml(project.title)}</a>` : `${escapeHtml(project.icon)} ${escapeHtml(project.title)}`}</h3>
-                        <p>${escapeHtml(project.description)}</p>
-                        <span class="date">${escapeHtml(project.year)}</span>
-                    </div>
-                `).join('')}
-            `;
-
-            // Blog section
-            const blogSection = document.getElementById('blog');
-            const posts = config.blogPosts || config.writings || [];
-            blogSection.querySelector('.content').innerHTML = `
-                <h1>Blog</h1>
-                ${posts.map(post => `
-                    <div class="blog-item">
-                        <h3>${post.link && post.link !== '#' ? `<a class="item-title-link" data-blog-link href="${post.link}">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</h3>
-                        <p class="date">${escapeHtml(post.date)}</p>
-                        <p>${escapeHtml(post.excerpt)}</p>
-                        ${post.tags ? `<div class="blog-tags">${post.tags.map(tag => `<span class="blog-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
-                        <div class="x-actions">
-                            ${post.link && post.link !== '#' ? `<a class="x-action" target="_blank" rel="noopener noreferrer" href="${buildXIntentUrl({ text: blogShareText(post), url: absoluteSiteUrl(post.link), hashtags: normalizeTags(post.tags) })}">Share to X</a>` : ''}
-                        </div>
-                    </div>
-                `).join('')}
-            `;
-
-            // Notes section
-            const notesSection = document.getElementById('notes');
-            notesSection.querySelector('.content').innerHTML = `
-                <h1>Notes</h1>
-                ${allNotes().map(renderNoteCard).join('')}
-            `;
-
-            // Contact section
-            const contactSection = document.getElementById('contact');
-            const contactItems = config.contact.items.map(item =>
-                `<div class="contact-item">
-                    <span>${item.icon}</span>
-                    <a href="${item.link}">${item.value}</a>
-                </div>`
-            ).join('');
-
-            const formHtml = config.contact.formEnabled ? `
-                <div class="divider"></div>
-                <h2>Send a Message</h2>
-                <form onsubmit="handleSubmit(event)">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea rows="5" placeholder="Your Message" required></textarea>
-                    <button type="submit" class="btn">Send Message</button>
-                </form>
-            ` : '';
-
-            contactSection.querySelector('.content').innerHTML = `
-                <h1>Contact</h1>
-                <p>Feel free to reach out! I'm always happy to connect.</p>
-                ${contactItems}
-                ${formHtml}
-            `;
-
-            // Links section
-            const linksSection = document.getElementById('links');
-            linksSection.querySelector('.content').innerHTML = `
-                <h1>Links</h1>
-                ${config.links.map(category => `
-                    <div class="link-item">
-                        <h3>${category.icon} ${category.title}</h3>
-                        <ul>
-                            ${category.items.map(link => `<li><a href="${link.url}">${link.name}</a></li>`).join('')}
-                        </ul>
-                    </div>
-                `).join('')}
-            `;
+        function renderArticleLauncher() {
+            document.querySelector('#article-launcher .title').textContent = translated('ui.openingArticle', 'Opening Article');
+            document.querySelector('.article-launcher-title').textContent = translated('ui.blogArticle', 'Blog Article');
+            document.querySelector('.article-launcher-status').textContent = translated('ui.preparingDocument', 'Preparing document...');
         }
 
         // ========================================
@@ -1891,6 +2131,58 @@
         let highestZIndex = 200;
         const openWindows = new Set();
 
+        function getDesktopMetrics() {
+            const desktop = document.getElementById('desktop');
+            const desktopRect = desktop.getBoundingClientRect();
+            const iconRects = Array.from(document.querySelectorAll('.desktop-icon'))
+                .map(icon => icon.getBoundingClientRect())
+                .filter(rect => rect.width > 0 && rect.height > 0);
+            const iconLeft = iconRects.length > 0
+                ? Math.min(...iconRects.map(rect => rect.left - desktopRect.left))
+                : desktopRect.width;
+
+            return {
+                desktop,
+                desktopRect,
+                iconLeft,
+            };
+        }
+
+        function constrainWindow(windowEl) {
+            if (!windowEl || window.innerWidth < 768) {
+                return;
+            }
+
+            const { desktop, iconLeft } = getDesktopMetrics();
+            const styles = getComputedStyle(document.documentElement);
+            const margin = parseFloat(styles.getPropertyValue('--spacing-3')) || 14;
+            const gap = parseFloat(styles.getPropertyValue('--spacing-4')) || 18;
+            const windowWidth = windowEl.offsetWidth;
+            const windowHeight = windowEl.offsetHeight;
+            const maxLeft = Math.max(margin, iconLeft - gap - windowWidth);
+            const maxTop = Math.max(margin, desktop.clientHeight - windowHeight - margin);
+            const currentLeft = parseFloat(windowEl.style.left) || margin;
+            const currentTop = parseFloat(windowEl.style.top) || margin;
+
+            windowEl.style.left = `${Math.min(Math.max(currentLeft, margin), maxLeft)}px`;
+            windowEl.style.top = `${Math.min(Math.max(currentTop, margin), maxTop)}px`;
+        }
+
+        function updateDesktopLayout() {
+            const desktop = document.getElementById('desktop');
+            if (!desktop || window.innerWidth < 768) {
+                return;
+            }
+
+            const { desktopRect, iconLeft } = getDesktopMetrics();
+            const iconAreaWidth = Math.max(0, Math.ceil(desktopRect.width - iconLeft));
+            desktop.style.setProperty('--desktop-icons-width', `${iconAreaWidth}px`);
+
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.window.open').forEach(constrainWindow);
+            });
+        }
+
         function toggleWindow(windowId) {
             const windowEl = document.getElementById(windowId);
 
@@ -1903,10 +2195,18 @@
                 windowEl.classList.add('open');
                 activateWindow(windowEl);
 
-                // Stagger position slightly for multiple windows
-                const offset = openWindows.size * 20;
-                windowEl.style.top = parseInt(windowEl.style.top || 100) + offset + 'px';
-                windowEl.style.left = parseInt(windowEl.style.left || 100) + offset + 'px';
+                if (!windowEl.dataset.initialTop) {
+                    windowEl.dataset.initialTop = String(parseInt(windowEl.style.top || 100));
+                    windowEl.dataset.initialLeft = String(parseInt(windowEl.style.left || 100));
+                }
+
+                const offset = (openWindows.size - 1) * 18;
+                windowEl.style.top = `${Number(windowEl.dataset.initialTop) + offset}px`;
+                windowEl.style.left = `${Number(windowEl.dataset.initialLeft) + offset}px`;
+                requestAnimationFrame(() => {
+                    updateDesktopLayout();
+                    constrainWindow(windowEl);
+                });
             }
         }
 
@@ -1965,32 +2265,19 @@
             titlebar.addEventListener('mousedown', (e) => {
                 if (e.target.classList.contains('window-close-btn')) return;
 
-                isDragging = true;
                 currentDragWindow = titlebar.closest('.window');
+                if (!currentDragWindow) return;
+
+                isDragging = true;
 
                 // Set cursor immediately to prevent cursor change
                 document.body.classList.add('dragging');
 
-                // Get current window position from style or compute from getBoundingClientRect
-                let currentLeft, currentTop;
-                
-                if (currentDragWindow.style.left && currentDragWindow.style.left !== 'auto') {
-                    currentLeft = parseInt(currentDragWindow.style.left);
-                } else {
-                    currentLeft = currentDragWindow.getBoundingClientRect().left;
-                    currentDragWindow.style.left = currentLeft + 'px';
-                }
-                
-                if (currentDragWindow.style.top && currentDragWindow.style.top !== 'auto') {
-                    currentTop = parseInt(currentDragWindow.style.top);
-                } else {
-                    currentTop = currentDragWindow.getBoundingClientRect().top;
-                    currentDragWindow.style.top = currentTop + 'px';
-                }
+                const currentRect = currentDragWindow.getBoundingClientRect();
 
                 // Calculate offset using the actual window position
-                dragOffset.x = e.clientX - currentLeft;
-                dragOffset.y = e.clientY - currentTop;
+                dragOffset.x = e.clientX - currentRect.left;
+                dragOffset.y = e.clientY - currentRect.top;
 
                 // Activate window immediately
                 activateWindow(currentDragWindow);
@@ -2002,18 +2289,20 @@
         document.addEventListener('mousemove', (e) => {
             if (!isDragging || !currentDragWindow) return;
 
-            let newX = e.clientX - dragOffset.x;
-            let newY = e.clientY - dragOffset.y;
-
-            // Boundary constraints (keep at least 100px visible)
+            const { desktop, desktopRect, iconLeft } = getDesktopMetrics();
+            const styles = getComputedStyle(document.documentElement);
+            const margin = parseFloat(styles.getPropertyValue('--spacing-3')) || 14;
+            const gap = parseFloat(styles.getPropertyValue('--spacing-4')) || 18;
             const windowWidth = currentDragWindow.offsetWidth;
             const windowHeight = currentDragWindow.offsetHeight;
-            const maxX = window.innerWidth - 100;
-            const maxY = window.innerHeight - 100;
+            const maxX = Math.max(margin, iconLeft - gap - windowWidth);
+            const maxY = Math.max(margin, desktop.clientHeight - windowHeight - margin);
+            let newX = e.clientX - desktopRect.left - dragOffset.x;
+            let newY = e.clientY - desktopRect.top - dragOffset.y;
 
-            if (newX < -windowWidth + 100) newX = -windowWidth + 100;
+            if (newX < margin) newX = margin;
             if (newX > maxX) newX = maxX;
-            if (newY < 24) newY = 24; // Keep below menu bar
+            if (newY < margin) newY = margin;
             if (newY > maxY) newY = maxY;
 
             currentDragWindow.style.left = newX + 'px';
@@ -2162,7 +2451,7 @@
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            // Adjust behavior on resize if needed
+            updateDesktopLayout();
         });
     </script>
 </body>

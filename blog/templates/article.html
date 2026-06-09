@@ -158,23 +158,15 @@
         .window-titlebar {
             height: 24px;
             background:
-                linear-gradient(180deg, #bfe1ff 0%, #59a6ff 42%, #146fdd 48%, #0751c9 100%),
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(255,255,255,0.26),
-                    rgba(255,255,255,0.26) 1px,
-                    rgba(0,0,0,0.06) 1px,
-                    rgba(0,0,0,0.06) 3px
-                );
-            background-blend-mode: normal, multiply;
-            color: var(--color-white);
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: var(--color-black);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: var(--font-size-sm);
             font-weight: bold;
-            border-bottom: var(--border-width-hairline) solid rgba(1, 36, 112, 0.82);
-            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.45);
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            text-shadow: 0 1px 0 var(--color-white);
             position: relative;
         }
 
@@ -379,6 +371,50 @@
             padding-left: var(--spacing-3);
             margin: var(--spacing-4) 0;
             color: var(--color-black);
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --font-size-xs: 10px;
+                --font-size-sm: 12px;
+                --font-size-md: 14px;
+                --font-size-lg: 16px;
+                --font-size-xl: 21px;
+                --font-size-2xl: 28px;
+
+                --spacing-1: 5px;
+                --spacing-2: 10px;
+                --spacing-3: 14px;
+                --spacing-4: 18px;
+                --spacing-5: 23px;
+                --spacing-6: 28px;
+                --spacing-8: 36px;
+                --menubar-height: 28px;
+            }
+
+            main {
+                width: min(1020px, calc(100vw - 36px));
+                margin: var(--spacing-8) auto;
+            }
+
+            .window-titlebar {
+                height: 28px;
+            }
+
+            .window-titlebar span {
+                line-height: 28px;
+            }
+
+            .window-close-btn,
+            .window-titlebar .controls::before,
+            .window-titlebar .controls::after {
+                width: 15px;
+                height: 15px;
+            }
+
+            article {
+                max-width: 840px;
+            }
         }
 
         @media (max-width: 767px) {

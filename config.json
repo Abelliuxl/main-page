@@ -17,15 +17,12 @@
     "bio": "Licensed Doctor, Unlicensed AI Therapist. I build small, practical tools around medicine, games, automation, and AI.",
     "background": "This is my personal Macintosh-style workspace: part portfolio, part toolbox, part lab notebook. Most of the things here are built to solve a real annoyance first, then kept small enough to understand and maintain.",
     "skills": [
-      "Python",
-      "JavaScript",
-      "Lua",
-      "Go",
-      "Swift",
-      "Automation",
-      "World of Warcraft",
-      "AI Tools",
-      "Web Apps"
+      "ChatGPT",
+      "Codex",
+      "Describing Problems",
+      "Reviewing Results",
+      "Testing Ideas",
+      "AI-assisted Building"
     ]
   },
   "projects": [
@@ -259,7 +256,8 @@
     {
       "title": "main-page",
       "icon": "⌘",
-      "description": "HTML project on GitHub.",
+      "iconImage": "/assets/project-icons/main-page.png",
+      "description": "A responsive Mac OS X Aqua-style personal homepage with draggable desktop windows, mobile navigation, bilingual content, Markdown-powered blog publishing, and direct deployment to a personal server.",
       "year": "HTML",
       "link": "https://github.com/Abelliuxl/main-page",
       "linkLabel": "View on GitHub"
@@ -267,7 +265,7 @@
     {
       "title": "BlizzQuestFrameSkin",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "description": "A standalone World of Warcraft skin that gives Blizzard quest, gossip, quest-log detail, world-map quest, and objective-tracker frames a consistent dark translucent appearance without depending on a larger UI framework.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/BlizzQuestFrameSkin",
       "linkLabel": "View on GitHub"
@@ -275,7 +273,7 @@
     {
       "title": "BlizzDamageMeterSkin",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "description": "A lightweight standalone skin for Blizzard's native damage meter that changes only its visible textures and styling while leaving the protected combat-data logic untouched.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/BlizzDamageMeterSkin",
       "linkLabel": "View on GitHub"
@@ -283,7 +281,8 @@
     {
       "title": "ez-translate-lite (fork)",
       "icon": "↪",
-      "description": "JavaScript project on GitHub.",
+      "iconImage": "/assets/project-icons/ez-translate-lite.png",
+      "description": "A streamlined browser translation extension powered by configurable LLM providers, with hover and popup translation, draggable results, direct copying, automatic language detection, and custom OpenAI- or Anthropic-compatible endpoints.",
       "year": "JavaScript",
       "link": "https://github.com/Abelliuxl/ez-translate-lite",
       "linkLabel": "View on GitHub"
@@ -299,7 +298,7 @@
     {
       "title": "weauto-bridge",
       "icon": "⌘",
-      "description": "Python project on GitHub.",
+      "description": "A macOS GUI-only WeChat automation bridge that uses screenshots and OCR to detect conversations, forwards events to Hermes or OpenClaw, and executes structured actions without hooks, process injection, or database access.",
       "year": "Python",
       "link": "https://github.com/Abelliuxl/weauto-bridge",
       "linkLabel": "View on GitHub"
@@ -307,7 +306,8 @@
     {
       "title": "raidbots-cn-extension",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "iconImage": "/assets/project-icons/raidbots-cn-extension.png",
+      "description": "A Chrome and Edge extension for Chinese Raidbots users that translates equipment, enchants, gems, consumables, buffs, and interface labels while adding Chinese item search assistance to Top Gear.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/raidbots-cn-extension",
       "linkLabel": "View on GitHub"
@@ -315,7 +315,8 @@
     {
       "title": "CraftSim (fork)",
       "icon": "↪",
-      "description": "GitHub project on GitHub.",
+      "iconImage": "/assets/project-icons/craftsim.png",
+      "description": "A fork of the CraftSim World of Warcraft profession addon, providing crafting-cost and average-profit calculations, reagent optimization, simulation, craft queues, pricing tools, cooldown tracking, and other gold-making utilities.",
       "year": "GitHub",
       "link": "https://github.com/Abelliuxl/CraftSim",
       "linkLabel": "View on GitHub"
@@ -323,7 +324,7 @@
     {
       "title": "ClayToolBox",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "description": "A World of Warcraft custom macro toolbox with a movable launcher, its own SavedVariables-backed macro library, an icon picker and editor, and secure buttons for running macros without consuming Blizzard's normal macro slots.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/ClayToolBox",
       "linkLabel": "View on GitHub"
@@ -331,6 +332,7 @@
     {
       "title": "HideDesktopIcon",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/hide-desktop-icon.png",
       "description": "A lightweight macOS tool to hide/show desktop icons with one click, featuring status bar integration, multi-language support, and auto-launch on startup.",
       "year": "Swift",
       "link": "https://github.com/Abelliuxl/HideDesktopIcon",
@@ -339,7 +341,8 @@
     {
       "title": "ScriptRunner",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "iconImage": "/assets/project-icons/script-runner.png",
+      "description": "An in-game World of Warcraft Lua script manager with a built-in editor, persistent script library, syntax validation, import tools, execution statistics, and manual, automatic, or delayed run modes.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/ScriptRunner",
       "linkLabel": "View on GitHub"
@@ -355,6 +358,7 @@
     {
       "title": "TUNTray",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/tuntray.png",
       "description": "🛠️ A lightweight Windows tray GUI for xjasonlyu/tun2socks — start, stop, and switch proxy servers with ease",
       "year": "Go",
       "link": "https://github.com/Abelliuxl/TUNTray",
@@ -363,7 +367,7 @@
     {
       "title": "bilibili-web-client",
       "icon": "⌘",
-      "description": "Kotlin project on GitHub.",
+      "description": "An Android TV WebView client for Bilibili that presents the desktop website with persistent login, fullscreen HTML5 playback, remote-control navigation, adjustable zoom, and optional JavaScript/CSS enhancements.",
       "year": "Kotlin",
       "link": "https://github.com/Abelliuxl/bilibili-web-client",
       "linkLabel": "View on GitHub"
@@ -371,7 +375,8 @@
     {
       "title": "fps2x",
       "icon": "⌘",
-      "description": "Go project on GitHub.",
+      "iconImage": "/assets/project-icons/fps2x.png",
+      "description": "A lightweight cross-platform video frame-rate multiplier built with Go and Fyne, using FFmpeg and RIFE-NCNN-Vulkan to interpolate frames and turn footage such as 30 fps video into 60 fps output.",
       "year": "Go",
       "link": "https://github.com/Abelliuxl/fps2x",
       "linkLabel": "View on GitHub"
@@ -379,7 +384,8 @@
     {
       "title": "chatbutte",
       "icon": "⌘",
-      "description": "JavaScript project on GitHub.",
+      "iconImage": "/assets/project-icons/chatbutte.png",
+      "description": "A pure-frontend LLM chat workstation with multiple OpenAI-compatible model profiles, independent subtopics and system prompts, streaming Markdown responses, bilingual UI, and local import/export of browser-stored data.",
       "year": "JavaScript",
       "link": "https://github.com/Abelliuxl/chatbutte",
       "linkLabel": "View on GitHub"
@@ -387,6 +393,7 @@
     {
       "title": "StringVault",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/stringvault.png",
       "description": "StringVault - Secure string storage system with admin authentication, session security, and data backup capabilities.",
       "year": "Python",
       "link": "https://github.com/Abelliuxl/StringVault",
@@ -395,6 +402,7 @@
     {
       "title": "Mythic_Performance_Tracker",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/mythic-performance-tracker.png",
       "description": "Mythic Performance Tracker: A  Python tool that crawls Mythic+ dungeon performance data from Warcraft Logs and generates interactive HTML visualization reports with analytics.",
       "year": "Python",
       "link": "https://github.com/Abelliuxl/Mythic_Performance_Tracker",
@@ -419,7 +427,7 @@
     {
       "title": "Abelliuxl",
       "icon": "⌘",
-      "description": "GitHub project on GitHub.",
+      "description": "The GitHub profile repository for Abel Liu, introducing his hospital and orthopedic background, biomedical machine-learning interests, gaming interests, and work with software tools, automation, and data pipelines.",
       "year": "GitHub",
       "link": "https://github.com/Abelliuxl/Abelliuxl",
       "linkLabel": "View on GitHub"
@@ -427,6 +435,7 @@
     {
       "title": "clash-for-linux-backup (fork)",
       "icon": "↪",
+      "iconImage": "/assets/project-icons/clash-for-linux.png",
       "description": "Linux最完整的Clash for Linux的备份仓库，完全可以使用！由Yizuko进行修复及维护",
       "year": "GitHub",
       "link": "https://github.com/Abelliuxl/clash-for-linux-backup",
@@ -443,6 +452,7 @@
     {
       "title": "NodeTea",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/nodetea.png",
       "description": "A real-time chat and file management web application built with Node.js, HTML, CSS, and JavaScript",
       "year": "JavaScript",
       "link": "https://github.com/Abelliuxl/NodeTea",
@@ -459,6 +469,7 @@
     {
       "title": "CopyEnglishName",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/copy-english-name.png",
       "description": "A simple World of Warcraft addon to copy the English names of items, spells, quests, etc. Ideal for players on non-English clients who need to search for information on sites like Wowhead.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/CopyEnglishName",
@@ -467,6 +478,7 @@
     {
       "title": "CurseZip",
       "icon": "⌘",
+      "iconImage": "/assets/project-icons/cursezip.png",
       "description": "CurseZip is a Go-based command-line tool designed to package game mod files into .zip or .tar.gz archives, with flexible exclusion rules for unwanted files and directories.",
       "year": "Go",
       "link": "https://github.com/Abelliuxl/CurseZip",
@@ -475,7 +487,8 @@
     {
       "title": "CopyEnglishName_Data",
       "icon": "⌘",
-      "description": "Lua project on GitHub.",
+      "iconImage": "/assets/project-icons/copy-english-name.png",
+      "description": "The load-on-demand data companion for the CopyEnglishName World of Warcraft addon, containing chunked Chinese-English item-name tables and lookup logic for item IDs, links, and Chinese names.",
       "year": "Lua",
       "link": "https://github.com/Abelliuxl/CopyEnglishName_Data",
       "linkLabel": "View on GitHub"
@@ -483,7 +496,7 @@
     {
       "title": "Abelliuxl.github.io",
       "icon": "⌘",
-      "description": "HTML project on GitHub.",
+      "description": "A GitHub Pages repository used to publish a generated SimulationCraft report, preserving detailed World of Warcraft simulation results, charts, player statistics, and the exact simulation configuration in a static page.",
       "year": "HTML",
       "link": "https://github.com/Abelliuxl/Abelliuxl.github.io",
       "linkLabel": "View on GitHub"
@@ -491,10 +504,200 @@
     {
       "title": "ChineseWoWClassSpecAbbreviations",
       "icon": "⌘",
-      "description": "GitHub project on GitHub.",
+      "description": "A structured reference of Chinese World of Warcraft class and specialization nicknames and abbreviations, covering the shorthand commonly used in group listings, discussions, and strategy notes.",
       "year": "GitHub",
       "link": "https://github.com/Abelliuxl/ChineseWoWClassSpecAbbreviations",
       "linkLabel": "View on GitHub"
     }
-  ]
+  ],
+  "i18n": {
+    "zh": {
+      "site": {
+        "menuItems": [
+          "文件",
+          "编辑",
+          "显示",
+          "特别",
+          ""
+        ]
+      },
+      "profile": {
+        "bio": "持证医生，非持证 AI 治疗师。我围绕医学、游戏、自动化和 AI 构建小而实用的工具。",
+        "background": "这是我的 Macintosh 风格个人工作台，平时用来放作品、常用工具和一些折腾记录。这里的东西大多源于日常遇到的具体问题：先想办法把问题解决，再尽量做得简单、好懂，也方便以后自己维护。",
+        "skills": [
+          "ChatGPT",
+          "Codex",
+          "描述需求",
+          "检查结果",
+          "测试想法",
+          "和 AI 一起做东西"
+        ]
+      },
+      "desktopLabels": {
+        "about": "关于",
+        "projects": "应用",
+        "writing": "项目",
+        "blog": "博客",
+        "notes": "随记",
+        "contact": "联系",
+        "links": "链接"
+      },
+      "ui": {
+        "about": "关于我",
+        "skills": "技能",
+        "background": "背景",
+        "apps": "应用",
+        "projects": "项目",
+        "blog": "博客",
+        "notes": "随记",
+        "contact": "联系",
+        "links": "链接",
+        "contactIntro": "欢迎联系我，我很乐意认识新朋友。",
+        "postToX": "发布到 X",
+        "shareToX": "分享到 X",
+        "sendMessage": "发送消息",
+        "yourName": "你的名字",
+        "yourEmail": "你的邮箱",
+        "yourMessage": "消息内容",
+        "openingArticle": "正在打开文章",
+        "blogArticle": "博客文章",
+        "preparingDocument": "正在准备文档..."
+      },
+      "apps": {
+        "Chatbutte": {
+          "description": "部署在 server94 上的独立 Web 服务。",
+          "year": "在线"
+        },
+        "WOW Pal Data": {
+          "description": "作为独立 Web 服务部署的魔兽世界数据页面。",
+          "year": "在线"
+        }
+      },
+      "blogPosts": {
+        "/blog/sideclick-cgevent-control-arrow.html": {
+          "title": "当 Ctrl+方向键就是不肯切换桌面",
+          "excerpt": "一篇关于 SideClick、CGEvent、Hammerspoon，以及 macOS Mission Control 最终为何只接受特定私有事件源序列的调试记录。"
+        }
+      },
+      "notes": {
+        "current-focus": {
+          "content": "正在构建实用的 AI 和自动化工具：先真正有用，再考虑看起来是否厉害。"
+        },
+        "public-work": {
+          "content": "我的公开项目大多分布在魔兽世界插件、本地自动化、小型 Web 应用，以及能够运行在个人服务器上的工具之间。"
+        },
+        "rules": {
+          "content": "让工具解决一个真实问题。让部署简单到不需要查说明。可读的系统优先于聪明的系统。"
+        }
+      },
+      "links": {
+        "Hosted Apps": {
+          "title": "在线应用",
+          "items": {}
+        },
+        "Code": {
+          "title": "代码",
+          "items": {
+            "GitHub Profile": "GitHub 主页"
+          }
+        },
+        "Social": {
+          "title": "社交",
+          "items": {}
+        }
+      },
+      "githubProjects": {
+        "main-page": {
+          "description": "一个响应式 Mac OS X Aqua 风格个人主页，桌面端有可拖动窗口，移动端有分页导航，并支持中英双语、Markdown 博客生成和一键部署到个人服务器。"
+        },
+        "BlizzQuestFrameSkin": {
+          "description": "独立的魔兽世界原生任务界面皮肤，为任务、对话、任务日志详情、世界地图任务和目标追踪器统一添加深色半透明外观，不依赖大型 UI 框架。"
+        },
+        "BlizzDamageMeterSkin": {
+          "description": "轻量独立的暴雪原生伤害统计皮肤，只调整窗口可见纹理和样式，不接管或修改受保护的战斗数据逻辑。"
+        },
+        "ez-translate-lite (fork)": {
+          "description": "精简版浏览器翻译扩展，通过可配置的大模型服务提供划词和弹窗翻译，支持拖动结果、直接复制、自动识别语言，以及自定义 OpenAI 或 Anthropic 兼容接口。"
+        },
+        "weauto": {
+          "description": "运行在 macOS 上的微信纯 OCR 机器人服务。"
+        },
+        "weauto-bridge": {
+          "description": "仅通过 macOS 图形界面操作微信的自动化桥接层，使用截图和 OCR 识别会话，将事件转发给 Hermes 或 OpenClaw 并执行结构化动作，不使用 Hook、进程注入或微信数据库。"
+        },
+        "raidbots-cn-extension": {
+          "description": "面向中文 Raidbots 用户的 Chrome/Edge 扩展，可翻译装备、附魔、宝石、消耗品、团队增益和界面标签，并为 Top Gear 增加中文物品搜索辅助。"
+        },
+        "CraftSim (fork)": {
+          "description": "CraftSim 魔兽世界专业制造插件的分支版本，提供制造成本与平均利润计算、材料优化、模拟制造、制作队列、价格工具、冷却追踪等赚金币辅助功能。"
+        },
+        "ClayToolBox": {
+          "description": "魔兽世界自定义宏工具箱，包含可移动入口、独立保存的宏列表、图标选择器和编辑器，并通过安全按钮执行宏，不占用暴雪自带宏栏位。"
+        },
+        "HideDesktopIcon": {
+          "description": "一款轻量级 macOS 工具，可一键隐藏或显示桌面图标，支持菜单栏、多语言和开机启动。"
+        },
+        "ScriptRunner": {
+          "description": "魔兽世界游戏内 Lua 脚本管理器，带代码编辑器、持久化脚本库、语法检查、导入和执行统计，并支持手动、加载后自动及延迟执行。"
+        },
+        "LCG_for_CopyEnglishName": {
+          "description": "处理 wow_tools 数据，并生成与 CopyEnglishName 项目兼容的 Lua 数据分块。"
+        },
+        "TUNTray": {
+          "description": "面向 xjasonlyu/tun2socks 的轻量 Windows 托盘界面，可方便地启动、停止和切换代理服务器。"
+        },
+        "bilibili-web-client": {
+          "description": "面向 Android TV 的 Bilibili WebView 客户端，以桌面网页模式提供登录状态保留、HTML5 全屏播放、遥控器导航、页面缩放和可选的 JavaScript/CSS 增强。"
+        },
+        "fps2x": {
+          "description": "使用 Go 和 Fyne 编写的轻量跨平台视频插帧工具，通过 FFmpeg 与 RIFE-NCNN-Vulkan 生成中间帧，可将 30 fps 等视频提升为 60 fps。"
+        },
+        "chatbutte": {
+          "description": "纯前端大模型聊天工作台，支持多个 OpenAI 兼容模型配置、独立子话题与系统提示词、流式 Markdown 回复、中英双语界面，以及浏览器本地数据的导入导出。"
+        },
+        "StringVault": {
+          "description": "安全字符串存储系统，包含管理员认证、会话安全和数据备份功能。"
+        },
+        "Mythic_Performance_Tracker": {
+          "description": "从 Warcraft Logs 抓取史诗钥石地下城表现数据，并生成交互式分析报告的 Python 工具。"
+        },
+        "TaimeiBot": {
+          "description": "基于 khl.py 的专业魔兽世界 KOOK 机器人，支持天赋查询、AI 对话、自动翻译、语音和进程管理，可长期稳定运行。"
+        },
+        "raider_data": {
+          "description": "从 raider.io 提取魔兽世界前五名玩家排行数据，并可继续通过 API 获取天赋等详细信息的 Python 脚本。"
+        },
+        "Abelliuxl": {
+          "description": "Abel Liu 的 GitHub 个人资料仓库，介绍其医院与骨科背景、生物医学机器学习方向、游戏兴趣，以及软件工具、自动化和数据流程方面的实践。"
+        },
+        "clash-for-linux-backup (fork)": {
+          "description": "可直接使用的 Clash for Linux 完整备份仓库，由 Yizuko 修复和维护。"
+        },
+        "AI-Image-Renamer": {
+          "description": "使用 AI 自动生成描述性文件名的智能图片重命名工具，支持重复检测、批处理、GPU 加速和 CSV 日志，基于 PyTorch 与 Salesforce BLIP。"
+        },
+        "NodeTea": {
+          "description": "使用 Node.js、HTML、CSS 和 JavaScript 构建的实时聊天与文件管理 Web 应用。"
+        },
+        "TalentBGReplacer": {
+          "description": "允许玩家自定义天赋背景图片的魔兽世界插件。"
+        },
+        "CopyEnglishName": {
+          "description": "用于复制物品、法术、任务等英文名称的魔兽世界插件，方便非英文客户端玩家在 Wowhead 等网站搜索资料。"
+        },
+        "CurseZip": {
+          "description": "基于 Go 的命令行打包工具，可将游戏模组打包为 .zip 或 .tar.gz，并支持灵活的文件和目录排除规则。"
+        },
+        "CopyEnglishName_Data": {
+          "description": "CopyEnglishName 魔兽世界插件的按需加载数据组件，保存分块的中英文物品名称表，并提供按物品 ID、物品链接和中文名称查询英文名的逻辑。"
+        },
+        "Abelliuxl.github.io": {
+          "description": "用于发布 SimulationCraft 生成报告的 GitHub Pages 仓库，以静态页面保留魔兽世界模拟结果、图表、角色统计和完整模拟配置。"
+        },
+        "ChineseWoWClassSpecAbbreviations": {
+          "description": "整理魔兽世界各职业与专精常用中文别称和缩写的结构化参考数据，可用于组队列表、玩家交流和攻略文本中的简称识别。"
+        }
+      }
+    }
+  }
 }
