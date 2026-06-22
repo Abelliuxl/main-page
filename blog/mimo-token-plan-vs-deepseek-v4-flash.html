@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is MiMo&#39;s Token Plan Cheaper Than DeepSeek V4 Flash? - Abelliuxl Macintosh</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-10: #f8f8f8;
+            --color-gray-15: #eeeeee;
+            --color-gray-25: #d9d9d9;
+            --color-gray-35: #c8c8c8;
+            --color-gray-50: #929292;
+            --color-gray-75: #4f4f4f;
+            --color-aqua-blue: #2f83f7;
+            --color-aqua-blue-dark: #0751c9;
+            --color-aqua-blue-light: #b9ddff;
+            --color-aqua-window: #f7f7f7;
+            --color-aqua-desktop: #8aa9d6;
+            --color-link: #003fbd;
+            --font-family-system: "Lucida Grande", "Geneva", "Helvetica", Arial, sans-serif;
+            --font-family-mono: "Monaco", "Courier New", monospace;
+            --font-size-xs: 9px;
+            --font-size-sm: 10px;
+            --font-size-md: 12px;
+            --font-size-lg: 14px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --menubar-height: 24px;
+            --border-width-thick: 3px;
+            --border-width-thin: 2px;
+            --border-width-hairline: 1px;
+            --shadow-hard-lg: 0 14px 28px rgba(0, 0, 0, 0.32);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            line-height: var(--line-height-normal);
+            background: var(--color-aqua-desktop);
+            color: var(--color-black);
+        }
+
+        body {
+            background-image:
+                linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0) 34%),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.24),
+                    rgba(255,255,255,0.24) 1px,
+                    rgba(94, 122, 166, 0.18) 1px,
+                    rgba(94, 122, 166, 0.18) 3px
+                );
+            padding-top: var(--menubar-height);
+        }
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--menubar-height);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-3);
+            z-index: 1000;
+            box-shadow:
+                inset 0 1px 0 var(--color-white),
+                0 1px 3px rgba(0, 0, 0, 0.28);
+        }
+
+        .menu-bar .logo {
+            font-weight: bold;
+            font-size: var(--font-size-sm);
+            padding-right: var(--spacing-4);
+            color: #1d2b45;
+            text-shadow: 0 1px 0 var(--color-white);
+            text-decoration: none;
+        }
+
+        .menu-bar .logo:hover {
+            color: #1d2b45;
+            background: none;
+        }
+
+        .menu-bar .menu-items {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-left: var(--spacing-4);
+        }
+
+        .menu-bar .menu-item,
+        .menu-bar .clock {
+            font-size: var(--font-size-sm);
+        }
+
+        .menu-bar .menu-item {
+            padding: 2px var(--spacing-2);
+            border-radius: 10px;
+            color: #182235;
+        }
+
+        .menu-bar .menu-item:hover {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+        }
+
+        .menu-bar .clock {
+            margin-left: auto;
+            font-family: var(--font-family-mono);
+        }
+
+        main {
+            width: min(880px, calc(100vw - 32px));
+            margin: var(--spacing-8) auto;
+        }
+
+        .window {
+            position: relative;
+            background: var(--color-aqua-window);
+            border: var(--border-width-hairline) solid rgba(43, 66, 102, 0.88);
+            box-shadow: var(--shadow-hard-lg);
+            padding: 0;
+            border-radius: 8px 8px 5px 5px;
+            overflow: hidden;
+        }
+
+        .window::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            pointer-events: none;
+            border-radius: 7px 7px 4px 4px;
+            border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.92);
+            border-left: var(--border-width-hairline) solid rgba(255, 255, 255, 0.72);
+            border-right: var(--border-width-hairline) solid rgba(0, 0, 0, 0.18);
+            border-bottom: var(--border-width-hairline) solid rgba(0, 0, 0, 0.26);
+        }
+
+        .window-titlebar {
+            height: 24px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: var(--color-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            text-shadow: 0 1px 0 var(--color-white);
+            position: relative;
+        }
+
+        .window-titlebar .controls {
+            position: absolute;
+            left: var(--spacing-2);
+            display: flex;
+            gap: var(--spacing-2);
+        }
+
+        .window-close-btn,
+        .window-titlebar .controls::before,
+        .window-titlebar .controls::after {
+            content: '';
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 1px 1px rgba(255,255,255,0.85),
+                0 1px 2px rgba(0,0,0,0.42);
+        }
+
+        .window-close-btn {
+            display: block;
+            border: var(--border-width-hairline) solid rgba(102, 31, 27, 0.95);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #ffad9f 20%, #ff5a43 48%, #bb1e12 100%);
+            order: 0;
+        }
+
+        .window-titlebar .controls::before {
+            border: var(--border-width-hairline) solid rgba(123, 82, 6, 0.88);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #ffe8a1 20%, #ffc446 48%, #d18505 100%);
+            order: 1;
+        }
+
+        .window-titlebar .controls::after {
+            border: var(--border-width-hairline) solid rgba(29, 92, 27, 0.88);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #bff5aa 20%, #59d748 48%, #159616 100%);
+            order: 2;
+        }
+
+        .window-titlebar span {
+            background: transparent;
+            border: 0;
+            line-height: 24px;
+            padding: 0 var(--spacing-3);
+        }
+
+        .window-content {
+            padding: var(--spacing-6);
+            background-color: var(--color-white);
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.92),
+                    rgba(255,255,255,0.92) 1px,
+                    rgba(232, 236, 242, 0.72) 1px,
+                    rgba(232, 236, 242, 0.72) 3px
+                );
+            border-top: var(--border-width-hairline) solid rgba(0, 0, 0, 0.22);
+        }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: var(--font-size-2xl);
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+            border-bottom: var(--border-width-thin) solid rgba(41, 91, 157, 0.72);
+            padding-bottom: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+            color: #10284f;
+            text-shadow: 0 1px 0 var(--color-white);
+        }
+
+        h2 {
+            font-size: var(--font-size-xl);
+            margin: var(--spacing-6) 0 var(--spacing-2);
+        }
+
+        h3 {
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-4) 0 var(--spacing-2);
+        }
+
+        p {
+            margin-bottom: var(--spacing-3);
+            line-height: var(--line-height-relaxed);
+        }
+
+        ul,
+        ol {
+            margin: 0 0 var(--spacing-3) var(--spacing-6);
+            line-height: var(--line-height-relaxed);
+        }
+
+        li {
+            margin-bottom: var(--spacing-2);
+        }
+
+        a {
+            color: var(--color-link);
+            text-decoration: underline;
+        }
+
+        a:hover {
+            background: var(--color-aqua-blue-dark);
+            color: var(--color-white);
+        }
+
+        .meta,
+        .back-link {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-4);
+            color: var(--color-link);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .article-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .x-action {
+            display: inline-block;
+            border: var(--border-width-hairline) solid rgba(0, 66, 155, 0.88);
+            background:
+                linear-gradient(180deg, #ffffff 0%, #cdeaff 18%, #61afff 48%, #0a63d7 52%, #5eb0ff 100%);
+            color: var(--color-white);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: 14px;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-xs);
+            text-decoration: none;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.34);
+            box-shadow:
+                inset 0 1px 1px rgba(255,255,255,0.88),
+                0 1px 3px rgba(0,0,0,0.24);
+        }
+
+        .x-action:hover {
+            filter: brightness(1.08);
+            color: var(--color-white);
+            background:
+                linear-gradient(180deg, #ffffff 0%, #cdeaff 18%, #61afff 48%, #0a63d7 52%, #5eb0ff 100%);
+        }
+
+        .tag {
+            border: var(--border-width-hairline) solid rgba(36, 78, 142, 0.72);
+            padding: 0 var(--spacing-1);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            background: #e7f1ff;
+            border-radius: 7px;
+        }
+
+        code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            background: rgba(255, 255, 255, 0.78);
+            padding: 0 var(--spacing-1);
+            border-radius: 3px;
+        }
+
+        pre {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.46);
+            background: rgba(255, 255, 255, 0.78);
+            border-radius: 8px;
+            padding: var(--spacing-3);
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: var(--border-width-thin) solid rgba(41, 91, 157, 0.72);
+            padding-left: var(--spacing-3);
+            margin: var(--spacing-4) 0;
+            color: var(--color-black);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            font-size: var(--font-size-md);
+            line-height: 1.5;
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        th, td {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.3);
+            padding: 6px 10px;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .article-chart {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.46);
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 8px;
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0 var(--spacing-5);
+        }
+
+        .chart-title {
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            margin-bottom: var(--spacing-3);
+            color: #10284f;
+        }
+
+        .chart-rows {
+            display: grid;
+            gap: var(--spacing-3);
+        }
+
+        .chart-row-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-1);
+        }
+
+        .chart-label {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .chart-value {
+            flex: 0 0 auto;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+        }
+
+        .chart-track {
+            height: 14px;
+            background: var(--color-gray-15);
+            border: var(--border-width-hairline) solid var(--color-gray-35);
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            display: block;
+            min-width: 2px;
+            height: 100%;
+        }
+
+        .chart-bar-blue {
+            background: var(--color-aqua-blue);
+        }
+
+        .chart-bar-slate {
+            background: #6687b5;
+        }
+
+        .chart-bar-orange {
+            background: #d8812c;
+        }
+
+        .chart-bar-red {
+            background: #c8423a;
+        }
+
+        .chart-bar-green {
+            background: #3a9b46;
+        }
+
+        .language-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            margin-left: auto;
+            margin-right: var(--spacing-3);
+        }
+
+        .language-button {
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-xs);
+            line-height: 1;
+            padding: 2px var(--spacing-1);
+            border: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: #182235;
+            cursor: pointer;
+            text-shadow: 0 1px 0 var(--color-white);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .language-button:hover {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+        }
+
+        .language-button.active {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+            cursor: default;
+        }
+
+        .menu-bar .clock {
+            margin-left: 0;
+        }
+
+        .article-chart figcaption {
+            margin-top: var(--spacing-3);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+            line-height: var(--line-height-normal);
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --font-size-xs: 10px;
+                --font-size-sm: 12px;
+                --font-size-md: 14px;
+                --font-size-lg: 16px;
+                --font-size-xl: 21px;
+                --font-size-2xl: 28px;
+
+                --spacing-1: 5px;
+                --spacing-2: 10px;
+                --spacing-3: 14px;
+                --spacing-4: 18px;
+                --spacing-5: 23px;
+                --spacing-6: 28px;
+                --spacing-8: 36px;
+                --menubar-height: 28px;
+            }
+
+            main {
+                width: min(1020px, calc(100vw - 36px));
+                margin: var(--spacing-8) auto;
+            }
+
+            .window-titlebar {
+                height: 28px;
+            }
+
+            .window-titlebar span {
+                line-height: 28px;
+            }
+
+            .window-close-btn,
+            .window-titlebar .controls::before,
+            .window-titlebar .controls::after {
+                width: 15px;
+                height: 15px;
+            }
+
+            article {
+                max-width: 840px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .menu-bar .menu-items {
+                display: none;
+            }
+
+            main {
+                width: calc(100vw - 16px);
+                margin: var(--spacing-4) auto;
+            }
+
+            .window-content {
+                padding: var(--spacing-4);
+            }
+
+            h1 {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body data-title-en="Is MiMo&#39;s Token Plan Cheaper Than DeepSeek V4 Flash? - Abelliuxl Macintosh" data-title-zh="39 元的 MiMo Token Plan，真的比 DeepSeek V4 Flash 划算吗？ - Abelliuxl Macintosh">
+    <div class="menu-bar">
+        <a class="logo" href="/">Abelliuxl</a>
+        <div class="menu-items">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Special</div>
+            <div class="menu-item">Blog</div>
+        </div>
+        <div class="language-switcher" role="group" aria-label="Language">
+            <button class="language-button" type="button" data-language="en" onclick="setArticleLanguage('en')">EN</button>
+            <button class="language-button" type="button" data-language="zh" onclick="setArticleLanguage('zh')">中文</button>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <main>
+        <div class="window">
+            <div class="window-titlebar">
+                <div class="controls"><a class="window-close-btn" href="/" aria-label="Close article and return to desktop"></a></div>
+                <span>Blog Article</span>
+            </div>
+            <div class="window-content">
+                <article>
+                    <h1 data-lang="en">Is MiMo&#39;s Token Plan Cheaper Than DeepSeek V4 Flash?</h1>
+                    <h1 data-lang="zh" hidden>39 元的 MiMo Token Plan，真的比 DeepSeek V4 Flash 划算吗？</h1>
+                    <p class="meta">2026-06-09 · AI / MiMo / DeepSeek / API / Token Plan</p>
+                    <div class="tags">
+                        <span class="tag">AI</span>
+                        <span class="tag">MiMo</span>
+                        <span class="tag">DeepSeek</span>
+                        <span class="tag">API</span>
+                        <span class="tag">Token Plan</span>
+                    </div>
+                    <div class="article-actions">
+                        <a class="x-action" id="article-x-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
+                            <span data-lang="en">Share to X</span>
+                            <span data-lang="zh" hidden>分享到 X</span>
+                        </a>
+                    </div>
+                    <div data-lang="en"><p>I&#39;ve been paying for DeepSeek V4 Flash by the token — actual usage, no commitment. When I saw MiMo V2.5&#39;s Token Plan, with the Lite tier at just ¥39/month, my first thought was: if the model is good enough, could I lock my entire monthly AI spend to the price of a coffee?</p>
+
+<p>But the plan page shows <code>4.1B Credits</code>, and Credits aren&#39;t tokens. So I exported my DeepSeek June bill, picked June 8 — my busiest day — as a stress test, and recalculated everything using the cache hit rate I&#39;d observed when I first tried MiMo.</p>
+
+<p>The result didn&#39;t match the &quot;¥39 all-you-can-eat&quot; intuition.</p>
+
+<h2>Bottom Line</h2>
+
+<p>Running my June 8 peak usage every day for 30 days straight:</p>
+
+<ul>
+<li>At DeepSeek&#39;s June 8 cache hit rate of <code>95.19%</code>, pay-as-you-go costs about <code>¥74.44/month</code>.</li>
+<li>At MiMo&#39;s trial-period cache hit rate of <code>90.86%</code>, pay-as-you-go costs about <code>¥115.06/month</code>.</li>
+<li>The same MiMo usage would consume roughly <code>11.51B Credits</code>, overshooting the Standard plan&#39;s <code>11B</code> cap.</li>
+<li>Without the night discount, you&#39;d need the ¥329 Pro plan to cover it all — clearly worse than pay-as-you-go.</li>
+</ul>
+
+<p>So for my current usage pattern, sticking with DeepSeek V4 Flash pay-as-you-go makes more sense.</p>
+
+<p>One important caveat: MiMo charges only 0.8× Credits during Beijing time 0:00–8:00. If roughly <code>22%</code> or more of your usage consistently falls in that window, the Standard plan might actually fit, and ¥99 would beat the ¥115 pay-as-you-go estimate.</p>
+
+<figure class="article-chart">
+    <div class="chart-title">Monthly Cost at Peak Usage for 30 Consecutive Days</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Flash (Pay-as-you-go)</span>
+        <span class="chart-value">74.44 CNY/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 62.03%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo Standard Plan</span>
+        <span class="chart-value">99.00 CNY/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 82.50%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo V2.5 (Pay-as-you-go)</span>
+        <span class="chart-value">115.06 CNY/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 95.88%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Standard&#39;s ¥99 is shown for reference only; under normal hours, the estimated 11.51B Credits slightly exceeds its 11B cap.</figcaption>
+</figure>
+
+<h2>Which Day I Picked</h2>
+
+<p>The exported DeepSeek bill covers June 1–9. Ranked by total input and output tokens, June 8 was the highest:</p>
+
+<pre><code>Cache-hit input:     30,398,592
+Cache-miss input:     1,536,892
+Output:                 168,200
+Total:               32,103,684 tokens
+Requests:                  528</code></pre>
+
+<p>Total input was <code>31,935,484 tokens</code>, giving a cache hit rate of:</p>
+
+<pre><code>30,398,592 / 31,935,484 = 95.19%</code></pre>
+
+<p>The actual bill for that day was ¥2.78 — ¥2.30 for DeepSeek V4 Flash and ¥0.48 for a handful of V4 Pro calls.</p>
+
+<p>The calculations below don&#39;t simply multiply ¥2.78 by 30. Instead, they assume all work migrates to a single model tier and recalculate using Flash or MiMo V2.5 unit prices. This compares the same token volume under two billing schemes, without mixing in V4 Pro pricing.</p>
+
+<h2>Unit Prices: Head to Head</h2>
+
+<p>As of June 9, 2026, MiMo V2.5 domestic pay-as-you-go rates are:</p>
+
+<ul>
+<li>Cache-hit input: <code>¥0.02 / million tokens</code></li>
+<li>Cache-miss input: <code>¥1 / million tokens</code></li>
+<li>Output: <code>¥2 / million tokens</code></li>
+</ul>
+
+<p>My DeepSeek bill export shows V4 Flash charged at the same three tiers in RMB. DeepSeek&#39;s public docs list USD prices: cache-hit <code>$0.0028</code>, miss <code>$0.14</code>, output <code>$0.28</code>, all per million tokens. The two pricing schemes align within their respective domestic and international billing frameworks.</p>
+
+<p>So when comparing pay-as-you-go rates, the real variable isn&#39;t the model name — it&#39;s the cache hit rate.</p>
+
+<h2>Why 4 Percentage Points Make Such a Big Difference</h2>
+
+<p>When I first started using MiMo, the dashboard showed:</p>
+
+<pre><code>Cache-hit input:   7,347,776
+Cache-miss input:     739,068
+Output:                57,347
+Cache hit rate:       90.86%</code></pre>
+
+<p>If I keep the same daily input volume as June 8 but swap DeepSeek&#39;s <code>95.19%</code> hit rate for MiMo&#39;s <code>90.86%</code>, projecting over 30 days gives:</p>
+
+<pre><code>Cache-hit input:   870,505,662
+Cache-miss input:    87,558,858
+Output:              5,046,000</code></pre>
+
+<p>The corresponding MiMo pay-as-you-go cost:</p>
+
+<pre><code>Cache hit:   870.51M × ¥0.02 =  ¥17.41
+Cache miss:   87.56M × ¥1.00 =  ¥87.56
+Output:        5.05M × ¥2.00 =  ¥10.09
+Total:                       = ¥115.06</code></pre>
+
+<p>The hit rate dropped just 4.33 percentage points, yet monthly cost jumped from ¥74.44 to ¥115.06. The reason is simple: a single cache-miss input token costs 50× more than a cache-hit token.</p>
+
+<h2>Token Plan Isn&#39;t 4.1B tokens</h2>
+
+<p>MiMo Token Plan deducts a Credits-based quota. For <code>mimo-v2.5</code>:</p>
+
+<ul>
+<li>Each cache-hit input token consumes <code>2 Credits</code></li>
+<li>Each cache-miss input token consumes <code>100 Credits</code></li>
+<li>Each output token consumes <code>200 Credits</code></li>
+</ul>
+
+<p>So <code>4.1B Credits</code> absolutely does not mean <code>4.1 billion tokens</code>. The same token type — whether cache-hit, cache-miss, or output — can burn 2, 100, or 200 Credits respectively.</p>
+
+<p>Converting the monthly MiMo usage above into Credits:</p>
+
+<pre><code>Cache hit:    870,505,662 × 2   = 1.741B
+Cache miss:    87,558,858 × 100 = 8.756B
+Output:         5,046,000 × 200 = 1.009B
+Total:                          = 11.506B Credits</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">How 11.506B Credits Get Consumed</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Cache-hit input</span>
+        <span class="chart-value">1.741 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 19.34%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Cache-miss input</span>
+        <span class="chart-value">8.756 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 97.29%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Output</span>
+        <span class="chart-value">1.009 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 11.21%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Cache misses are only ~9.14% of input tokens but consume ~76% of Credits.</figcaption>
+</figure>
+
+<p>The four monthly tiers are:</p>
+
+<ul>
+<li>Lite: ¥39, <code>4.1B Credits</code></li>
+<li>Standard: ¥99, <code>11B Credits</code></li>
+<li>Pro: ¥329, <code>38B Credits</code></li>
+<li>Max: ¥659, <code>82B Credits</code></li>
+</ul>
+
+<p>My estimate overshoots Standard by about <code>0.51B Credits</code>. Under normal hours, Standard isn&#39;t enough, so the next option up is Pro at ¥329 — far above the ¥115.06 pay-as-you-go cost.</p>
+
+<h2>Night Discount Shifts the Boundary</h2>
+
+<p>MiMo charges 0.8× Credits during Beijing time 0:00–8:00. That&#39;s worth taking seriously.</p>
+
+<p>If all usage fell in the discounted window, <code>11.506B</code> Credits would drop to roughly <code>9.205B</code>, fitting within Standard. More practically, if about <code>22%</code> of Credits occur at night, total consumption stays under <code>11B</code>.</p>
+
+<p>This means my conclusion about Token Plan isn&#39;t absolute:</p>
+
+<ul>
+<li>If work happens mainly during the day, Standard won&#39;t fit, and pay-as-you-go is cheaper.</li>
+<li>If an Agent regularly runs in the early morning, Standard might suffice, with ¥99 edging out the ¥115 pay-as-you-go estimate.</li>
+<li>But the night share needs to stay stable month to month — otherwise you risk running out of quota before the billing cycle ends.</li>
+</ul>
+
+<p>When Token Plan credits run out, service stops. It won&#39;t automatically draw from your account balance. For Agents that run continuously, that&#39;s a real operational risk.</p>
+
+<h2>Is There a Sweet Spot for the Lite Plan?</h2>
+
+<p>The cache hit rate is determined by the platform and your workload. It fluctuates, but it won&#39;t jump from 90% to 99% just because you want to fit a particular plan. A fairer comparison is to fix the cache structure both sides have already demonstrated, and vary only the monthly token volume:</p>
+
+<ul>
+<li>DeepSeek keeps its June 8 hit rate of <code>95.19%</code>.</li>
+<li>MiMo keeps its trial-period hit rate of <code>90.86%</code>.</li>
+<li>The input-to-output ratio stays the same as June 8.</li>
+</ul>
+
+<p>Under those constraints, two meaningful boundaries emerge.</p>
+
+<p>The first is where DeepSeek pay-as-you-go reaches ¥39:</p>
+
+<pre><code>~505 million tokens / month</code></pre>
+
+<p>Only above this volume does the ¥39 flat rate start beating DeepSeek pay-as-you-go.</p>
+
+<p>The second is where MiMo Lite&#39;s <code>4.1B Credits</code> run out:</p>
+
+<pre><code>~343 million tokens / month</code></pre>
+
+<p>At that point, the equivalent DeepSeek pay-as-you-go cost is about <code>¥26.52</code> — still well below Lite&#39;s ¥39.</p>
+
+<p>The two boundaries don&#39;t overlap:</p>
+
+<pre><code>MiMo Lite quota range: 0 ~ 343M tokens
+DeepSeek monthly cost exceeds ¥39: after 505M tokens</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">Lite&#39;s Capacity Ceiling vs. DeepSeek&#39;s ¥39 Threshold</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite capacity (normal hours)</span>
+        <span class="chart-value">3.43 100M tokens/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 67.92%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite capacity (all night)</span>
+        <span class="chart-value">4.29 100M tokens/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 84.95%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek pay-as-you-go hits ¥39</span>
+        <span class="chart-value">5.05 100M tokens/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 100.00%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Even if every MiMo request qualifies for the 0.8× night discount, Lite still can&#39;t reach the volume at which DeepSeek costs ¥39/month.</figcaption>
+</figure>
+
+<p>By the time DeepSeek becomes more expensive than Lite, Lite has already been oversubscribed. Given my current cache hit rate and input/output mix, Lite doesn&#39;t have a token range that both fits within its quota and costs less than DeepSeek pay-as-you-go.</p>
+
+<p>Even in the best-case scenario, the conclusion holds. If all MiMo usage fell in the night discount window, Lite could handle up to roughly <code>429M tokens</code>, but the equivalent DeepSeek cost would only be about <code>¥33.16</code> — still under ¥39.</p>
+
+<p>With a first-purchase or annual 12% discount, Lite works out to <code>¥34.32/month</code>. That&#39;s still above the DeepSeek cost at full night-coverage capacity; the gap just narrows.</p>
+
+<h2>Why I Didn&#39;t Switch</h2>
+
+<p>This exercise made me realize that judging whether a Token Plan is worth it requires more than the monthly price tag — and certainly more than equating Credits with tokens. Four variables actually matter:</p>
+
+<ul>
+<li>Daily input and output token volumes</li>
+<li>Cache hit rate</li>
+<li>The ratio of cache-miss input to output</li>
+<li>How much work happens during night discount hours</li>
+</ul>
+
+<p>For my data, DeepSeek V4 Flash has a higher cache hit rate, and its pay-as-you-go prices are low enough. MiMo V2.5 is an excellent model with competitive unit pricing, but the Token Plan doesn&#39;t automatically translate into lower cost.</p>
+
+<blockquote>
+<p>A plan&#39;s value isn&#39;t &quot;the quota looks generous&quot; — it&#39;s whether your actual traffic pattern fits neatly within its billing boundaries.</p>
+</blockquote>
+
+<p>For now, I&#39;m staying with DeepSeek V4 Flash pay-as-you-go. Lite has no cost sweet spot under my workload mix. If Standard proves capable of covering all my work through stable night-hour usage, I&#39;d reconsider — but that&#39;s a question for another month.</p>
+
+<h2>Data and References</h2>
+
+<ul>
+<li>DeepSeek data: personal account export <code>usage_data_2026_6.zip</code>, covering June 1–9, 2026.</li>
+<li>MiMo data: trial dashboard token breakdown from June 9, 2026.</li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/price/pay-as-you-go.md">MiMo Pay-as-you-go Pricing</a></li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/price/tokenplan/subscription.md">MiMo Token Plan Subscription &amp; Credits Rules</a></li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/news/v2.5-price-update.md">MiMo V2.5 Price Update Announcement</a></li>
+<li><a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek Models and Pricing</a></li>
+</ul></div>
+                    <div data-lang="zh" hidden><p>我之前一直在用 DeepSeek V4 Flash 的 API，按实际 token 用量付费。最近看到 MiMo V2.5 的 Token Plan，Lite 套餐每月只要 39 元，第一反应是：如果模型够用，换过去是不是能把每月成本直接锁死在一杯咖啡的钱？</p>
+
+<p>但套餐页上的 <code>4.1B Credits</code> 看起来很大，Credits 又不等于 token。于是我把 DeepSeek 6 月账单导了出来，挑了 6 月 8 日这一天做压力测试，再用刚开始试用 MiMo 时观察到的缓存命中率重新算了一遍。</p>
+
+<p>结果和&quot;39 元包月&quot;给人的第一印象不太一样。</p>
+
+<h2>先说结论</h2>
+
+<p>以我 6 月 8 日的峰值用量连续跑 30 天：</p>
+
+<ul>
+<li>按 DeepSeek 当天 <code>95.19%</code> 的缓存命中率计算，按量费用约为每月 <code>74.44 元</code>。</li>
+<li>按 MiMo 试用期间 <code>90.86%</code> 的缓存命中率计算，按量费用约为每月 <code>115.06 元</code>。</li>
+<li>同样的 MiMo 用量会消耗约 <code>11.51B Credits</code>，超过 Standard 套餐的 <code>11B</code> 额度。</li>
+<li>不考虑夜间优惠时，需要购买 <code>329 元</code>的 Pro 套餐才能完整覆盖，显然不如按量付费。</li>
+</ul>
+
+<p>所以对我现在的使用方式，继续使用 DeepSeek V4 Flash 按量付费更合适。</p>
+
+<p>不过这里有一个重要例外：MiMo 在北京时间 0:00–8:00 只按 0.8 倍消耗 Credits。如果大约 <code>22%</code> 以上的用量稳定发生在这个时间段，Standard 套餐就可能装得下，此时 99 元会比预计的 115 元按量费用便宜一点。</p>
+
+<figure class="article-chart">
+    <div class="chart-title">峰值用量连续 30 天的月度成本</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Flash 按量</span>
+        <span class="chart-value">74.44 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 62.03%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo Standard 套餐</span>
+        <span class="chart-value">99.00 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 82.50%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo V2.5 按量</span>
+        <span class="chart-value">115.06 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 95.88%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Standard 的 99 元只是价格对照；正常时段下，预计 11.51B Credits 会略超其 11B 额度。</figcaption>
+</figure>
+
+<h2>我拿哪一天来算</h2>
+
+<p>DeepSeek 导出的 6 月账单包含 6 月 1 日到 9 日的数据。按输入和输出 token 总量排序，6 月 8 日是这段时间里的最高值：</p>
+
+<pre><code>缓存命中输入：30,398,592
+缓存未命中输入：1,536,892
+输出：168,200
+总计：32,103,684 tokens
+请求数：528</code></pre>
+
+<p>输入部分一共是 <code>31,935,484 tokens</code>，缓存命中率为：</p>
+
+<pre><code>30,398,592 / 31,935,484 = 95.19%</code></pre>
+
+<p>这一天的实际账单是 2.78 元，其中 DeepSeek V4 Flash 为 2.30 元，少量 V4 Pro 调用为 0.48 元。</p>
+
+<p>后面的计算不是拿 2.78 元直接乘 30，而是假设这些工作全部迁移到同一档模型，再按 Flash 或 MiMo V2.5 的单价重算。这样比较的是同一批 token 在两种计费方式下的成本，而不是混入 V4 Pro 的价格。</p>
+
+<h2>两家的按量单价</h2>
+
+<p>截至 2026 年 6 月 9 日，MiMo V2.5 国内按量价格是：</p>
+
+<ul>
+<li>缓存命中输入：<code>0.02 元 / 百万 tokens</code></li>
+<li>缓存未命中输入：<code>1 元 / 百万 tokens</code></li>
+<li>输出：<code>2 元 / 百万 tokens</code></li>
+</ul>
+
+<p>我的 DeepSeek 账单导出文件中，V4 Flash 使用的人民币单价也是这三档。DeepSeek 公共文档展示的是美元价格：缓存命中 <code>$0.0028</code>、未命中 <code>$0.14</code>、输出 <code>$0.28</code>，都是每百万 tokens。两者在各自公开的国内或海外计费口径下基本对齐。</p>
+
+<p>因此，单看按量价时，真正影响结果的不是模型名字，而是缓存命中率。</p>
+
+<h2>为什么 4 个百分点会差这么多</h2>
+
+<p>我刚开始使用 MiMo 时，后台显示：</p>
+
+<pre><code>缓存命中输入：7,347,776
+缓存未命中输入：739,068
+输出：57,347
+缓存命中率：90.86%</code></pre>
+
+<p>如果保持 6 月 8 日相同的每日总输入量，只把缓存命中率从 DeepSeek 的 <code>95.19%</code> 换成 MiMo 的 <code>90.86%</code>，连续计算 30 天，月度输入会变成：</p>
+
+<pre><code>缓存命中输入：870,505,662
+缓存未命中输入：87,558,858
+输出：5,046,000</code></pre>
+
+<p>对应的 MiMo 按量费用是：</p>
+
+<pre><code>缓存命中：870.51M × 0.02 元 = 17.41 元
+缓存未命中：87.56M × 1 元 = 87.56 元
+输出：5.05M × 2 元 = 10.09 元
+合计：115.06 元</code></pre>
+
+<p>命中率只下降了约 4.33 个百分点，月费却从 74.44 元上升到 115.06 元。原因很简单：一次缓存未命中的输入价格，是缓存命中的 50 倍。</p>
+
+<h2>Token Plan 不是 4.1B tokens</h2>
+
+<p>MiMo Token Plan 使用 Credits 扣减额度。对于 <code>mimo-v2.5</code>：</p>
+
+<ul>
+<li>每个缓存命中输入 token 消耗 <code>2 Credits</code></li>
+<li>每个缓存未命中输入 token 消耗 <code>100 Credits</code></li>
+<li>每个输出 token 消耗 <code>200 Credits</code></li>
+</ul>
+
+<p>所以 <code>4.1B Credits</code> 绝不等于 <code>41 亿 tokens</code>。同一个 token 因为类型不同，可能消耗 2、100 或 200 Credits。</p>
+
+<p>把上面的 MiMo 月度用量换成 Credits：</p>
+
+<pre><code>缓存命中：870,505,662 × 2 = 1.741B
+缓存未命中：87,558,858 × 100 = 8.756B
+输出：5,046,000 × 200 = 1.009B
+合计：11.506B Credits</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">11.506B Credits 是怎么被消耗的</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">缓存命中输入</span>
+        <span class="chart-value">1.741 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 19.34%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">缓存未命中输入</span>
+        <span class="chart-value">8.756 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 97.29%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">输出</span>
+        <span class="chart-value">1.009 B Credits</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 11.21%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>缓存未命中只占输入 token 的约 9.14%，却贡献了约 76% 的 Credits 消耗。</figcaption>
+</figure>
+
+<p>四档月度套餐分别是：</p>
+
+<ul>
+<li>Lite：39 元，<code>4.1B Credits</code></li>
+<li>Standard：99 元，<code>11B Credits</code></li>
+<li>Pro：329 元，<code>38B Credits</code></li>
+<li>Max：659 元，<code>82B Credits</code></li>
+</ul>
+
+<p>我的估算值比 Standard 多了约 <code>0.51B Credits</code>。正常时段下 Standard 不够，往上就只能买 Pro，但 329 元又远高于 115.06 元的按量费用。</p>
+
+<h2>夜间优惠会改变边界</h2>
+
+<p>MiMo 在北京时间 0:00–8:00 按 0.8 倍消耗 Credits。这个条件不能忽略。</p>
+
+<p>如果全部用量都发生在优惠时段，<code>11.506B</code> 会降到约 <code>9.205B Credits</code>，Standard 就足够。更实际地反推，只需要约 <code>22%</code> 的 Credits 发生在夜间，预计总消耗就能压到 <code>11B</code> 以内。</p>
+
+<p>这意味着 Token Plan 对我的判断不是绝对的：</p>
+
+<ul>
+<li>如果工作主要发生在白天，Standard 不够，按量更划算。</li>
+<li>如果 Agent 经常在凌晨自动运行，Standard 可能够用，99 元会略低于 115 元的按量估算。</li>
+<li>但夜间占比必须长期稳定，否则月底仍可能提前耗尽额度。</li>
+</ul>
+
+<p>Token Plan 用完后会停止服务，不会自动切到账户余额继续扣费。对持续运行的 Agent 来说，这也是需要考虑的风险。</p>
+
+<h2>Lite 套餐存在用量甜蜜区间吗</h2>
+
+<p>缓存命中率是平台和工作负载共同决定的。它会波动，但通常不会为了迁就某个套餐从 90% 突然变成 99%。所以更实用的比较方式，是固定两边已经观察到的缓存结构，只让每月 token 用量变化：</p>
+
+<ul>
+<li>DeepSeek 继续使用 6 月 8 日的 <code>95.19%</code> 缓存命中率。</li>
+<li>MiMo 使用试用期间的 <code>90.86%</code> 缓存命中率。</li>
+<li>输入和输出比例保持与 6 月 8 日相同。</li>
+</ul>
+
+<p>在这个前提下，可以得到两个真正有意义的边界。</p>
+
+<p>第一个边界是 DeepSeek 按量费用达到 39 元：</p>
+
+<pre><code>约 5.05 亿 tokens / 月</code></pre>
+
+<p>只有月用量超过这个数字，39 元的固定套餐价格才开始低于 DeepSeek 按量费用。</p>
+
+<p>第二个边界是 MiMo Lite 的 <code>4.1B Credits</code> 被用完：</p>
+
+<pre><code>约 3.43 亿 tokens / 月</code></pre>
+
+<p>也就是说，Lite 能承载的最大月用量只有约 3.43 亿 tokens。到这个位置时，同等用量的 DeepSeek 按量费用约为 <code>26.52 元</code>，仍然明显低于 Lite 的 39 元。</p>
+
+<p>两个边界没有重叠：</p>
+
+<pre><code>MiMo Lite 额度范围：0 ～ 3.43 亿 tokens
+DeepSeek 月费超过 39 元：5.05 亿 tokens 以后</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">Lite 的容量边界与 DeepSeek 的 39 元边界</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite 正常时段容量</span>
+        <span class="chart-value">3.43 亿 tokens/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-slate" style="width: 67.92%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite 全部夜间容量</span>
+        <span class="chart-value">4.29 亿 tokens/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 84.95%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek 按量达到 39 元</span>
+        <span class="chart-value">5.05 亿 tokens/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 100.00%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>即使所有 MiMo 用量都享受夜间 0.8 倍消耗，Lite 的容量仍到不了 DeepSeek 月费超过 39 元的边界。</figcaption>
+</figure>
+
+<p>等到 DeepSeek 变得比 Lite 贵时，Lite 早已超出额度。因此按我目前的缓存命中率和输入输出结构，Lite 并不存在一个既装得下、又比 DeepSeek 按量便宜的 token 用量区间。</p>
+
+<p>即使把最有利的情况算进去，结论也没有改变。如果全部 MiMo 用量都发生在夜间优惠时段，Lite 最多可以承载约 <code>4.29 亿 tokens</code>，但同等 DeepSeek 费用也只有约 <code>33.16 元</code>，仍低于 39 元。</p>
+
+<p>首购或包年 88 折后，Lite 可折算为 <code>34.32 元/月</code>。这个价格依然高于夜间满额度对应的 DeepSeek 费用，差距只是缩小了。</p>
+
+<h2>最后我为什么没有换</h2>
+
+<p>这次计算让我意识到，判断 Token Plan 是否划算，不能只看每月多少钱，也不能把 Credits 当成 tokens。真正需要看的有四个变量：</p>
+
+<ul>
+<li>每天实际处理多少输入和输出 token</li>
+<li>缓存命中率</li>
+<li>未命中输入和输出所占的比例</li>
+<li>有多少工作发生在夜间优惠时段</li>
+</ul>
+
+<p>对我当前的数据来说，DeepSeek V4 Flash 的缓存命中率更高，按量价格又足够低。MiMo V2.5 的模型本身和按量价格都很有吸引力，但 Token Plan 并没有自动带来更低成本。</p>
+
+<blockquote>
+<p>套餐的价值不是&quot;额度看起来很大&quot;，而是你的真实流量结构刚好能落在它的计费边界里。</p>
+</blockquote>
+
+<p>所以现阶段我的选择是继续使用 DeepSeek V4 Flash 按量付费。Lite 在我的负载结构下没有成本甜蜜区间；如果后续 Standard 能依靠稳定的夜间用量覆盖全部工作，再考虑切换会更稳妥。</p>
+
+<h2>数据与参考</h2>
+
+<ul>
+<li>DeepSeek 数据：个人账户导出的 <code>usage_data_2026_6.zip</code>，统计区间为 2026 年 6 月 1 日至 9 日。</li>
+<li>MiMo 数据：2026 年 6 月 9 日试用后台的 token 分类统计。</li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/price/pay-as-you-go.md">MiMo 按量计费说明</a></li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/price/tokenplan/subscription.md">MiMo Token Plan 订阅与 Credits 规则</a></li>
+<li><a href="https://platform.xiaomimimo.com/static/docs/news/v2.5-price-update.md">MiMo V2.5 价格调整公告</a></li>
+<li><a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek 模型与价格</a></li>
+</ul></div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const LANGUAGE_STORAGE_KEY = 'homepage-language';
+        const SUPPORTED_LANGUAGES = ['en', 'zh'];
+        let currentArticleLanguage = SUPPORTED_LANGUAGES.includes(localStorage.getItem(LANGUAGE_STORAGE_KEY))
+            ? localStorage.getItem(LANGUAGE_STORAGE_KEY)
+            : 'en';
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateShareLink() {
+            const link = document.getElementById('article-x-share');
+            if (!link) return;
+            const intent = new URL('https://twitter.com/intent/tweet');
+            intent.searchParams.set('text', document.title.replace(' - Abelliuxl Macintosh', ''));
+            intent.searchParams.set('url', window.location.href);
+            link.href = intent.href;
+        }
+
+        function applyArticleLanguage(language) {
+            if (!SUPPORTED_LANGUAGES.includes(language)) return;
+            currentArticleLanguage = language;
+            document.querySelectorAll('[data-lang]').forEach((element) => {
+                element.hidden = element.dataset.lang !== language;
+            });
+            document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+            const titleKey = language === 'zh' ? 'titleZh' : 'titleEn';
+            if (document.body.dataset[titleKey]) {
+                document.title = document.body.dataset[titleKey];
+            }
+            document.querySelectorAll('.language-button').forEach((button) => {
+                const isActive = button.dataset.language === language;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+            updateShareLink();
+        }
+
+        function setArticleLanguage(language) {
+            if (!SUPPORTED_LANGUAGES.includes(language)) return;
+            try {
+                localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+            } catch (error) {
+                // localStorage may be unavailable (private mode); continue in-memory only.
+            }
+            applyArticleLanguage(language);
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+        applyArticleLanguage(currentArticleLanguage);
+    </script>
+</body>
+</html>

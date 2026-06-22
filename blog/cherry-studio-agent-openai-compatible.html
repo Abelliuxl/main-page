@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{titleEn}} - Abelliuxl Macintosh</title>
+    <title>Why Cherry Studio Agent Mode Won&#39;t Show Your OpenAI Compatible Models - Abelliuxl Macintosh</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         :root {
@@ -591,7 +591,7 @@
         }
     </style>
 </head>
-<body data-title-en="{{titleEn}} - Abelliuxl Macintosh" data-title-zh="{{titleZh}} - Abelliuxl Macintosh">
+<body data-title-en="Why Cherry Studio Agent Mode Won&#39;t Show Your OpenAI Compatible Models - Abelliuxl Macintosh" data-title-zh="为什么 Cherry Studio Agent 模式不显示你的 OpenAI Compatible 模型 - Abelliuxl Macintosh">
     <div class="menu-bar">
         <a class="logo" href="/">Abelliuxl</a>
         <div class="menu-items">
@@ -616,11 +616,15 @@
             </div>
             <div class="window-content">
                 <article>
-                    <h1 data-lang="en">{{displayTitleEn}}</h1>
-                    <h1 data-lang="zh" hidden>{{displayTitleZh}}</h1>
-                    <p class="meta">{{date}} · {{tagLine}}</p>
+                    <h1 data-lang="en">Why Cherry Studio Agent Mode Won&#39;t Show Your OpenAI Compatible Models</h1>
+                    <h1 data-lang="zh" hidden>为什么 Cherry Studio Agent 模式不显示你的 OpenAI Compatible 模型</h1>
+                    <p class="meta">2026-06-22 · Cherry Studio / Agent / OpenAI Compatible / Anthropic / SDK</p>
                     <div class="tags">
-                        {{tags}}
+                        <span class="tag">Cherry Studio</span>
+                        <span class="tag">Agent</span>
+                        <span class="tag">OpenAI Compatible</span>
+                        <span class="tag">Anthropic</span>
+                        <span class="tag">SDK</span>
                     </div>
                     <div class="article-actions">
                         <a class="x-action" id="article-x-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
@@ -628,8 +632,212 @@
                             <span data-lang="zh" hidden>分享到 X</span>
                         </a>
                     </div>
-                    <div data-lang="en">{{bodyEn}}</div>
-                    <div data-lang="zh" hidden>{{bodyZh}}</div>
+                    <div data-lang="en"><p>Cherry Studio&#39;s Agent mode is powerful — it runs Claude Code SDK under the hood, giving you a full agentic coding experience. But if you&#39;ve tried adding a custom &quot;OpenAI Compatible&quot; provider and wondered why it doesn&#39;t show up in the Agent model dropdown, you&#39;re not alone.</p>
+
+<p>This isn&#39;t a bug. It&#39;s a design constraint rooted deep in the protocol layer.</p>
+
+<h2>The Symptom</h2>
+
+<p>You add a custom provider of type &quot;OpenAI Compatible&quot; in Cherry Studio&#39;s settings. You can see its models in the normal chat mode. But switch to Agent mode, and the model dropdown only shows Anthropic providers — the native <code>anthropic</code> provider and any custom providers with an <code>anthropic-messages</code> endpoint configured.</p>
+
+<p>Your OpenAI Compatible provider&#39;s models? Invisible.</p>
+
+<h2>The Root Cause</h2>
+
+<p>The problem lives in <code>src/renderer/hooks/agents/useAgentModelFilter.ts</code>. The <code>claude-code</code> branch does a whitelist filter:</p>
+
+<pre><code>const claudeCompatibleProviderIds = useMemo(() =&gt; {
+  const ids = new Set&lt;string&gt;(NATIVE_ANTHROPIC_PROVIDER_IDS) // only &#39;anthropic&#39;
+  for (const provider of providers) {
+    if (provider.endpointConfigs?.[ENDPOINT_TYPE.ANTHROPIC_MESSAGES]) {
+      ids.add(provider.id)
+    }
+  }
+  return ids
+}, [providers])</code></pre>
+
+<p>OpenAI Compatible providers typically have <code>openai</code> or <code>openai-chat-completions</code> in their <code>endpointConfigs</code>, not <code>anthropic-messages</code>. So they get filtered out.</p>
+
+<p>But this filter isn&#39;t arbitrary — it&#39;s protecting you from a guaranteed runtime error.</p>
+
+<h2>The Real Constraint: Protocol Hardcoding</h2>
+
+<p>Cherry Studio&#39;s Agent mode uses <code>@anthropic-ai/claude-agent-sdk</code> v0.3.168. This SDK is hardcoded to the Anthropic Messages API protocol:</p>
+
+<ul>
+<li><strong>Request format</strong>: Anthropic Messages format (<code>messages[]</code> + <code>system</code> + <code>max_tokens</code>)</li>
+<li><strong>Response parsing</strong>: Anthropic SSE events (<code>message_start</code> / <code>content_block_delta</code> / <code>message_delta</code>)</li>
+<li><strong>Tool protocol</strong>: <code>tool_use</code> / <code>tool_result</code>, not OpenAI&#39;s <code>tool_calls</code> / function calling</li>
+</ul>
+
+<p>The SDK reads environment variables (<code>ANTHROPIC_API_KEY</code>, <code>ANTHROPIC_BASE_URL</code>, <code>ANTHROPIC_MODEL</code>) and makes HTTP requests in Anthropic protocol format. There&#39;s no adapter layer — the protocol is baked into the binary.</p>
+
+<h2>Why You Can&#39;t Just Remove the Filter</h2>
+
+<p>Option 1 seems obvious: remove the whitelist filter in <code>useAgentModelFilter</code>. But this would make things worse:</p>
+
+<ul>
+<li>Your OpenAI Compatible provider would appear in the dropdown</li>
+<li>You&#39;d select it, thinking it works</li>
+<li>The runtime would fail with 4xx errors or response parsing failures</li>
+<li>You&#39;d blame Cherry Studio for a &quot;bug&quot; that&#39;s actually a protocol mismatch</li>
+</ul>
+
+<p>The filter is a UX safety net. It prevents you from selecting something that will definitely fail.</p>
+
+<h2>What Actually Works</h2>
+
+<p>If you want to use a non-Anthropic LLM in Agent mode, you need a provider that implements the Anthropic Messages protocol. Several services already do this:</p>
+
+<ul>
+<li><strong>OpenRouter</strong>: Has an <code>anthropic-messages</code> endpoint</li>
+<li><strong>GLM (Zhipu)</strong>: Offers Anthropic-compatible endpoints</li>
+<li><strong>SiliconFlow</strong>: Supports Anthropic protocol</li>
+<li><strong>BigModel</strong>: Another Anthropic-compatible option</li>
+</ul>
+
+<p>The workflow:</p>
+
+<p>1. Choose a provider that supports Anthropic Messages protocol 2. Configure it in Cherry Studio with <code>endpointConfigs[&#39;anthropic-messages&#39;]</code> 3. The filter automatically picks it up</p>
+
+<p>The <code>resolveAnthropicBaseUrl</code> function in <code>agentSessionWarmup.ts</code> will use your provider&#39;s <code>anthropic-messages</code> endpoint baseUrl, falling back to <code>provider.apiHost</code> if not set.</p>
+
+<h2>The Long-Term Solution</h2>
+
+<p>If Cherry Studio wants to support OpenAI Agent natively, there&#39;s really only one clean path:</p>
+
+<p><strong>New `OpenAIRuntimeDriver`</strong> — a separate runtime driver using <code>@ai-sdk/openai-compatible</code> with full Agent capabilities.</p>
+
+<p>This would require:</p>
+
+<p>1. New <code>OpenAIRuntimeDriver</code> (following the structure of <code>ClaudeCodeRuntimeDriver.ts</code>) 2. Extended <code>AgentType</code> enum: <code>[&#39;claude-code&#39;, &#39;openai-code&#39;]</code> 3. Registration in <code>runtimeDriverRegistry</code> 4. Updated <code>useAgentModelFilter</code> with per-agent-type whitelists 5. UI option to choose agent backend type 6. i18n, tests, documentation</p>
+
+<p>The alternative — a protocol转换 adapter between Anthropic and OpenAI — sounds appealing but is a maintenance nightmare. Tool protocol bidirectional conversion has semantic losses, streaming SSE conversion needs chunk boundary handling, and every edge case needs testing.</p>
+
+<h2>Short-Term Advice</h2>
+
+<p>For now, the best path forward:</p>
+
+<p>1. Use a provider that implements Anthropic Messages protocol 2. Configure <code>anthropic-messages</code> in its <code>endpointConfigs</code> 3. Let the filter do its job</p>
+
+<p>Don&#39;t fight the protocol. The constraint isn&#39;t in the UI — it&#39;s in the SDK layer.</p>
+
+<h2>Key Files</h2>
+
+<table>
+<thead><tr><th style="text-align:left">File</th><th style="text-align:left">Role</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>useAgentModelFilter.ts</code></td><td style="text-align:left">Agent mode model filtering (whitelist logic)</td></tr>
+<tr><td style="text-align:left"><code>ClaudeCodeRuntimeDriver.ts</code></td><td style="text-align:left">Claude Agent SDK entry point</td></tr>
+<tr><td style="text-align:left"><code>runtimeDriverRegistry.ts</code></td><td style="text-align:left">Runtime driver registry</td></tr>
+<tr><td style="text-align:left"><code>listModels.ts</code></td><td style="text-align:left">Model list fetching (multi-fetcher strategy)</td></tr>
+<tr><td style="text-align:left"><code>agent.ts</code></td><td style="text-align:left">AgentType enum definition</td></tr>
+<tr><td style="text-align:left"><code>agentSessionWarmup.ts</code></td><td style="text-align:left">Environment variable injection &amp; baseUrl resolution</td></tr>
+</tbody>
+</table></div>
+                    <div data-lang="zh" hidden><p>Cherry Studio 的 Agent 模式很强大——底层跑的是 Claude Code SDK，给你完整的 agentic coding 体验。但如果你试过添加自定义的 &quot;OpenAI Compatible&quot; provider，却发现它在 Agent 模式下拉菜单里不显示，你不是一个人。</p>
+
+<p>这不是 bug。这是协议层深处的设计约束。</p>
+
+<h2>症状</h2>
+
+<p>你在 Cherry Studio 设置里添加了一个 &quot;OpenAI Compatible&quot; 类型的自定义 provider。在普通聊天模式下能看到它的模型。但切到 Agent 模式，模型下拉菜单只显示 Anthropic 的 provider——原生 <code>anthropic</code> provider 和任何配置了 <code>anthropic-messages</code> endpoint 的自定义 provider。</p>
+
+<p>你的 OpenAI Compatible provider 的模型？看不见。</p>
+
+<h2>根本原因</h2>
+
+<p>问题出在 <code>src/renderer/hooks/agents/useAgentModelFilter.ts</code> 的 <code>claude-code</code> 分支，它做了白名单过滤：</p>
+
+<pre><code>const claudeCompatibleProviderIds = useMemo(() =&gt; {
+  const ids = new Set&lt;string&gt;(NATIVE_ANTHROPIC_PROVIDER_IDS) // 只包含 &#39;anthropic&#39;
+  for (const provider of providers) {
+    if (provider.endpointConfigs?.[ENDPOINT_TYPE.ANTHROPIC_MESSAGES]) {
+      ids.add(provider.id)
+    }
+  }
+  return ids
+}, [providers])</code></pre>
+
+<p>OpenAI Compatible provider 的 <code>endpointConfigs</code> 通常是 <code>openai</code> 或 <code>openai-chat-completions</code>，没有 <code>anthropic-messages</code>，所以被排除在外。</p>
+
+<p>但这个过滤不是随意的——它在保护你免受必然的运行时错误。</p>
+
+<h2>真正的约束：协议硬编码</h2>
+
+<p>Cherry Studio 的 Agent 模式使用 <code>@anthropic-ai/claude-agent-sdk</code> v0.3.168。这个 SDK 硬编码为 Anthropic Messages API 协议：</p>
+
+<ul>
+<li><strong>请求格式</strong>：Anthropic Messages 格式（<code>messages[]</code> + <code>system</code> + <code>max_tokens</code>）</li>
+<li><strong>响应解析</strong>：Anthropic SSE 事件（<code>message_start</code> / <code>content_block_delta</code> / <code>message_delta</code>）</li>
+<li><strong>Tool 协议</strong>：<code>tool_use</code> / <code>tool_result</code>，不是 OpenAI 的 <code>tool_calls</code> / function calling</li>
+</ul>
+
+<p>SDK 读取环境变量（<code>ANTHROPIC_API_KEY</code>、<code>ANTHROPIC_BASE_URL</code>、<code>ANTHROPIC_MODEL</code>），然后以 Anthropic 协议格式发起 HTTP 请求。没有适配层——协议是写死在二进制文件里的。</p>
+
+<h2>为什么不能简单去掉过滤器</h2>
+
+<p>选项 1 看起来很简单：去掉 <code>useAgentModelFilter</code> 的白名单过滤。但这会让事情变得更糟：</p>
+
+<ul>
+<li>你的 OpenAI Compatible provider 会出现在下拉菜单中</li>
+<li>你会选中它，以为能用</li>
+<li>运行时会报 4xx 错误或响应解析失败</li>
+<li>你会怪 Cherry Studio 有 &quot;bug&quot;，实际上这是协议不匹配</li>
+</ul>
+
+<p>过滤器是 UX 安全网。它防止你选择一个肯定会失败的选项。</p>
+
+<h2>实际可行的方案</h2>
+
+<p>如果你想在 Agent 模式下使用非 Anthropic 的 LLM，你需要一个实现了 Anthropic Messages 协议的 provider。已经有几个服务做到了：</p>
+
+<ul>
+<li><strong>OpenRouter</strong>：有 <code>anthropic-messages</code> endpoint</li>
+<li><strong>GLM（智谱）</strong>：提供 Anthropic 兼容的 endpoint</li>
+<li><strong>SiliconFlow</strong>：支持 Anthropic 协议</li>
+<li><strong>BigModel</strong>：另一个 Anthropic 兼容选项</li>
+</ul>
+
+<p>工作流程：</p>
+
+<p>1. 选择一个支持 Anthropic Messages 协议的 provider 2. 在 Cherry Studio 中配置 <code>endpointConfigs[&#39;anthropic-messages&#39;]</code> 3. 过滤器会自动放行</p>
+
+<p><code>agentSessionWarmup.ts</code> 中的 <code>resolveAnthropicBaseUrl</code> 函数会使用你 provider 的 <code>anthropic-messages</code> endpoint baseUrl，如果没有设置则 fallback 到 <code>provider.apiHost</code>。</p>
+
+<h2>长期解决方案</h2>
+
+<p>如果 Cherry Studio 想要原生支持 OpenAI Agent，只有一条干净的路径：</p>
+
+<p><strong>新增 `OpenAIRuntimeDriver`</strong>——一个独立的 runtime driver，使用 <code>@ai-sdk/openai-compatible</code> 实现完整的 Agent 能力。</p>
+
+<p>这需要：</p>
+
+<p>1. 新增 <code>OpenAIRuntimeDriver</code>（参考 <code>ClaudeCodeRuntimeDriver.ts</code> 的结构） 2. 扩展 <code>AgentType</code> 枚举：<code>[&#39;claude-code&#39;, &#39;openai-code&#39;]</code> 3. 在 <code>runtimeDriverRegistry</code> 注册新 driver 4. 更新 <code>useAgentModelFilter</code>，按 agent 类型选择不同白名单 5. 新增 UI 选项让用户选择 agent 后端类型 6. i18n、测试、文档</p>
+
+<p>另一个选项——Anthropic 和 OpenAI 之间的协议转换 adapter——听起来诱人，但是维护噩梦。Tool 协议双向转换有语义损失，流式 SSE 转换需要处理 chunk 边界，每个边界情况都需要测试。</p>
+
+<h2>短期建议</h2>
+
+<p>目前最好的路径：</p>
+
+<p>1. 使用一个实现了 Anthropic Messages 协议的 provider 2. 在 <code>endpointConfigs</code> 中配置 <code>anthropic-messages</code> 3. 让过滤器做它的工作</p>
+
+<p>不要对抗协议。约束不在 UI 层——在 SDK 层。</p>
+
+<h2>关键文件</h2>
+
+<table>
+<thead><tr><th style="text-align:left">文件</th><th style="text-align:left">作用</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>useAgentModelFilter.ts</code></td><td style="text-align:left">Agent 模式 model 过滤（白名单逻辑）</td></tr>
+<tr><td style="text-align:left"><code>ClaudeCodeRuntimeDriver.ts</code></td><td style="text-align:left">Claude Agent SDK 入口</td></tr>
+<tr><td style="text-align:left"><code>runtimeDriverRegistry.ts</code></td><td style="text-align:left">Runtime driver 注册表</td></tr>
+<tr><td style="text-align:left"><code>listModels.ts</code></td><td style="text-align:left">模型列表获取（多 fetcher 策略）</td></tr>
+<tr><td style="text-align:left"><code>agent.ts</code></td><td style="text-align:left">AgentType enum 定义</td></tr>
+<tr><td style="text-align:left"><code>agentSessionWarmup.ts</code></td><td style="text-align:left">环境变量注入与 baseUrl 解析</td></tr>
+</tbody>
+</table></div>
                 </article>
             </div>
         </div>

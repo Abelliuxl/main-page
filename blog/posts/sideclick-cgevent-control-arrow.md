@@ -1,8 +1,9 @@
 ---
 title: When Ctrl+Arrow Would Not Switch Spaces
-displayTitle: 当 Ctrl+方向键就是不肯切换桌面
+titleZh: 当 Ctrl+方向键就是不肯切换桌面
 date: 2026-05-07
 excerpt: A debugging note on SideClick, CGEvent, Hammerspoon, and why macOS Mission Control only accepted the final private-source event sequence.
+excerptZh: 一篇关于 SideClick、CGEvent、Hammerspoon 的调试笔记，记录为什么 macOS Mission Control 只接受最后那套私有事件源的按键序列。
 tags: macOS, Swift, CGEvent, SideClick
 ---
 

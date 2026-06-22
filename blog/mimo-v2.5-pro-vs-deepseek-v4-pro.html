@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>When Ctrl+Arrow Would Not Switch Spaces - Abelliuxl Macintosh</title>
+    <title>When Both Sides Go Pro — Same Price, Different Cache Hit Rates - Abelliuxl Macintosh</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         :root {
@@ -591,7 +591,7 @@
         }
     </style>
 </head>
-<body data-title-en="When Ctrl+Arrow Would Not Switch Spaces - Abelliuxl Macintosh" data-title-zh="当 Ctrl+方向键就是不肯切换桌面 - Abelliuxl Macintosh">
+<body data-title-en="When Both Sides Go Pro — Same Price, Different Cache Hit Rates - Abelliuxl Macintosh" data-title-zh="单价完全一样，缓存命中率就是唯一的胜负手 - Abelliuxl Macintosh">
     <div class="menu-bar">
         <a class="logo" href="/">Abelliuxl</a>
         <div class="menu-items">
@@ -616,14 +616,16 @@
             </div>
             <div class="window-content">
                 <article>
-                    <h1 data-lang="en">When Ctrl+Arrow Would Not Switch Spaces</h1>
-                    <h1 data-lang="zh" hidden>当 Ctrl+方向键就是不肯切换桌面</h1>
-                    <p class="meta">2026-05-07 · macOS / Swift / CGEvent / SideClick</p>
+                    <h1 data-lang="en">When Both Sides Go Pro — Same Price, Different Cache Hit Rates</h1>
+                    <h1 data-lang="zh" hidden>单价完全一样，缓存命中率就是唯一的胜负手</h1>
+                    <p class="meta">2026-06-13 · AI / MiMo / DeepSeek / API / Pricing / Cache</p>
                     <div class="tags">
-                        <span class="tag">macOS</span>
-                        <span class="tag">Swift</span>
-                        <span class="tag">CGEvent</span>
-                        <span class="tag">SideClick</span>
+                        <span class="tag">AI</span>
+                        <span class="tag">MiMo</span>
+                        <span class="tag">DeepSeek</span>
+                        <span class="tag">API</span>
+                        <span class="tag">Pricing</span>
+                        <span class="tag">Cache</span>
                     </div>
                     <div class="article-actions">
                         <a class="x-action" id="article-x-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
@@ -631,225 +633,469 @@
                             <span data-lang="zh" hidden>分享到 X</span>
                         </a>
                     </div>
-                    <div data-lang="en"><p>SideClick 是一个很小的 macOS 菜单栏工具：监听鼠标侧键，然后发送一个用户配置好的键盘快捷键。最开始的目标非常朴素：把鼠标后退/前进侧键映射成 <code>Ctrl+Left</code> 和 <code>Ctrl+Right</code>，用来切换 Spaces 桌面。</p>
+                    <div data-lang="en"><p>The previous article compared MiMo Token Plan Lite against DeepSeek V4 Flash pay-as-you-go pricing, and the conclusion was that DeepSeek was the better deal. But that comparison had an obvious caveat: one side was using Flash while the other was on MiMo v2.5 — different per-token rates.</p>
 
-<p>这个需求听起来像是几行 <code>CGEvent</code> 就能完成。实际调试过程证明，macOS 的系统级快捷键比普通应用快捷键挑剔得多。</p>
+<p>In late May, both providers rolled out major price cuts. Now, if we compare apples to apples — both using their respective Pro models, MiMo v2.5 Pro and DeepSeek V4 Pro — what does the picture look like?</p>
 
-<h2>现象</h2>
+<h2>Per-Token Rates</h2>
 
-<p>普通快捷键很快就工作了，例如：</p>
+<p>As of June 2026, both Pro models charge identical domestic pay-as-you-go rates:</p>
 
-<ul>
-<li><code>Cmd+C</code> 能复制。</li>
-<li><code>Cmd+V</code> 能粘贴。</li>
-<li>单独发送方向键，也能被网页键盘检测工具识别。</li>
-<li>单独发送 Ctrl，后来也能被识别。</li>
-</ul>
+<pre><code>              Cache Hit      Cache Miss      Output
+              (CNY/M)        (CNY/M)         (CNY/M)
+MiMo v2.5 Pro    0.025          3             6
+DeepSeek V4 Pro  0.025          3             6</code></pre>
 
-<p>但只要组合成 <code>Ctrl+Left</code> 或 <code>Ctrl+Right</code>，Mission Control 就不切桌面。期间还出现过一个特别迷惑的状态：网页能看到 Ctrl，却看不到方向键。</p>
+<p>Not a single cent of difference. After MiMo matched the price cut on May 27, both providers are perfectly aligned across all three billing items: cache-hit input, cache-miss input, and output.</p>
 
-<h2>走过的弯路</h2>
+<p>With identical per-token rates, the only variable left driving a cost difference is <strong>cache hit rate</strong>.</p>
 
-<h3>1. 只给方向键加 flags</h3>
+<h2>Same Usage, Different Hit Rates</h2>
 
-<p>最直觉的做法是创建方向键事件，然后把 Control flag 塞进去：</p>
+<p>Carrying over the same data from the previous article — peak daily usage on June 8, extrapolated over 30 consecutive days:</p>
 
-<pre><code>event.flags = [.maskControl]
-event.post(tap: .cghidEventTap)</code></pre>
+<pre><code>DeepSeek (95.19% cache hit rate):
+  Cache hit input: 911,957,760
+  Cache miss input: 46,106,760
+  Output: 5,046,000
 
-<p>这对某些普通应用快捷键有用，但对 Spaces 切换不稳定。系统好像看到了一个“带 Ctrl 标记的方向键”，但没有把它当成一次真实的 Ctrl+方向键输入。</p>
+MiMo (90.86% cache hit rate):
+  Cache hit input: 870,505,662
+  Cache miss input: 87,558,858
+  Output: 5,046,000</code></pre>
 
-<h3>2. 真的发 Ctrl down/up，但主键没有 flags</h3>
+<p>Total input volume is the same, but because MiMo&#39;s cache hit rate is 4.33 percentage points lower, it ends up with nearly double the cache-miss tokens.</p>
 
-<p>于是换成物理键盘顺序：</p>
+<h2>Pay-as-you-go Cost Comparison</h2>
 
-<pre><code>Ctrl down
-Arrow down
-Arrow up
-Ctrl up</code></pre>
+<p>Using the same per-token rates:</p>
 
-<p>这让“Ctrl 被按下”更真实，但如果主键那一帧没有正确被系统归类，系统快捷键匹配器仍然可能把它当成普通方向键。类似问题在测试 <code>Ctrl+Space</code> 时也出现过：输入法切换会变得不稳定，甚至走到长按选择器那条路径。</p>
+<pre><code>DeepSeek V4 Pro pay-as-you-go:
+  Cache hit: 911.96M × 0.025 =  22.80 CNY
+  Cache miss: 46.11M × 3     = 138.32 CNY
+  Output: 5.05M × 6           =  30.28 CNY
+  Total:                       191.40 CNY/month
 
-<h3>3. 直接切 Spaces</h3>
+MiMo v2.5 Pro pay-as-you-go:
+  Cache hit: 870.51M × 0.025 =  21.76 CNY
+  Cache miss: 87.56M × 3     = 262.68 CNY
+  Output: 5.05M × 6          =  30.28 CNY
+  Total:                       314.72 CNY/month</code></pre>
 
-<p>我们还试过绕开快捷键，动态调用 SkyLight 私有 API 读取和切换 Space。终端里同一套 API 能切，但放进 app 后体验很别扭，也会引入“已经在最左/最右边”等额外状态。</p>
+<figure class="article-chart">
+    <div class="chart-title">Pro Model Pay-as-you-go Monthly Cost at Same Usage</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro</span>
+        <span class="chart-value">191.40 CNY/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 59.81%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro</span>
+        <span class="chart-value">314.72 CNY/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 98.35%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Identical per-token rates, yet MiMo costs 64% more — entirely due to a 4.33 percentage point gap in cache hit rate.</figcaption>
+</figure>
 
-<p>这条路线最后被撤掉了。SideClick 的目标还是键盘映射工具，不应该为了一个快捷键把自己变成半个窗口管理器。</p>
+<p>MiMo costs <code>123.32 CNY</code> more per month on pay-as-you-go — a 64% premium. This isn&#39;t a model quality issue; it&#39;s purely the cache hit rate gap.</p>
 
-<h2>转折点：看 Hammerspoon 怎么做</h2>
+<h2>Can Token Plan Close the Gap?</h2>
 
-<p>最后去看成熟工具的实现。Hammerspoon 的 <code>hs.eventtap.event.newKeyEventSequence</code> 很接近 Apple 文档建议的模型：为每个 modifier 和主键生成一组有顺序的 key down / key up 事件。</p>
+<p>MiMo v2.5 Pro Token Plan Credits pricing:</p>
 
-<p>它的核心思路不是“给主键伪造 flags”，而是构造一组完整的虚拟按键序列：</p>
+<pre><code>Cache hit: 2.5 Credits / token
+Cache miss: 300 Credits / token
+Output: 600 Credits / token</code></pre>
 
-<pre><code>Ctrl down
-Arrow down
-Arrow up
-Ctrl up</code></pre>
+<p>At MiMo&#39;s 90.86% hit rate, monthly usage converts to:</p>
 
-<p>关键差异在事件来源和投递位置：</p>
+<pre><code>Cache hit: 870,505,662 × 2.5  =  2.176B
+Cache miss: 87,558,858 × 300 = 26.268B
+Output: 5,046,000 × 600       =  3.028B
+Total:                          31.47B Credits</code></pre>
 
-<ul>
-<li>使用 private <code>CGEventSource</code>，也就是 <code>CGEventSourceStateID(rawValue: -1)</code>。</li>
-<li>投递到 <code>.cgSessionEventTap</code>。</li>
-<li>不手动给每个事件塞 flags，让系统从完整事件序列里维护 modifier 状态。</li>
-</ul>
+<p>Matching against the four plan tiers:</p>
 
-<h2>最终可用的实现</h2>
+<pre><code>Lite: CNY 39, 4.1B Credits       ← Not enough
+Standard: CNY 99, 11B Credits    ← Not enough
+Pro: CNY 329, 38B Credits        ← Enough, with 6.53B left over
+Max: CNY 659, 82B Credits        ← Way more than needed</code></pre>
 
-<p>最终 SideClick 的发送逻辑变成这样：</p>
+<p>The Pro tier at CNY 329 actually costs slightly more than pay-as-you-go at CNY 314.72 — because the plan quota has some built-in waste.</p>
 
-<pre><code>let source = CGEventSource(stateID: CGEventSourceStateID(rawValue: -1)!)
+<p>But here&#39;s the real question: if we could use the plan quota with zero waste, is the Token Plan discount enough to overcome the cache hit rate gap?</p>
 
-postKey(source: source, keyCode: controlKeyCode, keyDown: true)
-postKey(source: source, keyCode: arrowKeyCode, keyDown: true)
-postKey(source: source, keyCode: arrowKeyCode, keyDown: false)
-postKey(source: source, keyCode: controlKeyCode, keyDown: false)</code></pre>
+<pre><code>Pay-as-you-go: 1M Credits = 0.01 CNY
+Pro tier: 1M Credits = 329 / 38,000 = 0.00866 CNY
+Discount: 13.4%</code></pre>
 
-<p>每个事件都投递到 session event tap：</p>
+<p>Token Plan saves 13.4% per credit. But because MiMo&#39;s cache hit rate is 4.33 points lower, its pay-as-you-go cost is 64.4% higher than DeepSeek&#39;s.</p>
 
-<pre><code>event.post(tap: .cgSessionEventTap)</code></pre>
+<p>A 13.4% discount cannot plug a 64.4% hole.</p>
 
-<p>改完以后，<code>Ctrl+Left</code> / <code>Ctrl+Right</code> 开始能稳定触发 Spaces 切换。这次成功不是因为某个神奇延迟，而是事件模型终于像一个系统愿意接受的虚拟键盘输入。</p>
+<h2>Full Calculation: Token Plan vs DeepSeek Pay-as-you-go</h2>
 
-<h2>为什么 Karabiner 更稳</h2>
+<p>Let total monthly input be I (in millions of tokens), with output O = 0.005267 × I. Computing cost at each MiMo tier:</p>
 
-<p>Karabiner-Elements 走的是另一条更底层的路：它通过虚拟 HID 键盘把事件发给系统。换句话说，它不是像普通 app 一样“post CGEvent”，而是更接近真正插了一把键盘。</p>
+<pre><code>Maximum monthly input each MiMo tier can cover:
+  Lite (4.1B): I ≤ 124.8M    → DeepSeek pay-as-you-go 24.92 CNY &lt; 39 CNY ✗
+  Standard (11B): I ≤ 334.9M → DeepSeek pay-as-you-go 66.88 CNY &lt; 99 CNY ✗
+  Pro (38B): I ≤ 1,157.0M    → DeepSeek pay-as-you-go 231.05 CNY &lt; 329 CNY ✗
+  Max (82B): I ≤ 2,496.2M    → DeepSeek pay-as-you-go 498.38 CNY &lt; 659 CNY ✗</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">DeepSeek Pay-as-you-go Cost vs MiMo Tier Price at Each Tier&#39;s Max Usage</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite Tier Price</span>
+        <span class="chart-value">39 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 5.91%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite Max DS Cost</span>
+        <span class="chart-value">24.92 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 3.78%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Pro Tier Price</span>
+        <span class="chart-value">329 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 49.85%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Pro Max DS Cost</span>
+        <span class="chart-value">231.05 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 35.01%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Max Tier Price</span>
+        <span class="chart-value">659 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 99.85%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Max Max DS Cost</span>
+        <span class="chart-value">498.38 CNY</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 75.51%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>At each tier&#39;s maximum usage, DeepSeek pay-as-you-go still comes out cheaper. There is no crossover point.</figcaption>
+</figure>
+
+<p>Four tiers, four &quot;not enough.&quot; No matter how high the monthly usage, MiMo Token Plan is always more expensive than DeepSeek pay-as-you-go.</p>
+
+<h2>What Would It Take to Break Even?</h2>
+
+<p>Working backwards: how high would MiMo&#39;s cache hit rate need to be for Token Plan&#39;s effective cost to match DeepSeek pay-as-you-go?</p>
+
+<pre><code>(303.16 - 297.5x) × 0.00866 ≤ 0.1997
+x ≥ 94.15%</code></pre>
+
+<p>MiMo is currently at 90.86% — still <strong>3.29 percentage points</strong> short.</p>
+
+<p>If we look at pay-as-you-go only (no Token Plan), the required hit rate is even higher:</p>
+
+<pre><code>MiMo pay-as-you-go cost = DeepSeek pay-as-you-go cost
+0.3285 × I = 0.1997 × I  →  Impossible — the coefficients are fixed</code></pre>
+
+<p>Pay-as-you-go can never break even — identical per-token rates but different hit-rate coefficients mean the two cost lines are parallel and diverging.</p>
+
+<h2>Why 4 Percentage Points Matters So Much</h2>
+
+<p>Intuitively, 95% and 91% look similar. But cache-miss tokens cost <strong>120 times</strong> more than cache-hit tokens (3 vs 0.025). That means:</p>
+
+<pre><code>DeepSeek cost per 100 input tokens:
+  95.19 × 0.025 + 4.81 × 3 = 2.38 + 14.43 = 16.81
+
+MiMo cost per 100 input tokens:
+  90.86 × 0.025 + 9.14 × 3 = 2.27 + 27.42 = 29.69</code></pre>
+
+<p>DeepSeek&#39;s cache-miss cost is 14.43; MiMo&#39;s is 27.42 — a 13-point gap on this single line item alone. On the cache-hit side, DeepSeek actually spends 0.11 more (because it has more cache-hit tokens), but that&#39;s negligible compared to the miss-side gap.</p>
 
 <blockquote>
-<p>如果目标是生产级键盘重映射，虚拟 HID 是更稳的架构；如果目标是一个小工具，Hammerspoon 风格的 private source + session tap 已经是 CGEvent 路线里相当实用的做法。</p>
+<p>A 4 percentage point gap in cache hit rate essentially means the cache-miss volume doubles. And cache-miss is the most expensive part of the bill.</p>
 </blockquote>
 
-<h2>这次学到的东西</h2>
+<h2>The Bottom Line</h2>
+
+<p><strong>When per-token rates are identical, the platform with the higher cache hit rate is always cheaper. No usage volume can reverse this outcome.</strong></p>
+
+<p>Both providers&#39; costs are linear functions whose slopes are determined by cache hit rate. DeepSeek&#39;s slope is lower, so the two lines only diverge further as usage grows.</p>
+
+<p>Token Plan&#39;s 13.4% discount cannot compensate for a 64.4% cost gap. MiMo&#39;s only path to closing the gap is raising its cache hit rate from 90.86% to above 94% — at which point not only would Token Plan win, but even pay-as-you-go would break even.</p>
+
+<h2>Data and References</h2>
 
 <ul>
-<li>普通应用快捷键能工作，不代表系统级快捷键也会工作。</li>
-<li>网页键盘检测工具只能证明事件是否到达网页，不能完全代表 Mission Control 的系统热键路径。</li>
-<li>对 macOS 组合键，flags、event source、event tap、按键顺序都可能影响结果。</li>
-<li>遇到系统输入问题时，直接看 Hammerspoon、Karabiner、yabai 这类成熟项目，比继续猜更快。</li>
-</ul>
-
-<blockquote>
-<p>最终修复并不复杂。复杂的是确认哪一层在吞事件：鼠标侧键、Input Monitoring、Accessibility、CGEvent flags、Mission Control，还是 Spaces 本身。</p>
-</blockquote>
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.html">Hammerspoon hs.eventtap</a></li>
-<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.event.html">Hammerspoon hs.eventtap.event</a></li>
-<li><a href="https://karabiner-elements.pqrs.org/docs/manual/misc/event-modification-chaining/">Karabiner-Elements event modification chain</a></li>
-<li><a href="https://developer.apple.com/documentation/coregraphics/1456564-cgeventcreatekeyboardevent">Apple CGEvent keyboard event documentation</a></li>
+<li>Usage data: Peak daily usage from DeepSeek on June 8, carried over from the previous article.</li>
+<li>DeepSeek V4 Pro pricing: Official rates following the permanent price cut on May 22, 2026. See <a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek Models &amp; Pricing</a>.</li>
+<li>MiMo v2.5 Pro pricing: Official rates following the permanent price cut on May 27, 2026. See <a href="https://platform.xiaomimimo.com/static/docs/news/v2.5-price-update.md">MiMo V2.5 Price Adjustment Announcement</a>.</li>
+<li>MiMo Token Plan Credits pricing: <a href="https://platform.xiaomimimo.com/static/docs/price/tokenplan/subscription.md">MiMo Token Plan Subscription &amp; Credits Rules</a>.</li>
+<li>Previous article: <a href="/blog/mimo-token-plan-vs-deepseek-v4-flash.html">Is MiMo Token Plan at CNY 39 Really a Better Deal Than DeepSeek V4 Flash?</a></li>
 </ul></div>
-                    <div data-lang="zh" hidden><p>SideClick 是一个很小的 macOS 菜单栏工具：监听鼠标侧键，然后发送一个用户配置好的键盘快捷键。最开始的目标非常朴素：把鼠标后退/前进侧键映射成 <code>Ctrl+Left</code> 和 <code>Ctrl+Right</code>，用来切换 Spaces 桌面。</p>
+                    <div data-lang="zh" hidden><p>上一篇文章比较了 MiMo Token Plan Lite 和 DeepSeek V4 Flash 按量，结论是 DeepSeek 更划算。但那篇文章有个前提：一边用 Flash，一边用 MiMo v2.5，单价不同。</p>
 
-<p>这个需求听起来像是几行 <code>CGEvent</code> 就能完成。实际调试过程证明，macOS 的系统级快捷键比普通应用快捷键挑剔得多。</p>
+<p>5 月底两家都经历了大幅降价。现在如果两边都用各自的 Pro 模型——MiMo v2.5 Pro 和 DeepSeek V4 Pro——价格会怎样？</p>
 
-<h2>现象</h2>
+<h2>先看单价</h2>
 
-<p>普通快捷键很快就工作了，例如：</p>
+<p>截至 2026 年 6 月，两家 Pro 模型的国内按量价格完全一致：</p>
 
-<ul>
-<li><code>Cmd+C</code> 能复制。</li>
-<li><code>Cmd+V</code> 能粘贴。</li>
-<li>单独发送方向键，也能被网页键盘检测工具识别。</li>
-<li>单独发送 Ctrl，后来也能被识别。</li>
-</ul>
+<pre><code>              缓存命中      缓存未命中      输出
+              (元/百万)     (元/百万)      (元/百万)
+MiMo v2.5 Pro    0.025          3             6
+DeepSeek V4 Pro  0.025          3             6</code></pre>
 
-<p>但只要组合成 <code>Ctrl+Left</code> 或 <code>Ctrl+Right</code>，Mission Control 就不切桌面。期间还出现过一个特别迷惑的状态：网页能看到 Ctrl，却看不到方向键。</p>
+<p>一分钱都不差。MiMo 在 5 月 27 日跟进降价后，两家在缓存命中输入、未命中输入、输出三个计费项上完全对齐。</p>
 
-<h2>走过的弯路</h2>
+<p>单价一样，那成本差异就只剩一个变量：<strong>缓存命中率</strong>。</p>
 
-<h3>1. 只给方向键加 flags</h3>
+<h2>同样的用量，不同的命中率</h2>
 
-<p>最直觉的做法是创建方向键事件，然后把 Control flag 塞进去：</p>
+<p>沿用上一篇文章的数据——6 月 8 日峰值日用量，按 30 天连续计算：</p>
 
-<pre><code>event.flags = [.maskControl]
-event.post(tap: .cghidEventTap)</code></pre>
+<pre><code>DeepSeek（95.19% 缓存命中率）：
+  缓存命中输入：911,957,760
+  缓存未命中输入：46,106,760
+  输出：5,046,000
 
-<p>这对某些普通应用快捷键有用，但对 Spaces 切换不稳定。系统好像看到了一个“带 Ctrl 标记的方向键”，但没有把它当成一次真实的 Ctrl+方向键输入。</p>
+MiMo（90.86% 缓存命中率）：
+  缓存命中输入：870,505,662
+  缓存未命中输入：87,558,858
+  输出：5,046,000</code></pre>
 
-<h3>2. 真的发 Ctrl down/up，但主键没有 flags</h3>
+<p>总输入量相同，但因为 MiMo 的缓存命中率低 4.33 个百分点，缓存未命中的 token 多了将近一倍。</p>
 
-<p>于是换成物理键盘顺序：</p>
+<h2>按量费用对比</h2>
 
-<pre><code>Ctrl down
-Arrow down
-Arrow up
-Ctrl up</code></pre>
+<p>用相同的单价计算：</p>
 
-<p>这让“Ctrl 被按下”更真实，但如果主键那一帧没有正确被系统归类，系统快捷键匹配器仍然可能把它当成普通方向键。类似问题在测试 <code>Ctrl+Space</code> 时也出现过：输入法切换会变得不稳定，甚至走到长按选择器那条路径。</p>
+<pre><code>DeepSeek V4 Pro 按量：
+  缓存命中：911.96M × 0.025 =  22.80 元
+  缓存未命中：46.11M × 3     = 138.32 元
+  输出：5.05M × 6            =  30.28 元
+  合计：                      191.40 元/月
 
-<h3>3. 直接切 Spaces</h3>
+MiMo v2.5 Pro 按量：
+  缓存命中：870.51M × 0.025 =  21.76 元
+  缓存未命中：87.56M × 3    = 262.68 元
+  输出：5.05M × 6           =  30.28 元
+  合计：                     314.72 元/月</code></pre>
 
-<p>我们还试过绕开快捷键，动态调用 SkyLight 私有 API 读取和切换 Space。终端里同一套 API 能切，但放进 app 后体验很别扭，也会引入“已经在最左/最右边”等额外状态。</p>
+<figure class="article-chart">
+    <div class="chart-title">同用量下的 Pro 模型按量月费</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro</span>
+        <span class="chart-value">191.40 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 59.81%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro</span>
+        <span class="chart-value">314.72 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 98.35%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>单价完全相同，MiMo 贵了 64%，全部来自缓存命中率的 4.33 个百分点差距。</figcaption>
+</figure>
 
-<p>这条路线最后被撤掉了。SideClick 的目标还是键盘映射工具，不应该为了一个快捷键把自己变成半个窗口管理器。</p>
+<p>MiMo 按量比 DeepSeek 贵 <code>123.32 元</code>，贵了 64%。这不是模型的问题，纯粹是缓存命中率的差距。</p>
 
-<h2>转折点：看 Hammerspoon 怎么做</h2>
+<h2>Token Plan 能扳回一局吗？</h2>
 
-<p>最后去看成熟工具的实现。Hammerspoon 的 <code>hs.eventtap.event.newKeyEventSequence</code> 很接近 Apple 文档建议的模型：为每个 modifier 和主键生成一组有顺序的 key down / key up 事件。</p>
+<p>MiMo v2.5 Pro 的 Token Plan Credits 费率：</p>
 
-<p>它的核心思路不是“给主键伪造 flags”，而是构造一组完整的虚拟按键序列：</p>
+<pre><code>缓存命中：2.5 Credits / token
+缓存未命中：300 Credits / token
+输出：600 Credits / token</code></pre>
 
-<pre><code>Ctrl down
-Arrow down
-Arrow up
-Ctrl up</code></pre>
+<p>按 MiMo 的 90.86% 命中率，月度用量换算成 Credits：</p>
 
-<p>关键差异在事件来源和投递位置：</p>
+<pre><code>缓存命中：870,505,662 × 2.5  =  2.176B
+缓存未命中：87,558,858 × 300 = 26.268B
+输出：5,046,000 × 600        =  3.028B
+合计：                        31.47B Credits</code></pre>
 
-<ul>
-<li>使用 private <code>CGEventSource</code>，也就是 <code>CGEventSourceStateID(rawValue: -1)</code>。</li>
-<li>投递到 <code>.cgSessionEventTap</code>。</li>
-<li>不手动给每个事件塞 flags，让系统从完整事件序列里维护 modifier 状态。</li>
-</ul>
+<p>对照四档套餐：</p>
 
-<h2>最终可用的实现</h2>
+<pre><code>Lite：39 元，4.1B Credits      ← 不够
+Standard：99 元，11B Credits   ← 不够
+Pro：329 元，38B Credits       ← 够用，剩余 6.53B
+Max：659 元，82B Credits       ← 远超</code></pre>
 
-<p>最终 SideClick 的发送逻辑变成这样：</p>
+<p>Pro 套餐 329 元，比按量的 314.72 元还贵一点——因为套餐额度有浪费。</p>
 
-<pre><code>let source = CGEventSource(stateID: CGEventSourceStateID(rawValue: -1)!)
+<p>那换个角度：假设套餐额度能零浪费地用完，Token Plan 的折扣够不够填上缓存命中率的差距？</p>
 
-postKey(source: source, keyCode: controlKeyCode, keyDown: true)
-postKey(source: source, keyCode: arrowKeyCode, keyDown: true)
-postKey(source: source, keyCode: arrowKeyCode, keyDown: false)
-postKey(source: source, keyCode: controlKeyCode, keyDown: false)</code></pre>
+<pre><code>按量：1M Credits = 0.01 元
+Pro 套餐：1M Credits = 329 / 38,000 = 0.00866 元
+折扣幅度：13.4%</code></pre>
 
-<p>每个事件都投递到 session event tap：</p>
+<p>Token Plan 每 Credit 便宜 13.4%。但因为缓存命中率低 4.33 个百分点，MiMo 的按量成本比 DeepSeek 贵 64.4%。</p>
 
-<pre><code>event.post(tap: .cgSessionEventTap)</code></pre>
+<p>13.4% 的折扣填不上 64.4% 的坑。</p>
 
-<p>改完以后，<code>Ctrl+Left</code> / <code>Ctrl+Right</code> 开始能稳定触发 Spaces 切换。这次成功不是因为某个神奇延迟，而是事件模型终于像一个系统愿意接受的虚拟键盘输入。</p>
+<h2>从头算到尾：Token Plan vs DeepSeek 按量</h2>
 
-<h2>为什么 Karabiner 更稳</h2>
+<p>设总月输入量为 I（百万 tokens），输出 O = 0.005267 × I。分别计算两家在不同档位下的成本：</p>
 
-<p>Karabiner-Elements 走的是另一条更底层的路：它通过虚拟 HID 键盘把事件发给系统。换句话说，它不是像普通 app 一样“post CGEvent”，而是更接近真正插了一把键盘。</p>
+<pre><code>MiMo Token Plan 各档位能覆盖的最大月 input：
+  Lite（4.1B）：I ≤ 124.8M    → DeepSeek 按量 24.92 元 &lt; 39 元 ✗
+  Standard（11B）：I ≤ 334.9M → DeepSeek 按量 66.88 元 &lt; 99 元 ✗
+  Pro（38B）：I ≤ 1,157.0M    → DeepSeek 按量 231.05 元 &lt; 329 元 ✗
+  Max（82B）：I ≤ 2,496.2M    → DeepSeek 按量 498.38 元 &lt; 659 元 ✗</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">各档套餐上限处，DeepSeek 按量费用 vs 套餐价格</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite 套餐价格</span>
+        <span class="chart-value">39 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 5.91%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Lite 上限 DS 费用</span>
+        <span class="chart-value">24.92 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 3.78%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Pro 套餐价格</span>
+        <span class="chart-value">329 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 49.85%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Pro 上限 DS 费用</span>
+        <span class="chart-value">231.05 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 35.01%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Max 套餐价格</span>
+        <span class="chart-value">659 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 99.85%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Max 上限 DS 费用</span>
+        <span class="chart-value">498.38 元</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 75.51%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>每个套餐在用满的极限处，DeepSeek 按量都更便宜。不存在交叉点。</figcaption>
+</figure>
+
+<p>四个档位，四个&quot;不够&quot;。不管月用量多大，MiMo Token Plan 都比 DeepSeek 按量贵。</p>
+
+<h2>要追平需要什么条件？</h2>
+
+<p>反算一下：MiMo 的缓存命中率需要达到多少，才能让 Token Plan 的等价成本追平 DeepSeek 按量？</p>
+
+<pre><code>(303.16 - 297.5x) × 0.00866 ≤ 0.1997
+x ≥ 94.15%</code></pre>
+
+<p>当前 MiMo 是 90.86%，还差 <strong>3.29 个百分点</strong>。</p>
+
+<p>如果只看按量（不用 Token Plan），需要的缓存命中率更高：</p>
+
+<pre><code>MiMo 按量成本 = DeepSeek 按量成本
+0.3285 × I = 0.1997 × I  →  不可能，系数固定</code></pre>
+
+<p>按量永远追不上——单价一样，命中率系数不同，两条线平行发散。</p>
+
+<h2>为什么 4 个百分点差这么多</h2>
+
+<p>直觉上，95% 和 91% 看起来差不多。但缓存未命中的单价是命中的 <strong>120 倍</strong>（3 vs 0.025）。这意味着：</p>
+
+<pre><code>DeepSeek 每 100 个输入 token 的成本：
+  95.19 × 0.025 + 4.81 × 3 = 2.38 + 14.43 = 16.81
+
+MiMo 每 100 个输入 token 的成本：
+  90.86 × 0.025 + 9.14 × 3 = 2.27 + 27.42 = 29.69</code></pre>
+
+<p>DeepSeek 缓存未命中部分的花费是 14.43，MiMo 是 27.42——光这一项就差了 13 元。缓存命中部分 DeepSeek 反而多花 0.11 元（因为命中更多），但和未命中部分的差距比，完全可以忽略。</p>
 
 <blockquote>
-<p>如果目标是生产级键盘重映射，虚拟 HID 是更稳的架构；如果目标是一个小工具，Hammerspoon 风格的 private source + session tap 已经是 CGEvent 路线里相当实用的做法。</p>
+<p>缓存命中率差 4 个百分点，本质上是&quot;未命中部分翻了一倍&quot;。而未命中部分恰好是单价最贵的那部分。</p>
 </blockquote>
 
-<h2>这次学到的东西</h2>
+<h2>所以答案是</h2>
+
+<p><strong>单价一样时，缓存命中率更高的平台永远更便宜。不存在某个用量规模能逆转这个结果。</strong></p>
+
+<p>两边成本都是线性函数，斜率由缓存命中率决定。DeepSeek 的斜率更低，两条线从原点出发后只会越拉越远。</p>
+
+<p>Token Plan 的 13.4% 折扣无法弥补 64.4% 的成本差距。MiMo 唯一的翻盘路径是把缓存命中率从 90.86% 提升到 94% 以上——到时候不光 Token Plan 会赢，连按量都会打平。</p>
+
+<h2>数据与参考</h2>
 
 <ul>
-<li>普通应用快捷键能工作，不代表系统级快捷键也会工作。</li>
-<li>网页键盘检测工具只能证明事件是否到达网页，不能完全代表 Mission Control 的系统热键路径。</li>
-<li>对 macOS 组合键，flags、event source、event tap、按键顺序都可能影响结果。</li>
-<li>遇到系统输入问题时，直接看 Hammerspoon、Karabiner、yabai 这类成熟项目，比继续猜更快。</li>
-</ul>
-
-<blockquote>
-<p>最终修复并不复杂。复杂的是确认哪一层在吞事件：鼠标侧键、Input Monitoring、Accessibility、CGEvent flags、Mission Control，还是 Spaces 本身。</p>
-</blockquote>
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.html">Hammerspoon hs.eventtap</a></li>
-<li><a href="https://www.hammerspoon.org/docs/hs.eventtap.event.html">Hammerspoon hs.eventtap.event</a></li>
-<li><a href="https://karabiner-elements.pqrs.org/docs/manual/misc/event-modification-chaining/">Karabiner-Elements event modification chain</a></li>
-<li><a href="https://developer.apple.com/documentation/coregraphics/1456564-cgeventcreatekeyboardevent">Apple CGEvent keyboard event documentation</a></li>
+<li>用量数据：沿用上一篇文章中 DeepSeek 6 月 8 日的峰值日用量。</li>
+<li>DeepSeek V4 Pro 价格：2026 年 5 月 22 日永久降价后的官方定价，详见 <a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek 模型与价格</a>。</li>
+<li>MiMo v2.5 Pro 价格：2026 年 5 月 27 日永久降价后的官方定价，详见 <a href="https://platform.xiaomimimo.com/static/docs/news/v2.5-price-update.md">MiMo V2.5 价格调整公告</a>。</li>
+<li>MiMo Token Plan Credits 费率：<a href="https://platform.xiaomimimo.com/static/docs/price/tokenplan/subscription.md">MiMo Token Plan 订阅与 Credits 规则</a>。</li>
+<li>上一篇文章：<a href="/blog/mimo-token-plan-vs-deepseek-v4-flash.html">39 元的 MiMo Token Plan，真的比 DeepSeek V4 Flash 划算吗？</a></li>
 </ul></div>
                 </article>
             </div>

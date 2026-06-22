@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{titleEn}} - Abelliuxl Macintosh</title>
+    <title>OpenCode Go&#39;s Three New Models — GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3 - Abelliuxl Macintosh</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         :root {
@@ -591,7 +591,7 @@
         }
     </style>
 </head>
-<body data-title-en="{{titleEn}} - Abelliuxl Macintosh" data-title-zh="{{titleZh}} - Abelliuxl Macintosh">
+<body data-title-en="OpenCode Go&#39;s Three New Models — GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3 - Abelliuxl Macintosh" data-title-zh="OpenCode Go 三大新模型：GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3 - Abelliuxl Macintosh">
     <div class="menu-bar">
         <a class="logo" href="/">Abelliuxl</a>
         <div class="menu-items">
@@ -616,11 +616,16 @@
             </div>
             <div class="window-content">
                 <article>
-                    <h1 data-lang="en">{{displayTitleEn}}</h1>
-                    <h1 data-lang="zh" hidden>{{displayTitleZh}}</h1>
-                    <p class="meta">{{date}} · {{tagLine}}</p>
+                    <h1 data-lang="en">OpenCode Go&#39;s Three New Models — GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3</h1>
+                    <h1 data-lang="zh" hidden>OpenCode Go 三大新模型：GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3</h1>
+                    <p class="meta">2026-06-18 · AI / OpenCode / GLM / Kimi / MiniMax / Pricing</p>
                     <div class="tags">
-                        {{tags}}
+                        <span class="tag">AI</span>
+                        <span class="tag">OpenCode</span>
+                        <span class="tag">GLM</span>
+                        <span class="tag">Kimi</span>
+                        <span class="tag">MiniMax</span>
+                        <span class="tag">Pricing</span>
                     </div>
                     <div class="article-actions">
                         <a class="x-action" id="article-x-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
@@ -628,8 +633,224 @@
                             <span data-lang="zh" hidden>分享到 X</span>
                         </a>
                     </div>
-                    <div data-lang="en">{{bodyEn}}</div>
-                    <div data-lang="zh" hidden>{{bodyZh}}</div>
+                    <div data-lang="en"><p>Three models landed on OpenCode Go within the same week in mid-June 2026: Kimi K2.7 Code (June 12), GLM 5.2 (June 13), and MiniMax M3 (June 1). All three are open-weight, all three are on the same $10/month plan ($5 first month), and the limits vary dramatically.</p>
+
+<h2>The Rate Limits</h2>
+
+<p>OpenCode Go&#39;s limits are defined in dollar amounts: $12 per 5 hours, $30 per week, $60 per month. Since each model has a different per-token price, the same dollar budget buys a very different number of requests.</p>
+
+<pre><code>                    Per 5h     Per Week    Per Month
+GLM-5.2               880       2,150       4,300
+Kimi K2.7 Code      1,350       4,630       9,250
+MiniMax M3          3,200       8,000      16,000</code></pre>
+
+<p>MiniMax M3 gets <strong>3.7× more monthly requests</strong> than GLM 5.2, and <strong>1.7× more</strong> than Kimi K2.7 Code. The reason is straightforward: M3 is far cheaper per token, so the same dollar budget stretches further.</p>
+
+<figure class="article-chart">
+    <div class="chart-title">OpenCode Go Monthly Request Limits</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiniMax M3</span>
+        <span class="chart-value">16,000 requests/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 96.97%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Kimi K2.7 Code</span>
+        <span class="chart-value">9,250 requests/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 56.06%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM-5.2</span>
+        <span class="chart-value">4,300 requests/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 26.06%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>Same $10/month plan. M3 gets 3.7× the monthly requests of GLM 5.2.</figcaption>
+</figure>
+
+<h2>Per-Token Pricing</h2>
+
+<p>The limits are driven by these per-token rates:</p>
+
+<pre><code>                    Input/1M    Output/1M    Cache Read/1M
+GLM-5.2              $1.40       $4.40         $0.26
+Kimi K2.7 Code       $0.95       $4.00         $0.19
+MiniMax M3           $0.30       $1.20         $0.06</code></pre>
+
+<p>GLM 5.2&#39;s input price is <strong>4.7×</strong> M3&#39;s, and its output price is <strong>3.7×</strong> M3&#39;s. Even Kimi K2.7 Code is over 3× M3 on input. M3 is in a completely different cost tier.</p>
+
+<h2>Context Windows</h2>
+
+<p>Two of the three models support 1M-token context:</p>
+
+<pre><code>GLM-5.2           1,000,000 tokens
+MiniMax M3        1,000,000 tokens
+Kimi K2.7 Code      256,000 tokens</code></pre>
+
+<p>If your workflow involves large codebases or long-horizon agent sessions, GLM 5.2 and M3 have a clear structural advantage. K2.7 Code&#39;s 256K is still substantial but 4× smaller.</p>
+
+<h2>Typical Request Cost</h2>
+
+<p>OpenCode Go estimates these average token counts per request:</p>
+
+<pre><code>GLM-5.2           700 input, 52,000 cache, 150 output
+Kimi K2.7 Code    870 input, 55,000 cache, 200 output
+MiniMax M3        510 input, 56,000 cache, 190 output</code></pre>
+
+<p>Despite having the largest context window, GLM 5.2 has the smallest average input tokens per request (700 vs 870 for K2.7 Code). This suggests GLM 5.2 users may be running shorter, more targeted queries—possibly because hitting the 880 req/5h limit forces efficiency.</p>
+
+<h2>Special Notes</h2>
+
+<p><strong>MiniMax M3</strong> currently has a <strong>3× usage bonus</strong> for a limited time, meaning its effective limits are even higher than shown above.</p>
+
+<p><strong>Kimi K2.7 Code</strong> claims a ~30% reduction in thinking-token usage compared to K2.6, which means each request consumes fewer tokens and the effective request count may be higher in practice.</p>
+
+<p><strong>GLM 5.2</strong> is the newest of the three (released June 13) and the most expensive on the plan. Its 1M context with IndexShare architecture is designed specifically for long-horizon engineering tasks.</p>
+
+<h2>Which One to Pick?</h2>
+
+<table>
+<thead><tr><th style="text-align:left">Use Case</th><th style="text-align:left">Best Pick</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">High-volume daily coding</td><td style="text-align:left"><strong>MiniMax M3</strong> — 16,000 req/month, cheapest per token</td></tr>
+<tr><td style="text-align:left">Long-horizon agent tasks, large codebase</td><td style="text-align:left"><strong>GLM 5.2</strong> — 1M context, but 4,300 req/month cap</td></tr>
+<tr><td style="text-align:left">Coding-specific, token-efficient</td><td style="text-align:left"><strong>Kimi K2.7 Code</strong> — 30% fewer thinking tokens, 9,250 req/month</td></tr>
+<tr><td style="text-align:left">Mixed workload</td><td style="text-align:left">GLM 5.2 for hard problems, M3 for everything else</td></tr>
+</tbody>
+</table>
+
+<p>The fundamental tradeoff is simple: <strong>GLM 5.2 is the most capable but the tightest on limits. M3 is the most generous but the least &quot;premium.&quot; K2.7 Code sits in the middle.</strong></p>
+
+<h2>Data and References</h2>
+
+<ul>
+<li>Rate limits and pricing: <a href="https://opencode.ai/docs/go">OpenCode Go Documentation</a> (official, accessed June 18, 2026)</li>
+<li>GLM 5.2 technical report: <a href="https://z.ai/blog/glm-5.2">Z.AI Blog</a></li>
+<li>Kimi K2.7 Code release: <a href="https://www.kimi.com/resources/kimi-k2-7-code">Kimi Resources</a></li>
+<li>MiniMax M3 launch: June 1, 2026</li>
+<li>All models available on OpenCode Go as of June 18, 2026</li>
+</ul></div>
+                    <div data-lang="zh" hidden><p>三款模型在 2026 年 6 月中旬先后上架 OpenCode Go：Kimi K2.7 Code（6 月 12 日）、GLM 5.2（6 月 13 日）、MiniMax M3（6 月 1 日）。都是开源权重模型，都在同一个 $10/月的订阅计划里（首月 $5），但可用额度差距巨大。</p>
+
+<h2>使用限额</h2>
+
+<p>OpenCode Go 的限额按美元额度定义：每 5 小时 $12、每周 $30、每月 $60。由于每个模型的 token 单价不同，同样的美元预算能支撑的请求数量完全不同。</p>
+
+<pre><code>                    每 5h      每周        每月
+GLM-5.2               880      2,150       4,300
+Kimi K2.7 Code      1,350      4,630       9,250
+MiniMax M3          3,200      8,000      16,000</code></pre>
+
+<p>MiniMax M3 的每月请求数是 GLM 5.2 的 <strong>3.7 倍</strong>，是 Kimi K2.7 Code 的 <strong>1.7 倍</strong>。原因很直接：M3 的 token 单价便宜得多，同样的美元预算能跑更多请求。</p>
+
+<figure class="article-chart">
+    <div class="chart-title">OpenCode Go 每月请求限额</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiniMax M3</span>
+        <span class="chart-value">16,000 次/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 96.97%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">Kimi K2.7 Code</span>
+        <span class="chart-value">9,250 次/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 56.06%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM-5.2</span>
+        <span class="chart-value">4,300 次/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 26.06%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>同样 $10/月，M3 的月请求量是 GLM 5.2 的 3.7 倍。</figcaption>
+</figure>
+
+<h2>Token 单价</h2>
+
+<p>限额由以下单价决定：</p>
+
+<pre><code>                    输入/百万    输出/百万    缓存读取/百万
+GLM-5.2              $1.40       $4.40         $0.26
+Kimi K2.7 Code       $0.95       $4.00         $0.19
+MiniMax M3           $0.30       $1.20         $0.06</code></pre>
+
+<p>GLM 5.2 的输入价是 M3 的 <strong>4.7 倍</strong>，输出价是 <strong>3.7 倍</strong>。Kimi K2.7 Code 的输入价也是 M3 的 3 倍以上。M3 的成本完全在另一个量级。</p>
+
+<h2>上下文窗口</h2>
+
+<p>三款中有两款支持 100 万 token 上下文：</p>
+
+<pre><code>GLM-5.2           1,000,000 tokens
+MiniMax M3        1,000,000 tokens
+Kimi K2.7 Code      256,000 tokens</code></pre>
+
+<p>如果你的工作流涉及大型代码库或长程 agent 任务，GLM 5.2 和 M3 有明显的结构优势。K2.7 Code 的 256K 也不小，但只有前两者的四分之一。</p>
+
+<h2>单次请求的典型 Token 消耗</h2>
+
+<p>OpenCode Go 估算的单次请求平均 token 数：</p>
+
+<pre><code>GLM-5.2           700 输入, 52,000 缓存, 150 输出
+Kimi K2.7 Code    870 输入, 55,000 缓存, 200 输出
+MiniMax M3        510 输入, 56,000 缓存, 190 输出</code></pre>
+
+<p>尽管上下文窗口最大，GLM 5.2 的平均输入 token 数反而最少（700 vs K2.7 Code 的 870）。可能是因为 880 次/5h 的限额压力迫使用户更精打细算。</p>
+
+<h2>需要注意的事项</h2>
+
+<p><strong>MiniMax M3</strong> 目前有限时 <strong>3 倍额度加成</strong>，实际可用限额比上表更高。</p>
+
+<p><strong>Kimi K2.7 Code</strong> 宣称比 K2.6 减少约 30% 的推理 token 消耗，意味着每次请求实际消耗更少，等效请求数可能更高。</p>
+
+<p><strong>GLM 5.2</strong> 是三者中最新发布的（6 月 13 日），也是计划内最贵的。其 1M 上下文搭配 IndexShare 架构，专门为长程工程任务设计。</p>
+
+<h2>怎么选？</h2>
+
+<table>
+<thead><tr><th style="text-align:left">场景</th><th style="text-align:left">推荐</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">高频日常编程</td><td style="text-align:left"><strong>MiniMax M3</strong> — 16,000 次/月，单价最低</td></tr>
+<tr><td style="text-align:left">长程 agent、大型代码库</td><td style="text-align:left"><strong>GLM 5.2</strong> — 1M 上下文，但限额 4,300 次/月</td></tr>
+<tr><td style="text-align:left">编程专项、省 token</td><td style="text-align:left"><strong>Kimi K2.7 Code</strong> — 推理 token 减少 30%，9,250 次/月</td></tr>
+<tr><td style="text-align:left">混合使用</td><td style="text-align:left">GLM 5.2 做困难任务，M3 做日常任务</td></tr>
+</tbody>
+</table>
+
+<p>核心取舍很简单：<strong>GLM 5.2 能力最强但限额最紧，M3 额度最充裕但&quot;最平民&quot;，K2.7 Code 居中。</strong></p>
+
+<h2>数据与参考</h2>
+
+<ul>
+<li>限额与定价：<a href="https://opencode.ai/docs/go">OpenCode Go 官方文档</a>（2026 年 6 月 18 日访问）</li>
+<li>GLM 5.2 技术报告：<a href="https://z.ai/blog/glm-5.2">Z.AI 博客</a></li>
+<li>Kimi K2.7 Code 发布：<a href="https://www.kimi.com/resources/kimi-k2-7-code">Kimi 资源页</a></li>
+<li>MiniMax M3 上线：2026 年 6 月 1 日</li>
+<li>以上三款模型截至 2026 年 6 月 18 日均可在 OpenCode Go 中使用</li>
+</ul></div>
                 </article>
             </div>
         </div>

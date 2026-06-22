@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLM 5.2 vs DeepSeek V4 Pro vs MiMo v2.5 Pro — When 99% Cache Hit Rate Meets 60x Pricing - Abelliuxl Macintosh</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-10: #f8f8f8;
+            --color-gray-15: #eeeeee;
+            --color-gray-25: #d9d9d9;
+            --color-gray-35: #c8c8c8;
+            --color-gray-50: #929292;
+            --color-gray-75: #4f4f4f;
+            --color-aqua-blue: #2f83f7;
+            --color-aqua-blue-dark: #0751c9;
+            --color-aqua-blue-light: #b9ddff;
+            --color-aqua-window: #f7f7f7;
+            --color-aqua-desktop: #8aa9d6;
+            --color-link: #003fbd;
+            --font-family-system: "Lucida Grande", "Geneva", "Helvetica", Arial, sans-serif;
+            --font-family-mono: "Monaco", "Courier New", monospace;
+            --font-size-xs: 9px;
+            --font-size-sm: 10px;
+            --font-size-md: 12px;
+            --font-size-lg: 14px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --menubar-height: 24px;
+            --border-width-thick: 3px;
+            --border-width-thin: 2px;
+            --border-width-hairline: 1px;
+            --shadow-hard-lg: 0 14px 28px rgba(0, 0, 0, 0.32);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-md);
+            line-height: var(--line-height-normal);
+            background: var(--color-aqua-desktop);
+            color: var(--color-black);
+        }
+
+        body {
+            background-image:
+                linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0) 34%),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.24),
+                    rgba(255,255,255,0.24) 1px,
+                    rgba(94, 122, 166, 0.18) 1px,
+                    rgba(94, 122, 166, 0.18) 3px
+                );
+            padding-top: var(--menubar-height);
+        }
+
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--menubar-height);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-3);
+            z-index: 1000;
+            box-shadow:
+                inset 0 1px 0 var(--color-white),
+                0 1px 3px rgba(0, 0, 0, 0.28);
+        }
+
+        .menu-bar .logo {
+            font-weight: bold;
+            font-size: var(--font-size-sm);
+            padding-right: var(--spacing-4);
+            color: #1d2b45;
+            text-shadow: 0 1px 0 var(--color-white);
+            text-decoration: none;
+        }
+
+        .menu-bar .logo:hover {
+            color: #1d2b45;
+            background: none;
+        }
+
+        .menu-bar .menu-items {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-left: var(--spacing-4);
+        }
+
+        .menu-bar .menu-item,
+        .menu-bar .clock {
+            font-size: var(--font-size-sm);
+        }
+
+        .menu-bar .menu-item {
+            padding: 2px var(--spacing-2);
+            border-radius: 10px;
+            color: #182235;
+        }
+
+        .menu-bar .menu-item:hover {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+        }
+
+        .menu-bar .clock {
+            margin-left: auto;
+            font-family: var(--font-family-mono);
+        }
+
+        main {
+            width: min(880px, calc(100vw - 32px));
+            margin: var(--spacing-8) auto;
+        }
+
+        .window {
+            position: relative;
+            background: var(--color-aqua-window);
+            border: var(--border-width-hairline) solid rgba(43, 66, 102, 0.88);
+            box-shadow: var(--shadow-hard-lg);
+            padding: 0;
+            border-radius: 8px 8px 5px 5px;
+            overflow: hidden;
+        }
+
+        .window::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            pointer-events: none;
+            border-radius: 7px 7px 4px 4px;
+            border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.92);
+            border-left: var(--border-width-hairline) solid rgba(255, 255, 255, 0.72);
+            border-right: var(--border-width-hairline) solid rgba(0, 0, 0, 0.18);
+            border-bottom: var(--border-width-hairline) solid rgba(0, 0, 0, 0.26);
+        }
+
+        .window-titlebar {
+            height: 24px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: var(--color-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+            border-bottom: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            text-shadow: 0 1px 0 var(--color-white);
+            position: relative;
+        }
+
+        .window-titlebar .controls {
+            position: absolute;
+            left: var(--spacing-2);
+            display: flex;
+            gap: var(--spacing-2);
+        }
+
+        .window-close-btn,
+        .window-titlebar .controls::before,
+        .window-titlebar .controls::after {
+            content: '';
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 1px 1px rgba(255,255,255,0.85),
+                0 1px 2px rgba(0,0,0,0.42);
+        }
+
+        .window-close-btn {
+            display: block;
+            border: var(--border-width-hairline) solid rgba(102, 31, 27, 0.95);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #ffad9f 20%, #ff5a43 48%, #bb1e12 100%);
+            order: 0;
+        }
+
+        .window-titlebar .controls::before {
+            border: var(--border-width-hairline) solid rgba(123, 82, 6, 0.88);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #ffe8a1 20%, #ffc446 48%, #d18505 100%);
+            order: 1;
+        }
+
+        .window-titlebar .controls::after {
+            border: var(--border-width-hairline) solid rgba(29, 92, 27, 0.88);
+            background:
+                radial-gradient(circle at 35% 28%, #ffffff 0 12%, #bff5aa 20%, #59d748 48%, #159616 100%);
+            order: 2;
+        }
+
+        .window-titlebar span {
+            background: transparent;
+            border: 0;
+            line-height: 24px;
+            padding: 0 var(--spacing-3);
+        }
+
+        .window-content {
+            padding: var(--spacing-6);
+            background-color: var(--color-white);
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.92),
+                    rgba(255,255,255,0.92) 1px,
+                    rgba(232, 236, 242, 0.72) 1px,
+                    rgba(232, 236, 242, 0.72) 3px
+                );
+            border-top: var(--border-width-hairline) solid rgba(0, 0, 0, 0.22);
+        }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: var(--font-size-2xl);
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+            border-bottom: var(--border-width-thin) solid rgba(41, 91, 157, 0.72);
+            padding-bottom: var(--spacing-3);
+            margin-bottom: var(--spacing-3);
+            color: #10284f;
+            text-shadow: 0 1px 0 var(--color-white);
+        }
+
+        h2 {
+            font-size: var(--font-size-xl);
+            margin: var(--spacing-6) 0 var(--spacing-2);
+        }
+
+        h3 {
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-4) 0 var(--spacing-2);
+        }
+
+        p {
+            margin-bottom: var(--spacing-3);
+            line-height: var(--line-height-relaxed);
+        }
+
+        ul,
+        ol {
+            margin: 0 0 var(--spacing-3) var(--spacing-6);
+            line-height: var(--line-height-relaxed);
+        }
+
+        li {
+            margin-bottom: var(--spacing-2);
+        }
+
+        a {
+            color: var(--color-link);
+            text-decoration: underline;
+        }
+
+        a:hover {
+            background: var(--color-aqua-blue-dark);
+            color: var(--color-white);
+        }
+
+        .meta,
+        .back-link {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-4);
+            color: var(--color-link);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-1);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .article-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin: var(--spacing-3) 0 var(--spacing-5);
+        }
+
+        .x-action {
+            display: inline-block;
+            border: var(--border-width-hairline) solid rgba(0, 66, 155, 0.88);
+            background:
+                linear-gradient(180deg, #ffffff 0%, #cdeaff 18%, #61afff 48%, #0a63d7 52%, #5eb0ff 100%);
+            color: var(--color-white);
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: 14px;
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-xs);
+            text-decoration: none;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.34);
+            box-shadow:
+                inset 0 1px 1px rgba(255,255,255,0.88),
+                0 1px 3px rgba(0,0,0,0.24);
+        }
+
+        .x-action:hover {
+            filter: brightness(1.08);
+            color: var(--color-white);
+            background:
+                linear-gradient(180deg, #ffffff 0%, #cdeaff 18%, #61afff 48%, #0a63d7 52%, #5eb0ff 100%);
+        }
+
+        .tag {
+            border: var(--border-width-hairline) solid rgba(36, 78, 142, 0.72);
+            padding: 0 var(--spacing-1);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            background: #e7f1ff;
+            border-radius: 7px;
+        }
+
+        code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            background: rgba(255, 255, 255, 0.78);
+            padding: 0 var(--spacing-1);
+            border-radius: 3px;
+        }
+
+        pre {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.46);
+            background: rgba(255, 255, 255, 0.78);
+            border-radius: 8px;
+            padding: var(--spacing-3);
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: var(--border-width-thin) solid rgba(41, 91, 157, 0.72);
+            padding-left: var(--spacing-3);
+            margin: var(--spacing-4) 0;
+            color: var(--color-black);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-3) 0 var(--spacing-4);
+            font-size: var(--font-size-md);
+            line-height: 1.5;
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        th, td {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.3);
+            padding: 6px 10px;
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .article-chart {
+            border: var(--border-width-hairline) solid rgba(65, 91, 130, 0.46);
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 8px;
+            padding: var(--spacing-4);
+            margin: var(--spacing-4) 0 var(--spacing-5);
+        }
+
+        .chart-title {
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            margin-bottom: var(--spacing-3);
+            color: #10284f;
+        }
+
+        .chart-rows {
+            display: grid;
+            gap: var(--spacing-3);
+        }
+
+        .chart-row-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-1);
+        }
+
+        .chart-label {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .chart-value {
+            flex: 0 0 auto;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            font-weight: bold;
+        }
+
+        .chart-track {
+            height: 14px;
+            background: var(--color-gray-15);
+            border: var(--border-width-hairline) solid var(--color-gray-35);
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            display: block;
+            min-width: 2px;
+            height: 100%;
+        }
+
+        .chart-bar-blue {
+            background: var(--color-aqua-blue);
+        }
+
+        .chart-bar-slate {
+            background: #6687b5;
+        }
+
+        .chart-bar-orange {
+            background: #d8812c;
+        }
+
+        .chart-bar-red {
+            background: #c8423a;
+        }
+
+        .chart-bar-green {
+            background: #3a9b46;
+        }
+
+        .language-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-1);
+            margin-left: auto;
+            margin-right: var(--spacing-3);
+        }
+
+        .language-button {
+            font-family: var(--font-family-system);
+            font-size: var(--font-size-xs);
+            line-height: 1;
+            padding: 2px var(--spacing-1);
+            border: var(--border-width-hairline) solid rgba(42, 65, 98, 0.72);
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(218, 225, 238, 0.94));
+            color: #182235;
+            cursor: pointer;
+            text-shadow: 0 1px 0 var(--color-white);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .language-button:hover {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+        }
+
+        .language-button.active {
+            background: linear-gradient(180deg, var(--color-aqua-blue-light), var(--color-aqua-blue), var(--color-aqua-blue-dark));
+            color: var(--color-white);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+            cursor: default;
+        }
+
+        .menu-bar .clock {
+            margin-left: 0;
+        }
+
+        .article-chart figcaption {
+            margin-top: var(--spacing-3);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-75);
+            line-height: var(--line-height-normal);
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --font-size-xs: 10px;
+                --font-size-sm: 12px;
+                --font-size-md: 14px;
+                --font-size-lg: 16px;
+                --font-size-xl: 21px;
+                --font-size-2xl: 28px;
+
+                --spacing-1: 5px;
+                --spacing-2: 10px;
+                --spacing-3: 14px;
+                --spacing-4: 18px;
+                --spacing-5: 23px;
+                --spacing-6: 28px;
+                --spacing-8: 36px;
+                --menubar-height: 28px;
+            }
+
+            main {
+                width: min(1020px, calc(100vw - 36px));
+                margin: var(--spacing-8) auto;
+            }
+
+            .window-titlebar {
+                height: 28px;
+            }
+
+            .window-titlebar span {
+                line-height: 28px;
+            }
+
+            .window-close-btn,
+            .window-titlebar .controls::before,
+            .window-titlebar .controls::after {
+                width: 15px;
+                height: 15px;
+            }
+
+            article {
+                max-width: 840px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .menu-bar .menu-items {
+                display: none;
+            }
+
+            main {
+                width: calc(100vw - 16px);
+                margin: var(--spacing-4) auto;
+            }
+
+            .window-content {
+                padding: var(--spacing-4);
+            }
+
+            h1 {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body data-title-en="GLM 5.2 vs DeepSeek V4 Pro vs MiMo v2.5 Pro — When 99% Cache Hit Rate Meets 60x Pricing - Abelliuxl Macintosh" data-title-zh="99% 缓存命中率遇上 60 倍定价：GLM 5.2 划算吗？ - Abelliuxl Macintosh">
+    <div class="menu-bar">
+        <a class="logo" href="/">Abelliuxl</a>
+        <div class="menu-items">
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Special</div>
+            <div class="menu-item">Blog</div>
+        </div>
+        <div class="language-switcher" role="group" aria-label="Language">
+            <button class="language-button" type="button" data-language="en" onclick="setArticleLanguage('en')">EN</button>
+            <button class="language-button" type="button" data-language="zh" onclick="setArticleLanguage('zh')">中文</button>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <main>
+        <div class="window">
+            <div class="window-titlebar">
+                <div class="controls"><a class="window-close-btn" href="/" aria-label="Close article and return to desktop"></a></div>
+                <span>Blog Article</span>
+            </div>
+            <div class="window-content">
+                <article>
+                    <h1 data-lang="en">GLM 5.2 vs DeepSeek V4 Pro vs MiMo v2.5 Pro — When 99% Cache Hit Rate Meets 60x Pricing</h1>
+                    <h1 data-lang="zh" hidden>99% 缓存命中率遇上 60 倍定价：GLM 5.2 划算吗？</h1>
+                    <p class="meta">2026-06-14 · AI / GLM / DeepSeek / MiMo / API / Pricing / Cache</p>
+                    <div class="tags">
+                        <span class="tag">AI</span>
+                        <span class="tag">GLM</span>
+                        <span class="tag">DeepSeek</span>
+                        <span class="tag">MiMo</span>
+                        <span class="tag">API</span>
+                        <span class="tag">Pricing</span>
+                        <span class="tag">Cache</span>
+                    </div>
+                    <div class="article-actions">
+                        <a class="x-action" id="article-x-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
+                            <span data-lang="en">Share to X</span>
+                            <span data-lang="zh" hidden>分享到 X</span>
+                        </a>
+                    </div>
+                    <div data-lang="en"><p>The first two articles in this series compared MiMo Token Plan against DeepSeek V4 Flash, and MiMo v2.5 Pro against DeepSeek V4 Pro on a pay-as-you-go basis. The takeaway was straightforward: when unit prices are equal, higher cache hit rates always win.</p>
+
+<p>Now there&#39;s a new contender. Zhipu&#39;s GLM 5.2 is already in beta, and measured cache hit rates hit <code>99%</code>—far above DeepSeek&#39;s <code>95.19%</code> and MiMo&#39;s <code>90.86%</code>.</p>
+
+<p>GLM 5.2 pricing hasn&#39;t been officially announced yet. But what if we plug in GLM 5.1 rates as a proxy? Can a 99% cache hit rate offset a much higher unit price?</p>
+
+<h2>Pay-As-You-Go Pricing Across All Three Pro Models</h2>
+
+<p>As of June 2026, here&#39;s what the Pro-tier models cost domestically:</p>
+
+<pre><code>                  Cache Hit         Cache Miss         Output
+                  (¥/million)       (¥/million)       (¥/million)
+GLM-5.1 (est.)     ~1.5              6                 24
+DeepSeek V4 Pro     0.025             3                  6
+MiMo v2.5 Pro       0.025             3                  6</code></pre>
+
+<p>GLM-5.1 input and output prices are <code>2×</code> and <code>4×</code> those of DeepSeek/MiMo respectively. The cache hit price gap is even larger: <strong>GLM charges around ¥1.5, while DeepSeek and MiMo charge just ¥0.025—a 60× difference</strong>.</p>
+
+<p>That 60× cache hit price gap is the central tension of this entire analysis.</p>
+
+<h2>Same Workload, But Does 99% Hit Rate Help?</h2>
+
+<p>Using the same data from the previous articles—June 8 peak-day volumes sustained over 30 days—total input and output remain constant, only the cache hit rates change:</p>
+
+<pre><code>GLM 5.2 (99% cache hit rate):
+  Cache hit input:  31,616,129
+  Cache miss input:    319,355
+  Output:              168,200
+
+DeepSeek V4 Pro (95.19%):
+  Cache hit input:  30,398,592
+  Cache miss input: 1,536,892
+  Output:             168,200
+
+MiMo v2.5 Pro (90.86%):
+  Cache hit input:  29,017,126
+  Cache miss input: 2,918,358
+  Output:             168,200</code></pre>
+
+<p>GLM&#39;s 99% hit rate is genuinely dominant—cache-miss tokens are just 1/5 of DeepSeek&#39;s and 1/9 of MiMo&#39;s. But here&#39;s the catch: for every cache-miss token, GLM charges 2× DeepSeek (6 vs 3), and for every cache-hit token, GLM charges <strong>60×</strong> DeepSeek (1.5 vs 0.025).</p>
+
+<h2>Monthly Cost Comparison: Pay-As-You-Go</h2>
+
+<pre><code>GLM 5.2 pay-as-you-go:
+  Cache hit:     31.62M × 1.5   =  47.42 yuan
+  Cache miss:     0.32M × 6      =   1.91 yuan
+  Output:         0.17M × 24     =   4.03 yuan
+  Daily total:                      53.36 yuan/day
+  Monthly total:                 1,600.88 yuan
+
+DeepSeek V4 Pro pay-as-you-go:
+  Cache hit:     30.40M × 0.025 =   0.76 yuan
+  Cache miss:     1.54M × 3      =   4.62 yuan
+  Output:         0.17M × 6      =   1.01 yuan
+  Daily total:                       6.39 yuan/day
+  Monthly total:                   191.64 yuan
+
+MiMo v2.5 Pro pay-as-you-go:
+  Cache hit:     29.01M × 0.025 =   0.73 yuan
+  Cache miss:     2.92M × 3      =   8.76 yuan
+  Output:         0.17M × 6      =   1.01 yuan
+  Daily total:                      10.50 yuan/day
+  Monthly total:                   314.85 yuan</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">Pro Model Monthly Costs at Equal Workload</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM 5.2 (99% cache)</span>
+        <span class="chart-value">1,600.88 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-red" style="width: 98.82%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro</span>
+        <span class="chart-value">314.85 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 19.44%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro</span>
+        <span class="chart-value">191.64 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 11.83%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>A 99% cache hit rate doesn&#39;t save GLM&#39;s total bill. GLM costs 8.3× more than DeepSeek and 5.1× more than MiMo.</figcaption>
+</figure>
+
+<p><strong>GLM costs `1,409 yuan/month` more than DeepSeek—8.3× as much.</strong></p>
+
+<p>This is counterintuitive. GLM has the highest cache hit rate (99%), the fewest cache misses, yet the highest total bill. The reason is simple: GLM&#39;s cache hit price (¥1.5/M) is 60× DeepSeek&#39;s (¥0.025/M). Those 99% of tokens each cost more, the remaining 1% cost more, and the output portion is 4× higher. There isn&#39;t a single line item where GLM is cheaper.</p>
+
+<h2>Why a 60× Price Gap Can&#39;t Be Offset by Hit Rate</h2>
+
+<p>Cache hit rate optimization only reduces the proportion of missed tokens. But GLM&#39;s problem isn&#39;t on the miss side—that&#39;s just 1%, and even if it were free, savings would be negligible. The problem is on the hit side: 99% of input tokens each cost ¥1.475 more than DeepSeek.</p>
+
+<pre><code>GLM cost per 100 input tokens:
+  99.0 × 1.5 + 1.0 × 6 = 148.5 + 6 = 154.5
+
+DeepSeek cost per 100 input tokens:
+  95.19 × 0.025 + 4.81 × 3 = 2.38 + 14.43 = 16.81
+
+MiMo cost per 100 input tokens:
+  90.86 × 0.025 + 9.14 × 3 = 2.27 + 27.42 = 29.69</code></pre>
+
+<p>GLM&#39;s input cost per 100 tokens is 154.5, DeepSeek&#39;s is 16.81, and MiMo&#39;s is 29.69. GLM&#39;s cache-hit portion alone (148.5) exceeds the total cost of either competitor.</p>
+
+<blockquote>
+<p>Cache hit rate optimization reduces &quot;how much of the most expensive component you pay.&quot; But if the most expensive component is already cheaper elsewhere, no hit rate can save you.</p>
+</blockquote>
+
+<h2>Back-Calculating: What Cache Price Would GLM Need to Break Even?</h2>
+
+<p>Assuming GLM&#39;s miss price (¥6) and output price (¥24) stay unchanged, what cache hit price would make GLM&#39;s monthly total match DeepSeek&#39;s?</p>
+
+<pre><code>GLM daily cost = DeepSeek daily cost
+31.616M × X + 0.319M × 6 + 0.17M × 24 = 6.39
+31.616X + 1.91 + 4.03 = 6.39
+31.616X = 0.45
+X = ¥0.014 / million tokens</code></pre>
+
+<p>The cache hit price would need to drop to <code>¥0.014/M</code>—even lower than DeepSeek&#39;s ¥0.025. Because GLM&#39;s miss and output prices are both higher, the cache price must be even lower to close the gap. That&#39;s nearly impossible under the current pricing structure.</p>
+
+<h2>But Coding Plan Could Change Everything</h2>
+
+<p>All the numbers above are API pay-as-you-go. Zhipu runs a parallel system: <strong>GLM Coding Plan</strong>, a flat monthly subscription charged per prompt count.</p>
+
+<pre><code>Lite:  ¥49/month    80 prompts/5h     400 prompts/week
+Pro:   ¥149/month   400 prompts/5h    2,000 prompts/week
+Max:   ¥469/month   1,600 prompts/5h  8,000 prompts/week</code></pre>
+
+<p>According to industry analysis, Coding Plan quota converts to API pricing as <strong>15–30× the subscription fee</strong>. But there&#39;s a catch: GLM-5/5.1 consumes quota at <strong>3×</strong> during peak hours and <strong>2×</strong> off-peak.</p>
+
+<p>Using the June 8 workload of 528 API calls as a baseline: assuming 1 prompt ≈ 15 underlying model calls, plus GLM-5&#39;s 2× multiplier, daily consumption works out to roughly 70 prompts, or about 2,100 prompts per month.</p>
+
+<figure class="article-chart">
+    <div class="chart-title">Monthly Cost Under Three Billing Models</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM-5.1 API pay-as-you-go</span>
+        <span class="chart-value">1,600.88 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-red" style="width: 98.82%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro pay-as-you-go</span>
+        <span class="chart-value">191.64 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 11.83%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM Pro plan (¥149)</span>
+        <span class="chart-value">149.00 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 9.20%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM Max plan (¥469)</span>
+        <span class="chart-value">469.00 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 28.95%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro pay-as-you-go</span>
+        <span class="chart-value">314.85 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 19.44%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>On pay-as-you-go API, GLM is most expensive. Under Coding Plan subscriptions, GLM could actually be the cheapest option.</figcaption>
+</figure>
+
+<p>If usage fits within the quota, a Pro plan at ¥149 covers an equivalent API value of roughly ¥2,235–4,470—a 15–30× effective discount. Here&#39;s the full picture:</p>
+
+<table>
+<thead><tr><th style="text-align:left">Billing Model</th><th style="text-align:left">Monthly Cost</th><th style="text-align:left">Equivalent API Value</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">GLM-5.1 API pay-as-you-go</td><td style="text-align:left">¥1,601</td><td style="text-align:left">¥1,601</td></tr>
+<tr><td style="text-align:left">DeepSeek V4 Pro pay-as-you-go</td><td style="text-align:left">¥192</td><td style="text-align:left">¥192</td></tr>
+<tr><td style="text-align:left">GLM Pro plan</td><td style="text-align:left">¥149</td><td style="text-align:left">¥2,235–4,470</td></tr>
+<tr><td style="text-align:left">GLM Max plan</td><td style="text-align:left">¥469</td><td style="text-align:left">¥7,035–14,070</td></tr>
+<tr><td style="text-align:left">MiMo v2.5 Pro pay-as-you-go</td><td style="text-align:left">¥315</td><td style="text-align:left">¥315</td></tr>
+</tbody>
+</table>
+
+<p>On pay-as-you-go API, GLM is the most expensive. Under Coding Plan subscriptions, GLM could be the cheapest option of all.</p>
+
+<h2>But Plans Aren&#39;t a Silver Bullet</h2>
+
+<p>The cheap pricing of Coding Plan comes with clear tradeoffs:</p>
+
+<p><strong>GLM-5/5.1 quota multipliers.</strong> Peak consumption at 3× and off-peak at 2× mean the Max plan&#39;s nominal 1,600 prompts/5h drops to just 533–800 prompts/5h when running GLM-5.1. Once quota runs out, the session stops—it doesn&#39;t automatically fall back to billing your account balance.</p>
+
+<p><strong>Weekly quota ceilings.</strong> The Max plan caps at 8,000 prompts per week, or about 1,143 per day. Run 30 complex tasks in a day, each consuming 30+ prompts, and you&#39;ll hit the wall mid-week.</p>
+
+<p><strong>Model restrictions.</strong> Only the Max plan supports GLM-5/5.1. Lite and Pro are limited to GLM-4.7, which lags significantly behind GLM-5.1 in coding capability.</p>
+
+<p>So the &quot;15–30× discount&quot; holds only under specific conditions: your usage fits snugly within quota without overflow, you&#39;re running non-GLM-5 models off-peak, or you&#39;re willing to absorb GLM-5&#39;s multiplier penalty.</p>
+
+<h2>What If GLM 5.2 Prices Drop Significantly?</h2>
+
+<p>GLM 5.2 pricing is still pending. If Zhipu chooses to align with DeepSeek/MiMo&#39;s pricing tier (0.025/3/6), the picture changes entirely:</p>
+
+<pre><code>GLM 5.2 at same price (0.025/3/6) + 99% cache hit rate:
+  Cache hit:     31.62M × 0.025 =   0.79 yuan/day
+  Cache miss:     0.32M × 3      =   0.96 yuan/day
+  Output:         0.17M × 6      =   1.01 yuan/day
+  Daily total:                       2.76 yuan/day
+  Monthly total:                     82.75 yuan</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">If GLM 5.2 Matches DeepSeek/MiMo Pricing</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM 5.2 (same price + 99% cache)</span>
+        <span class="chart-value">82.75 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 25.86%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro (95.19%)</span>
+        <span class="chart-value">191.64 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 59.89%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro (90.86%)</span>
+        <span class="chart-value">314.85 yuan/month</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 98.39%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>If prices align, a 99% cache hit rate would make GLM 5.2 the cheapest of the three—roughly half of DeepSeek and a quarter of MiMo.</figcaption>
+</figure>
+
+<p>At identical unit prices, a 99% cache hit rate makes GLM 5.2 the cheapest option: ¥83/month, just 43% of DeepSeek and 26% of MiMo. The conclusion from the first two articles—&quot;cache hit rate is the sole deciding factor&quot;—would fully play out here.</p>
+
+<h2>So It All Comes Down to Pricing</h2>
+
+<p>Three scenarios, three completely different conclusions:</p>
+
+<p><strong>Scenario 1: GLM 5.2 keeps 5.1 pricing.</strong> Most expensive on pay-as-you-go API (¥1,601/month). Coding Plan subscriptions could be cheapest (¥149–469/month). A 99% cache hit rate can&#39;t save an expensive unit price on a pay-as-you-go basis.</p>
+
+<p><strong>Scenario 2: GLM 5.2 drops prices to match DeepSeek/MiMo.</strong> 99% cache hit rate becomes a crushing advantage. Pay-as-you-go monthly cost drops to ¥83—potentially the cheapest of all three.</p>
+
+<p><strong>Scenario 3: GLM 5.2 drops prices + Coding Plan adjusts.</strong> If subscription prices stay flat but quotas expand significantly (because unit costs fell), Coding Plan becomes the clear value leader.</p>
+
+<p>While waiting for GLM 5.2 pricing, here&#39;s a framework worth keeping in mind:</p>
+
+<blockquote>
+<p><strong>Pay-as-you-go comes down to unit price. Subscriptions come down to quota. Cache hit rate amplifies whichever advantage or disadvantage exists, but it doesn&#39;t change the underlying pricing structure itself.</strong></p>
+</blockquote>
+
+<h2>Data and References</h2>
+
+<ul>
+<li>Workload data: Same peak-day volume from DeepSeek on June 8, used in the previous two articles.</li>
+<li>GLM-5.1 pricing: Based on ofox.ai&#39;s domestic API pricing compilation (input ¥6/M, output ¥24/M). Cache hit price estimated at ¥1.5/M, converted from Z.AI&#39;s overseas rate of $0.26/MTok. GLM 5.2 pricing has not been announced; this article uses 5.1 pricing as a reference.</li>
+<li>DeepSeek V4 Pro pricing: Official pricing following the permanent price cut on May 22, 2026. See <a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek Models and Pricing</a>.</li>
+<li>MiMo v2.5 Pro pricing: Official pricing following the permanent price cut on May 27, 2026.</li>
+<li>GLM Coding Plan pricing: Post-price-increase subscription tiers as of February 12, 2026.</li>
+<li>&quot;1 Prompt ≈ 15 model calls&quot;: Conversion figure from Tencent Cloud Developer Community.</li>
+<li>&quot;Quota converts to 15–30× the subscription fee at API pricing&quot;: From a cnblogs developer analysis.</li>
+<li>Previous article: <a href="/blog/mimo-v2.5-pro-vs-deepseek-v4-pro.html">Same Unit Price, Cache Hit Rate Is the Only Factor</a></li>
+<li>First article: <a href="/blog/mimo-token-plan-vs-deepseek-v4-flash.html">Is the 39-yuan MiMo Token Plan Really Cheaper Than DeepSeek V4 Flash?</a></li>
+</ul></div>
+                    <div data-lang="zh" hidden><p>前两篇文章分别比较了 MiMo Token Plan 与 DeepSeek V4 Flash、MiMo v2.5 Pro 与 DeepSeek V4 Pro 的按量成本。结论是：单价相同时，缓存命中率更高的平台永远更便宜。</p>
+
+<p>但国产大模型赛道又来了一位新选手。智谱的 GLM 5.2 已经可以试用，实测缓存命中率达到 <code>99%</code>——远超 DeepSeek 的 <code>95.19%</code> 和 MiMo 的 <code>90.86%</code>。</p>
+
+<p>GLM 5.2 的定价还没有正式公布。但如果参考 GLM 5.1 的价格，结果会怎样？更高的缓存命中率，能否弥补更高的单价？</p>
+
+<h2>三家 Pro 模型的按量单价</h2>
+
+<p>截至 2026 年 6 月，三家 Pro 级模型的国内按量价格：</p>
+
+<pre><code>                  缓存命中        缓存未命中       输出
+                  (元/百万)       (元/百万)       (元/百万)
+GLM-5.1 (估)      ~1.5             6              24
+DeepSeek V4 Pro    0.025            3               6
+MiMo v2.5 Pro      0.025            3               6</code></pre>
+
+<p>GLM-5.1 的输入和输出价格分别是 DeepSeek/MiMo 的 <code>2 倍</code> 和 <code>4 倍</code>。缓存命中价的差距更大：<strong>GLM 约 ¥1.5，而 DeepSeek 和 MiMo 只要 ¥0.025——相差 60 倍</strong>。</p>
+
+<p>这个 60 倍的缓存命中价差距，是整篇文章的核心矛盾。</p>
+
+<h2>同样的用量，99% 命中率够不够？</h2>
+
+<p>沿用前两篇文章的数据——6 月 8 日峰值日用量，连续跑 30 天。总输入量和输出量不变，只替换缓存命中率：</p>
+
+<pre><code>GLM 5.2（99% 缓存命中率）：
+  缓存命中输入：31,616,129
+  缓存未命中输入：319,355
+  输出：168,200
+
+DeepSeek V4 Pro（95.19%）：
+  缓存命中输入：30,398,592
+  缓存未命中输入：1,536,892
+  输出：168,200
+
+MiMo v2.5 Pro（90.86%）：
+  缓存命中输入：29,017,126
+  缓存未命中输入：2,918,358
+  输出：168,200</code></pre>
+
+<p>GLM 的 99% 命中率确实碾压——缓存未命中的 token 只有 DeepSeek 的 1/5、MiMo 的 1/9。但问题在于，每多一个未命中的 token，GLM 收费是 DeepSeek 的 2 倍（6 vs 3）；而每多一个命中的 token，GLM 收费是 DeepSeek 的 <strong>60 倍</strong>（1.5 vs 0.025）。</p>
+
+<h2>按量月费对比</h2>
+
+<pre><code>GLM 5.2 按量：
+  缓存命中：31.62M × 1.5   = 47.42 元
+  缓存未命中：0.32M × 6     =  1.91 元
+  输出：0.17M × 24           =  4.03 元
+  合计：                      53.36 元/天
+  月度合计：                1,600.88 元
+
+DeepSeek V4 Pro 按量：
+  缓存命中：30.40M × 0.025  =  0.76 元
+  缓存未命中：1.54M × 3     =  4.62 元
+  输出：0.17M × 6            =  1.01 元
+  合计：                       6.39 元/天
+  月度合计：                  191.64 元
+
+MiMo v2.5 Pro 按量：
+  缓存命中：29.01M × 0.025  =  0.73 元
+  缓存未命中：2.92M × 3     =  8.76 元
+  输出：0.17M × 6            =  1.01 元
+  合计：                      10.50 元/天
+  月度合计：                  314.85 元</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">同用量下的 Pro 模型按量月费</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM 5.2 (99% cache)</span>
+        <span class="chart-value">1,600.88 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-red" style="width: 98.82%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro</span>
+        <span class="chart-value">314.85 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 19.44%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro</span>
+        <span class="chart-value">191.64 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 11.83%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>99% 的缓存命中率没有拯救 GLM 的总费用。GLM 比 DeepSeek 贵 8.3 倍，比 MiMo 贵 5.1 倍。</figcaption>
+</figure>
+
+<p><strong>GLM 比 DeepSeek 贵 `1,409 元/月`，是 DeepSeek 的 8.3 倍。</strong></p>
+
+<p>这是反直觉的：GLM 的缓存命中率最高（99%），缓存未命中最少，但总费用却最贵。原因很简单——GLM 的缓存命中价（¥1.5/M）是 DeepSeek（¥0.025/M）的 60 倍。99% 的 token 每个都在多花钱，剩下 1% 的未命中也在多花钱，输出部分更是 4 倍。没有任何一项 GLM 更便宜。</p>
+
+<h2>为什么 60 倍的缓存价差无法被命中率弥补</h2>
+
+<p>缓存命中率能优化的，只是未命中部分的比例。但 GLM 的问题不在未命中部分——那只有 1%，即使全免费也省不了多少。问题在命中部分：占总输入 99% 的 token，每个都比 DeepSeek 贵 ¥1.475。</p>
+
+<pre><code>GLM 5.2 每 100 个输入 token 的成本：
+  99.0 × 1.5 + 1.0 × 6 = 148.5 + 6 = 154.5
+
+DeepSeek 每 100 个输入 token 的成本：
+  95.19 × 0.025 + 4.81 × 3 = 2.38 + 14.43 = 16.81
+
+MiMo 每 100 个输入 token 的成本：
+  90.86 × 0.025 + 9.14 × 3 = 2.27 + 27.42 = 29.69</code></pre>
+
+<p>GLM 每 100 个 token 的输入成本是 154.5，DeepSeek 是 16.81，MiMo 是 29.69。GLM 的命中部分成本（148.5）就远远超过了另外两家的总成本。</p>
+
+<blockquote>
+<p>缓存命中率优化的是&quot;最贵的部分占多少&quot;，但如果&quot;最贵的部分&quot;本身就是别人最便宜的部分，命中率再高也没用。</p>
+</blockquote>
+
+<h2>反算：GLM 缓存价要降到多少才能追平？</h2>
+
+<p>假设 GLM 的未命中价（¥6）和输出价（¥24）不变，缓存命中价需要降到多少，才能让月度总费用追平 DeepSeek？</p>
+
+<pre><code>GLM 日费用 = DeepSeek 日费用
+31.616M × X + 0.319M × 6 + 0.17M × 24 = 6.39
+31.616X + 1.91 + 4.03 = 6.39
+31.616X = 0.45
+X = ¥0.014 / 百万 tokens</code></pre>
+
+<p>缓存命中价需要降到 <code>¥0.014/M</code>——甚至比 DeepSeek 的 ¥0.025 还低。考虑到 GLM 的未命中价和输出价都比 DeepSeek 贵，缓存价必须更低才能填坑。这在当前定价体系下几乎不可能。</p>
+
+<h2>但 Coding Plan 可能改变一切</h2>
+
+<p>上面算的都是 API 按量。智谱还有另一套体系：<strong>GLM Coding Plan</strong>，按 prompt 次数收取固定月费。</p>
+
+<pre><code>Lite：¥49/月    80 prompts/5h     每周 400 prompts
+Pro：¥149/月    400 prompts/5h    每周 2,000 prompts
+Max：¥469/月    1,600 prompts/5h  每周 8,000 prompts</code></pre>
+
+<p>根据行业分析，Coding Plan 的额度按 API 定价折算，<strong>相当于月订阅费用的 15～30 倍</strong>。但有一个关键变量：GLM-5/5.1 在高峰时段消耗 <strong>3 倍</strong> 额度，非高峰消耗 <strong>2 倍</strong>。</p>
+
+<p>用 6 月 8 日的 528 次 API 调用来估算：假设 1 prompt ≈ 15 次底层调用，加上 GLM-5 的 2 倍倍率，日均消耗约 70 prompts，月度约 2,100 prompts。</p>
+
+<figure class="article-chart">
+    <div class="chart-title">三种计费方式下的月度费用</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM-5.1 API 按量</span>
+        <span class="chart-value">1,600.88 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-red" style="width: 98.82%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro 按量</span>
+        <span class="chart-value">191.64 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 11.83%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM Pro 套餐 (¥149)</span>
+        <span class="chart-value">149.00 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 9.20%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM Max 套餐 (¥469)</span>
+        <span class="chart-value">469.00 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 28.95%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro 按量</span>
+        <span class="chart-value">314.85 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 19.44%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>API 按量下 GLM 最贵；但 Coding Plan 套餐制下，GLM 反而可能最便宜。</figcaption>
+</figure>
+
+<p>如果用量能塞进套餐配额，Pro 套餐 ¥149 覆盖的 API 价值约为 ¥2,235～4,470——等效折扣 15～30 倍。这意味着：</p>
+
+<table>
+<thead><tr><th style="text-align:left">计费方式</th><th style="text-align:left">月费用</th><th style="text-align:left">等效 API 价值</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">GLM-5.1 API 按量</td><td style="text-align:left">¥1,601</td><td style="text-align:left">¥1,601</td></tr>
+<tr><td style="text-align:left">DeepSeek V4 Pro 按量</td><td style="text-align:left">¥192</td><td style="text-align:left">¥192</td></tr>
+<tr><td style="text-align:left">GLM Pro 套餐</td><td style="text-align:left">¥149</td><td style="text-align:left">¥2,235～4,470</td></tr>
+<tr><td style="text-align:left">GLM Max 套餐</td><td style="text-align:left">¥469</td><td style="text-align:left">¥7,035～14,070</td></tr>
+<tr><td style="text-align:left">MiMo v2.5 Pro 按量</td><td style="text-align:left">¥315</td><td style="text-align:left">¥315</td></tr>
+</tbody>
+</table>
+
+<p>API 按量下 GLM 最贵；但 Coding Plan 套餐制下，GLM 反而可能是最便宜的选项。</p>
+
+<h2>但套餐不是万能的</h2>
+
+<p>Coding Plan 的便宜有明确的代价：</p>
+
+<p><strong>GLM-5/5.1 的倍率惩罚</strong>。高峰期 3 倍、非峰 2 倍的额度消耗，意味着 Max 套餐名义 1,600 prompts/5h，实际跑 GLM-5.1 只有 533～800 prompts/5h。额度用完即停，不会自动切到账户余额继续扣费。</p>
+
+<p><strong>周额度上限</strong>。Max 套餐每周 8,000 prompts，换算到每天约 1,143 prompts。如果一天跑 30 个复杂任务、每个消耗 30+ prompts，周中就可能撞墙。</p>
+
+<p><strong>模型限制</strong>。Max 套餐才能用 GLM-5/5.1，Lite 和 Pro 只支持 GLM-4.7。而 GLM-4.7 的编程能力和 GLM-5.1 差距不小。</p>
+
+<p>所以 Coding Plan 的&quot;15～30 倍折扣&quot;是在特定条件下成立的：使用量刚好填满配额但不溢出，用的是高峰时段之外的非 GLM-5 模型，或者能接受 GLM-5 的倍率惩罚。</p>
+
+<h2>如果 GLM 5.2 大幅降价呢？</h2>
+
+<p>GLM 5.2 的定价还没有出来。如果智谱选择对齐 DeepSeek/MiMo 的价格带（0.025/3/6），情况会完全不同：</p>
+
+<pre><code>GLM 5.2 同价（0.025/3/6）+ 99% 缓存命中率：
+  缓存命中：31.62M × 0.025 =  0.79 元/天
+  缓存未命中：0.32M × 3    =  0.96 元/天
+  输出：0.17M × 6           =  1.01 元/天
+  合计：                       2.76 元/天
+  月度合计：                   82.75 元</code></pre>
+
+<figure class="article-chart">
+    <div class="chart-title">如果 GLM 5.2 对齐 DeepSeek/MiMo 价格</div>
+    <div class="chart-rows">
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">GLM 5.2 (同价 + 99% cache)</span>
+        <span class="chart-value">82.75 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-green" style="width: 25.86%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">DeepSeek V4 Pro (95.19%)</span>
+        <span class="chart-value">191.64 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-blue" style="width: 59.89%"></span>
+    </div>
+</div>
+<div class="chart-row">
+    <div class="chart-row-header">
+        <span class="chart-label">MiMo v2.5 Pro (90.86%)</span>
+        <span class="chart-value">314.85 元/月</span>
+    </div>
+    <div class="chart-track" aria-hidden="true">
+        <span class="chart-bar chart-bar-orange" style="width: 98.39%"></span>
+    </div>
+</div>
+    </div>
+    <figcaption>如果定价对齐，99% 缓存命中率会让 GLM 5.2 成为三者中最便宜的——大约是 DeepSeek 的一半、MiMo 的四分之一。</figcaption>
+</figure>
+
+<p>同样的单价下，99% 的缓存命中率会让 GLM 5.2 成为三者中最便宜的：月费 ¥83，是 DeepSeek 的 43%、MiMo 的 26%。前两篇文章的结论——&quot;缓存命中率是唯一的胜负手&quot;——在这里会完全应验。</p>
+
+<h2>所以答案取决于定价</h2>
+
+<p>三种场景，三个完全不同的结论：</p>
+
+<p><strong>场景一：GLM 5.2 沿用 5.1 定价</strong> API 按量最贵（¥1,601/月），Coding Plan 套餐可能最便宜（¥149～469/月）。99% 的缓存命中率无法在按量场景下拯救高昂的单价。</p>
+
+<p><strong>场景二：GLM 5.2 大幅降价对齐 DeepSeek/MiMo</strong> 99% 缓存命中率成为碾压优势，按量月费低至 ¥83，可能是三家中最便宜的。</p>
+
+<p><strong>场景三：GLM 5.2 降价 + Coding Plan 调整</strong> 如果套餐价格不变但额度大幅增加（因为单价降低），Coding Plan 会变成真正的性价比之王。</p>
+
+<p>在等 GLM 5.2 定价公布的这段时间里，有一个判断框架可以先记住：</p>
+
+<blockquote>
+<p><strong>API 按量看单价，套餐订阅看额度。缓存命中率放大单价的优势或劣势，但不改变定价结构本身。</strong></p>
+</blockquote>
+
+<h2>数据与参考</h2>
+
+<ul>
+<li>用量数据：沿用前两篇文章中 DeepSeek 6 月 8 日的峰值日用量。</li>
+<li>GLM-5.1 价格：基于 ofox.ai 整理的国内 API 定价（输入 ¥6/M，输出 ¥24/M），缓存命中价根据 Z.AI 海外价 $0.26/MTok 折算约 ¥1.5/M。GLM 5.2 定价未公布，本文使用 5.1 价格作为参考。</li>
+<li>DeepSeek V4 Pro 价格：2026 年 5 月 22 日永久降价后的官方定价，详见 <a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek 模型与价格</a>。</li>
+<li>MiMo v2.5 Pro 价格：2026 年 5 月 27 日永久降价后的官方定价。</li>
+<li>GLM Coding Plan 价格：2026 年 2 月 12 日涨价后的国内版套餐价格。</li>
+<li>&quot;1 Prompt ≈ 15 次模型调用&quot;：腾讯云开发者社区的换算。</li>
+<li>&quot;额度按 API 定价折算，相当于月订阅费用的 15～30 倍&quot;：博客园开发者对比分析。</li>
+<li>上一篇文章：<a href="/blog/mimo-v2.5-pro-vs-deepseek-v4-pro.html">单价完全一样，缓存命中率就是唯一的胜负手</a></li>
+<li>第一篇文章：<a href="/blog/mimo-token-plan-vs-deepseek-v4-flash.html">39 元的 MiMo Token Plan，真的比 DeepSeek V4 Flash 划算吗？</a></li>
+</ul></div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const LANGUAGE_STORAGE_KEY = 'homepage-language';
+        const SUPPORTED_LANGUAGES = ['en', 'zh'];
+        let currentArticleLanguage = SUPPORTED_LANGUAGES.includes(localStorage.getItem(LANGUAGE_STORAGE_KEY))
+            ? localStorage.getItem(LANGUAGE_STORAGE_KEY)
+            : 'en';
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateShareLink() {
+            const link = document.getElementById('article-x-share');
+            if (!link) return;
+            const intent = new URL('https://twitter.com/intent/tweet');
+            intent.searchParams.set('text', document.title.replace(' - Abelliuxl Macintosh', ''));
+            intent.searchParams.set('url', window.location.href);
+            link.href = intent.href;
+        }
+
+        function applyArticleLanguage(language) {
+            if (!SUPPORTED_LANGUAGES.includes(language)) return;
+            currentArticleLanguage = language;
+            document.querySelectorAll('[data-lang]').forEach((element) => {
+                element.hidden = element.dataset.lang !== language;
+            });
+            document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+            const titleKey = language === 'zh' ? 'titleZh' : 'titleEn';
+            if (document.body.dataset[titleKey]) {
+                document.title = document.body.dataset[titleKey];
+            }
+            document.querySelectorAll('.language-button').forEach((button) => {
+                const isActive = button.dataset.language === language;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+            updateShareLink();
+        }
+
+        function setArticleLanguage(language) {
+            if (!SUPPORTED_LANGUAGES.includes(language)) return;
+            try {
+                localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+            } catch (error) {
+                // localStorage may be unavailable (private mode); continue in-memory only.
+            }
+            applyArticleLanguage(language);
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+        applyArticleLanguage(currentArticleLanguage);
+    </script>
+</body>
+</html>
