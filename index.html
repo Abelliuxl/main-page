@@ -360,6 +360,8 @@
             cursor: pointer;
             position: relative;
             transition: background 0ms;
+            text-decoration: none;
+            color: inherit;
         }
 
         .apps-icon:hover,
@@ -1841,7 +1843,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260623-0059';
+        const CONFIG_VERSION = '20260623-0108';
         const LANGUAGE_STORAGE_KEY = 'homepage-language';
         const IP_COUNTRY_ENDPOINT = 'https://api.country.is/';
         const IP_COUNTRY_TIMEOUT_MS = 1800;
@@ -2211,7 +2213,7 @@
         function renderProjectCards(projects) {
             return projects.map(project => `
                 <div class="project-item">
-                    <h3>${project.link && project.link !== '#' ? `<a class="item-title-link project-title" href="${escapeHtml(project.link)}">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></a>` : `<span class="project-title">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></span>`}</h3>
+                    <h3>${project.link && project.link !== '#' ? `<a class="item-title-link project-title" href="${escapeHtml(project.link)}" target="_blank" rel="noopener noreferrer">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></a>` : `<span class="project-title">${renderProjectIcon(project)}<span>${escapeHtml(project.title)}</span></span>`}</h3>
                     <p>${escapeHtml(project.description)}</p>
                     <span class="date">${escapeHtml(project.year)}</span>
                 </div>
@@ -2252,7 +2254,7 @@
                 const linkEsc = escapeHtml(app.link || '#');
                 const iconHtml = renderAppIconImg(app);
                 return `
-                    <div class="apps-icon" data-app-index="${index}" data-app-link="${linkEsc}" ondblclick="openAppFromGrid(this)">
+                    <a class="apps-icon" href="${linkEsc}" target="_blank" rel="noopener noreferrer" data-app-index="${index}" ondblclick="event.preventDefault(); openAppFromGrid(this)">
                         <div class="apps-icon-img">${iconHtml}</div>
                         <div class="apps-icon-label">${titleEsc}</div>
                         <div class="apps-icon-detail" role="tooltip">
@@ -2260,18 +2262,18 @@
                             <div class="apps-icon-detail-desc">${descEsc}</div>
                             <div class="apps-icon-detail-meta">
                                 <span class="apps-icon-detail-year">${yearEsc}</span>
-                                <span class="apps-icon-detail-hint">${currentLanguage === 'en' ? 'Double-click to open →' : '双击打开 →'}</span>
+                                <span class="apps-icon-detail-hint">${currentLanguage === 'en' ? 'Click to open →' : '点击打开 →'}</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 `;
             }).join('');
         }
 
         function openAppFromGrid(iconEl) {
-            const link = iconEl.getAttribute('data-app-link');
+            const link = iconEl.href;
             if (link && link !== '#') {
-                window.location.href = link;
+                window.open(link, '_blank', 'noopener,noreferrer');
             }
         }
 
