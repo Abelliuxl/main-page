@@ -385,9 +385,8 @@
             overflow: hidden;
         }
 
-        .apps-icon-img .project-icon,
-        .apps-icon-img .project-icon-image,
-        .apps-icon-img .project-icon-fallback {
+        .apps-icon-img .app-icon-image,
+        .apps-icon-img .app-icon-fallback {
             width: 100%;
             height: 100%;
             display: flex;
@@ -395,13 +394,14 @@
             justify-content: center;
         }
 
-        .apps-icon-img .project-icon-image {
+        .apps-icon-img .app-icon-image {
             object-fit: cover;
             border-radius: 12px;
         }
 
-        .apps-icon-img .project-icon-fallback {
+        .apps-icon-img .app-icon-fallback {
             font-size: 36px;
+            line-height: 1;
         }
 
         .apps-icon-label {
@@ -1834,7 +1834,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260623-0035';
+        const CONFIG_VERSION = '20260623-0043';
         const LANGUAGE_STORAGE_KEY = 'homepage-language';
         const IP_COUNTRY_ENDPOINT = 'https://api.country.is/';
         const IP_COUNTRY_TIMEOUT_MS = 1800;
@@ -2225,13 +2225,25 @@
             `;
         }
 
+        function renderAppIconImg(app) {
+            // Dedicated renderer for the apps grid so its styles do not collide
+            // with `.content .project-icon` (which targets the Projects window's
+            // card-list icons at 38×38).
+            if (app.iconImage) {
+                const src = escapeHtml(app.iconImage);
+                const fallback = escapeHtml(app.icon || '⌘');
+                return `<img class="app-icon-image" src="${src}" alt="" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="app-icon-fallback" hidden>${fallback}</span>`;
+            }
+            return `<span class="app-icon-fallback">${escapeHtml(app.icon || '⌘')}</span>`;
+        }
+
         function renderAppsGrid() {
             return localizedApps().map((app, index) => {
                 const titleEsc = escapeHtml(app.title);
                 const descEsc = escapeHtml(app.description || '');
                 const yearEsc = escapeHtml(app.year || '');
                 const linkEsc = escapeHtml(app.link || '#');
-                const iconHtml = renderProjectIcon(app);
+                const iconHtml = renderAppIconImg(app);
                 return `
                     <div class="apps-icon" data-app-index="${index}" data-app-link="${linkEsc}" ondblclick="openAppFromGrid(this)">
                         <div class="apps-icon-img">${iconHtml}</div>
