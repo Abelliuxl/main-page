@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f1e8" />
+  <title data-en="CopyEnglishName — Look up an item's English name from a Chinese client" data-zh="CopyEnglishName — 在中文客户端里查物品的英文名">CopyEnglishName — 在中文客户端里查物品的英文名</title>
+  <meta name="description" data-en="A lightweight World of Warcraft addon. Type /en with an item link, an item id, or a Chinese name and the addon shows the English name in a copyable window. Sporefall 12.0.7 ready." data-zh="一个轻量的魔兽插件。输入 /en 加物品链接、物品 ID 或中文名，插件会在一个可复制的窗口里给出英文名。Sporefall 12.0.7 已适配。" content="一个轻量的魔兽插件。输入 /en 加物品链接、物品 ID 或中文名，插件会在一个可复制的窗口里给出英文名。Sporefall 12.0.7 已适配。" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="#top">
+        <img src="assets/icon.png" alt="CopyEnglishName icon" class="brand-icon" />
+        <span class="brand-name">CopyEnglishName</span>
+      </a>
+      <nav class="bar-nav">
+        <a href="#how" data-en="How it works" data-zh="怎么用">怎么用</a>
+        <a href="#install" data-en="Install" data-zh="安装">安装</a>
+        <a href="#scope" data-en="Scope" data-zh="范围">范围</a>
+        <a class="nav-cta" href="https://github.com/Abelliuxl/CopyEnglishName" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow" data-en="WORLD OF WARCRAFT ADDON · RETAIL" data-zh="魔兽插件 · 国服正式服">魔兽插件 · 国服正式服</p>
+        <h1 class="hero-title" data-en="Get an item's English name in one slash command." data-zh="一个斜杠命令，查到物品的英文名。">一个斜杠命令，查到物品的英文名。</h1>
+        <p class="hero-sub" data-en="A small, single-purpose addon for players on a Chinese client. Pass an item link, an item id, or a Chinese name to /en — the English name appears in a copyable window. Sporefall 12.0.7 ready." data-zh="为中文客户端玩家准备的、单用途的魔兽插件。把物品链接、物品 ID 或中文名丢给 /en，英文名出现在一个可复制的窗口里。Sporefall 12.0.7 已适配。">
+          为中文客户端玩家准备的、单用途的魔兽插件。把物品链接、物品 ID 或中文名丢给 /en，英文名出现在一个可复制的窗口里。Sporefall 12.0.7 已适配。
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://www.curseforge.com/wow/addons/copyenglishname" target="_blank" rel="noopener">
+            <span data-en="Install from CurseForge" data-zh="从 CurseForge 安装">从 CurseForge 安装</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/Abelliuxl/CopyEnglishName" target="_blank" rel="noopener">
+            <span data-en="View on GitHub" data-zh="在 GitHub 上查看">在 GitHub 上查看</span>
+          </a>
+        </div>
+        <ul class="hero-meta">
+          <li><strong>v2.3</strong> <span data-en="current release" data-zh="当前版本">当前版本</span></li>
+          <li><strong>12.0.7</strong> <span data-en="The War Within · Sporefall" data-zh="《地心之战》· Sporefall">《地心之战》· Sporefall</span></li>
+          <li><strong>MIT</strong> <span data-en="license" data-zh="许可证">许可证</span></li>
+        </ul>
+      </div>
+
+      <div class="terminal" aria-hidden="true">
+        <div class="terminal-head">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="terminal-title" data-en="World of Warcraft — Chat" data-zh="魔兽世界 — 聊天框">魔兽世界 — 聊天框</span>
+        </div>
+        <div class="terminal-body">
+          <div class="term-line"><span class="prompt">&gt;</span> <span class="cmd" data-en="/en 烈焰之怒" data-zh="/en 烈焰之怒">/en 烈焰之怒</span></div>
+          <div class="term-out" data-en="Thunderfury, Blessed Blade of the Windseeker" data-zh="Thunderfury, Blessed Blade of the Windseeker">Thunderfury, Blessed Blade of the Windseeker</div>
+          <div class="term-hint" data-en="— select the line and copy" data-zh="— 选中这一行复制即可">— 选中这一行复制即可</div>
+          <div class="term-divider"></div>
+          <div class="term-line"><span class="prompt">&gt;</span> <span class="cmd" data-en="/en 19019" data-zh="/en 19019">/en 19019</span></div>
+          <div class="term-out" data-en="Thunderfury, Blessed Blade of the Windseeker" data-zh="Thunderfury, Blessed Blade of the Windseeker">Thunderfury, Blessed Blade of the Windseeker</div>
+          <div class="term-divider"></div>
+          <div class="term-line"><span class="prompt">&gt;</span> <span class="cmd" data-en="/en [item link]" data-zh="/en [物品链接]">/en [物品链接]</span></div>
+          <div class="term-out" data-en="(parsed from in-game link)" data-zh="(从游戏内链接解析)">(从游戏内链接解析)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="section section-cream" id="how">
+      <div class="section-inner">
+        <h2 class="section-title" data-en="Three ways to look up" data-zh="三种查法">三种查法</h2>
+        <p class="section-lead" data-en="Same slash command, three different inputs — pick whatever is in front of you." data-zh="同一个斜杠命令，三种输入 — 你眼前是什么就用什么。">同一个斜杠命令，三种输入 — 你眼前是什么就用什么。</p>
+        <div class="how-grid">
+          <article class="how">
+            <div class="how-step">1</div>
+            <h3 data-en="By item link" data-zh="按物品链接">按物品链接</h3>
+            <p data-en="Shift-click an item, then type /en. The link gets parsed for the item id automatically." data-zh="Shift 点一下物品，再敲 /en。链接会被自动解析成物品 ID。">Shift 点一下物品，再敲 /en。链接会被自动解析成物品 ID。</p>
+          </article>
+          <article class="how">
+            <div class="how-step">2</div>
+            <h3 data-en="By item id" data-zh="按物品 ID">按物品 ID</h3>
+            <p data-en="Already have the id from Wowhead or another source? Pass it directly: /en 19019." data-zh="如果手头有 Wowhead 或其他来源的 ID，直接传：/en 19019。">如果手头有 Wowhead 或其他来源的 ID，直接传：/en 19019。</p>
+          </article>
+          <article class="how">
+            <div class="how-step">3</div>
+            <h3 data-en="By Chinese name" data-zh="按中文名">按中文名</h3>
+            <p data-en="Type the Chinese name and the addon reverse-looks it up. Useful for talking to non-CN players or searching Wowhead." data-zh="直接输入中文名，插件会反向查表。在和外语玩家交流、上 Wowhead 查信息时用。">直接输入中文名，插件会反向查表。在和外语玩家交流、上 Wowhead 查信息时用。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="section-inner">
+        <h2 class="section-title" data-en="Install" data-zh="安装">安装</h2>
+        <p class="section-lead" data-en="Two addons need to be installed together: the main one and the data companion." data-zh="两个插件要一起装：主插件和数据子插件。">两个插件要一起装：主插件和数据子插件。</p>
+        <div class="install-grid">
+          <a class="install-card" href="https://www.curseforge.com/wow/addons/copyenglishname" target="_blank" rel="noopener">
+            <div class="install-name" data-en="CurseForge" data-zh="CurseForge">CurseForge</div>
+            <div class="install-meta" data-en="v2.3 · Sporefall 12.0.7" data-zh="v2.3 · Sporefall 12.0.7">v2.3 · Sporefall 12.0.7</div>
+            <div class="install-cta" data-en="View on CurseForge →" data-zh="前往 CurseForge →">前往 CurseForge →</div>
+          </a>
+          <a class="install-card" href="https://github.com/Abelliuxl/CopyEnglishName" target="_blank" rel="noopener">
+            <div class="install-name" data-en="Manual install" data-zh="手动安装">手动安装</div>
+            <div class="install-meta" data-en="Drop CopyEnglishName and CopyEnglishName_Data into Interface/AddOns/." data-zh="把 CopyEnglishName 和 CopyEnglishName_Data 拖进 Interface/AddOns/。">把 CopyEnglishName 和 CopyEnglishName_Data 拖进 Interface/AddOns/。</div>
+            <div class="install-cta" data-en="Open the repo →" data-zh="前往仓库 →">前往仓库 →</div>
+          </a>
+          <a class="install-card" href="https://github.com/Abelliuxl/CopyEnglishName_Data" target="_blank" rel="noopener">
+            <div class="install-name" data-en="Data companion" data-zh="数据子插件">数据子插件</div>
+            <div class="install-meta" data-en="CopyEnglishName_Data — 35 load-on-demand chunks." data-zh="CopyEnglishName_Data — 35 个按需加载的数据块。">CopyEnglishName_Data — 35 个按需加载的数据块。</div>
+            <div class="install-cta" data-en="Open data repo →" data-zh="前往数据仓库 →">前往数据仓库 →</div>
+          </a>
+        </div>
+        <p class="install-foot" data-en="The data companion is required — it holds the Chinese↔English item table. Without it /en has nothing to look up." data-zh="数据子插件是必需的 — 它存着中英对照表。没有它 /en 没东西可查。">
+          数据子插件是必需的 — 它存着中英对照表。没有它 /en 没东西可查。
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-cream" id="scope">
+      <div class="section-inner">
+        <h2 class="section-title" data-en="What it does, and what it doesn't" data-zh="它能做什么、不做什么">它能做什么、不做什么</h2>
+        <div class="scope">
+          <div class="scope-col">
+            <h3 data-en="Does" data-zh="能做">能做</h3>
+            <ul>
+              <li data-en="Look up the English name of an item" data-zh="查物品的英文名">查物品的英文名</li>
+              <li data-en="Three input modes: item link, item id, Chinese name" data-zh="三种输入：物品链接、物品 ID、中文名">三种输入：物品链接、物品 ID、中文名</li>
+              <li data-en="Show the result in a copyable in-game window" data-zh="在游戏内可复制的窗口里展示结果">在游戏内可复制的窗口里展示结果</li>
+              <li data-en="Load dictionary on demand to keep memory light" data-zh="按需加载词典，内存占用低">按需加载词典，内存占用低</li>
+            </ul>
+          </div>
+          <div class="scope-col">
+            <h3 data-en="Doesn't" data-zh="不做的">不做的</h3>
+            <ul>
+              <li data-en="Scan tooltips automatically" data-zh="不自动扫描 tooltip">不自动扫描 tooltip</li>
+              <li data-en="Look up spells" data-zh="不查技能">不查技能</li>
+              <li data-en="Look up NPC names" data-zh="不查 NPC 名">不查 NPC 名</li>
+              <li data-en="Copy to the system clipboard directly" data-zh="不直接复制到系统剪贴板">不直接复制到系统剪贴板</li>
+            </ul>
+          </div>
+        </div>
+        <p class="scope-foot" data-en="Single-purpose on purpose. The data dictionary is shared with the Raidpapa browser extension, so item-name fixes land in both places." data-zh="单用途是设计上的选择。词典和 Raidpapa 浏览器扩展共用，物品名修正两处都会生效。">
+          单用途是设计上的选择。词典和 Raidpapa 浏览器扩展共用，物品名修正两处都会生效。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <span data-en="CopyEnglishName is part of the" data-zh="CopyEnglishName 是">CopyEnglishName 是</span>
+      <a href="https://liuxl.com.cn/" data-en="Abelliuxl Macintosh" data-zh="Abelliuxl Macintosh">Abelliuxl Macintosh</a>
+      <span data-en="workspace." data-zh="工作区的一个项目。">工作区的一个项目。</span>
+      <span class="foot-sep">·</span>
+      <a href="https://github.com/Abelliuxl/CopyEnglishName" target="_blank" rel="noopener">GitHub</a>
+      <span class="foot-sep">·</span>
+      <a href="https://github.com/Abelliuxl/CopyEnglishName_Data" target="_blank" rel="noopener">Data</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

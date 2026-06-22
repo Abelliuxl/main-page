@@ -17,8 +17,8 @@
     "bio": "Licensed Doctor, Unlicensed AI Therapist. I build small, practical tools around medicine, games, automation, and AI.",
     "background": "This is my personal Macintosh-style workspace: part portfolio, part toolbox, part lab notebook. Most of the things here are built to solve a real annoyance first, then kept small enough to understand and maintain.",
     "skills": [
-      "ChatGPT",
-      "Codex",
+      "Surgery",
+      "Consultation",
       "Describing Problems",
       "Reviewing Results",
       "Testing Ideas",
@@ -41,6 +41,30 @@
       "year": "Live",
       "link": "/wow-pal-data/",
       "linkLabel": "Open WOW Pal Data"
+    },
+    {
+      "title": "Raidpapa",
+      "icon": "🎮",
+      "description": "raidbots.com Chinese translation extension, Chrome 340 + Edge 651 users, ⭐5.0.",
+      "year": "Live",
+      "link": "/raidbots-cn-extension/",
+      "linkLabel": "Open Raidpapa"
+    },
+    {
+      "title": "EZ Translate Lite",
+      "icon": "🌐",
+      "description": "LLM-powered browser translation extension with hover, popup, image Ask, and 100+ languages.",
+      "year": "Live",
+      "link": "/ez-translate-lite/",
+      "linkLabel": "Open EZ Translate Lite"
+    },
+    {
+      "title": "CopyEnglishName",
+      "icon": "📋",
+      "description": "Lightweight World of Warcraft addon — type /en for an item's English name. Sporefall 12.0.7 ready.",
+      "year": "Live",
+      "link": "/CopyEnglishName/",
+      "linkLabel": "Open CopyEnglishName"
     }
   ],
   "writings": [
@@ -64,6 +88,88 @@
     }
   ],
   "blogPosts": [
+    {
+      "title": "Why Cherry Studio Agent Mode Won't Show Your OpenAI Compatible Models",
+      "date": "2026-06-22",
+      "excerpt": "Cherry Studio's Agent mode only shows Anthropic-compatible providers. Here's why, and what you can actually do about it.",
+      "link": "/blog/cherry-studio-agent-openai-compatible.html",
+      "tags": [
+        "Cherry Studio",
+        "Agent",
+        "OpenAI Compatible",
+        "Anthropic",
+        "SDK"
+      ]
+    },
+    {
+      "title": "OpenCode Go's Three New Models — GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3",
+      "date": "2026-06-18",
+      "excerpt": "GLM 5.2, Kimi K2.7 Code, and MiniMax M3 all landed on OpenCode Go in mid-June. Same $10/month plan, wildly different limits.",
+      "link": "/blog/opencode-go-three-new-models.html",
+      "tags": [
+        "AI",
+        "OpenCode",
+        "GLM",
+        "Kimi",
+        "MiniMax",
+        "Pricing"
+      ]
+    },
+    {
+      "title": "MiMo Lite ¥39 vs MiniMax Plus ¥49: How Many Tokens Do You Actually Get?",
+      "date": "2026-06-16",
+      "excerpt": "Breaking down Credits-to-tokens math to compare two of the cheapest AI coding subscriptions in China.",
+      "link": "/blog/mimo-lite-vs-minimax-plus.html",
+      "tags": [
+        "AI",
+        "MiMo",
+        "MiniMax",
+        "Token Plan",
+        "API"
+      ]
+    },
+    {
+      "title": "GLM 5.2 vs DeepSeek V4 Pro vs MiMo v2.5 Pro — When 99% Cache Hit Rate Meets 60x Pricing",
+      "date": "2026-06-14",
+      "excerpt": "GLM 5.2 hits a measured 99% cache hit rate, but priced like GLM 5.1 it still costs 8x as much as DeepSeek even with that edge.",
+      "link": "/blog/glm-5.2-vs-deepseek-mimo.html",
+      "tags": [
+        "AI",
+        "GLM",
+        "DeepSeek",
+        "MiMo",
+        "API",
+        "Pricing",
+        "Cache"
+      ]
+    },
+    {
+      "title": "When Both Sides Go Pro — Same Price, Different Cache Hit Rates",
+      "date": "2026-06-13",
+      "excerpt": "MiMo v2.5 Pro and DeepSeek V4 Pro now charge identical per-token rates. The only thing separating their costs is cache hit rate.",
+      "link": "/blog/mimo-v2.5-pro-vs-deepseek-v4-pro.html",
+      "tags": [
+        "AI",
+        "MiMo",
+        "DeepSeek",
+        "API",
+        "Pricing",
+        "Cache"
+      ]
+    },
+    {
+      "title": "Is MiMo's Token Plan Cheaper Than DeepSeek V4 Flash?",
+      "date": "2026-06-09",
+      "excerpt": "I used my busiest DeepSeek API day to calculate whether MiMo V2.5's Token Plan would actually reduce my monthly AI bill.",
+      "link": "/blog/mimo-token-plan-vs-deepseek-v4-flash.html",
+      "tags": [
+        "AI",
+        "MiMo",
+        "DeepSeek",
+        "API",
+        "Token Plan"
+      ]
+    },
     {
       "title": "When Ctrl+Arrow Would Not Switch Spaces",
       "date": "2026-05-07",
@@ -155,6 +261,18 @@
         {
           "name": "WOW Pal Data",
           "url": "/wow-pal-data/"
+        },
+        {
+          "name": "Raidpapa",
+          "url": "/raidbots-cn-extension/"
+        },
+        {
+          "name": "EZ Translate Lite",
+          "url": "/ez-translate-lite/"
+        },
+        {
+          "name": "CopyEnglishName",
+          "url": "/CopyEnglishName/"
         }
       ]
     },
@@ -250,6 +368,30 @@
       "year": "Live",
       "link": "/wow-pal-data/",
       "linkLabel": "Open WOW Pal Data"
+    },
+    {
+      "title": "Raidpapa",
+      "icon": "🎮",
+      "description": "raidbots.com Chinese translation extension, Chrome 340 + Edge 651 users, ⭐5.0.",
+      "year": "Live",
+      "link": "/raidbots-cn-extension/",
+      "linkLabel": "Open Raidpapa"
+    },
+    {
+      "title": "EZ Translate Lite",
+      "icon": "🌐",
+      "description": "LLM-powered browser translation extension with hover, popup, image Ask, and 100+ languages.",
+      "year": "Live",
+      "link": "/ez-translate-lite/",
+      "linkLabel": "Open EZ Translate Lite"
+    },
+    {
+      "title": "CopyEnglishName",
+      "icon": "📋",
+      "description": "Lightweight World of Warcraft addon — type /en for an item's English name. Sporefall 12.0.7 ready.",
+      "year": "Live",
+      "link": "/CopyEnglishName/",
+      "linkLabel": "Open CopyEnglishName"
     }
   ],
   "githubProjects": [
@@ -525,8 +667,8 @@
         "bio": "持证医生，非持证 AI 治疗师。我围绕医学、游戏、自动化和 AI 构建小而实用的工具。",
         "background": "这是我的 Macintosh 风格个人工作台，平时用来放作品、常用工具和一些折腾记录。这里的东西大多源于日常遇到的具体问题：先想办法把问题解决，再尽量做得简单、好懂，也方便以后自己维护。",
         "skills": [
-          "ChatGPT",
-          "Codex",
+          "手术",
+          "谈话",
           "描述需求",
           "检查结果",
           "测试想法",
@@ -571,12 +713,48 @@
         "WOW Pal Data": {
           "description": "作为独立 Web 服务部署的魔兽世界数据页面。",
           "year": "在线"
+        },
+        "Raidpapa": {
+          "description": "raidbots.com 中文翻译扩展，Chrome 340 + Edge 651 用户，⭐5.0。",
+          "year": "在线"
+        },
+        "EZ Translate Lite": {
+          "description": "基于大语言模型的浏览器翻译扩展，支持划词、弹窗、图片 Ask 与 100+ 语言。",
+          "year": "在线"
+        },
+        "CopyEnglishName": {
+          "description": "轻量级魔兽插件 — 输入 /en 即可查到物品的英文名。Sporefall 12.0.7 已适配。",
+          "year": "在线"
         }
       },
       "blogPosts": {
+        "/blog/cherry-studio-agent-openai-compatible.html": {
+          "title": "为什么 Cherry Studio Agent 模式不显示你的 OpenAI Compatible 模型",
+          "excerpt": "Cherry Studio 的 Agent 模式只显示 Anthropic 兼容的 provider。这是为什么，以及你能做什么。"
+        },
+        "/blog/opencode-go-three-new-models.html": {
+          "title": "OpenCode Go 三大新模型：GLM 5.2 vs Kimi K2.7 Code vs MiniMax M3",
+          "excerpt": "GLM 5.2、Kimi K2.7 Code、MiniMax M3 三款模型六月中旬先后上架 OpenCode Go，同样 $10/月，可用额度差距巨大。"
+        },
+        "/blog/mimo-lite-vs-minimax-plus.html": {
+          "title": "MiMo ¥39 vs MiniMax ¥49：同样的钱，Token 量能差多少？",
+          "excerpt": "拆解 Credits 换算规则，对比国内两个最便宜的 AI 编程订阅的实际 Token 用量。"
+        },
+        "/blog/glm-5.2-vs-deepseek-mimo.html": {
+          "title": "99% 缓存命中率遇上 60 倍定价：GLM 5.2 划算吗？",
+          "excerpt": "GLM 5.2 实测缓存命中率达到 99%，但按 GLM 5.1 的定价来算，即使命中率碾压对手，总费用仍然是 DeepSeek 的 8 倍。"
+        },
+        "/blog/mimo-v2.5-pro-vs-deepseek-v4-pro.html": {
+          "title": "单价完全一样，缓存命中率就是唯一的胜负手",
+          "excerpt": "MiMo v2.5 Pro 和 DeepSeek V4 Pro 现在单价完全相同，唯一拉开成本差距的变量就是缓存命中率。"
+        },
+        "/blog/mimo-token-plan-vs-deepseek-v4-flash.html": {
+          "title": "39 元的 MiMo Token Plan，真的比 DeepSeek V4 Flash 划算吗？",
+          "excerpt": "我用 DeepSeek 用量最高的一天来算，看 MiMo V2.5 的 Token Plan 到底能不能让每月的 AI 账单更便宜。"
+        },
         "/blog/sideclick-cgevent-control-arrow.html": {
           "title": "当 Ctrl+方向键就是不肯切换桌面",
-          "excerpt": "一篇关于 SideClick、CGEvent、Hammerspoon，以及 macOS Mission Control 最终为何只接受特定私有事件源序列的调试记录。"
+          "excerpt": "一篇关于 SideClick、CGEvent、Hammerspoon 的调试笔记，记录为什么 macOS Mission Control 只接受最后那套私有事件源的按键序列。"
         }
       },
       "notes": {

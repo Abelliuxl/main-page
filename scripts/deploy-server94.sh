@@ -45,6 +45,27 @@ retry rsync -az --delete \
   -e "${RSYNC_SSH}" \
   "${ROOT_DIR}/assets/" "${REMOTE_HOST}:${REMOTE_DIR}/assets/"
 
+# Project homepages — one folder per project, deployed to repo root so they
+# serve at https://liuxl.com.cn/<slug>/. Add new entries by following the same
+# pattern: rsync the project folder to ${REMOTE_DIR}/<slug>/.
+if [ -d "${ROOT_DIR}/raidbots-cn-extension" ]; then
+  retry rsync -az --delete \
+    -e "${RSYNC_SSH}" \
+    "${ROOT_DIR}/raidbots-cn-extension/" "${REMOTE_HOST}:${REMOTE_DIR}/raidbots-cn-extension/"
+fi
+
+if [ -d "${ROOT_DIR}/ez-translate-lite" ]; then
+  retry rsync -az --delete \
+    -e "${RSYNC_SSH}" \
+    "${ROOT_DIR}/ez-translate-lite/" "${REMOTE_HOST}:${REMOTE_DIR}/ez-translate-lite/"
+fi
+
+if [ -d "${ROOT_DIR}/CopyEnglishName" ]; then
+  retry rsync -az --delete \
+    -e "${RSYNC_SSH}" \
+    "${ROOT_DIR}/CopyEnglishName/" "${REMOTE_HOST}:${REMOTE_DIR}/CopyEnglishName/"
+fi
+
 retry rsync -az --delete \
   -e "${RSYNC_SSH}" \
   "${ROOT_DIR}/scripts/" "${REMOTE_HOST}:${REMOTE_DIR}/scripts/"
