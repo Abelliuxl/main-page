@@ -792,12 +792,12 @@
             margin-bottom: var(--spacing-2);
         }
 
-        .content a {
+        .content a:not(.apps-icon) {
             color: var(--color-link);
             text-decoration: underline;
         }
 
-        .content a:hover {
+        .content a:not(.apps-icon):hover {
             background: var(--color-aqua-blue-dark);
             color: var(--color-white);
         }
@@ -1837,7 +1837,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260623-0111';
+        const CONFIG_VERSION = '20260623-0120';
         const LANGUAGE_STORAGE_KEY = 'homepage-language';
         const IP_COUNTRY_ENDPOINT = 'https://api.country.is/';
         const IP_COUNTRY_TIMEOUT_MS = 1800;
