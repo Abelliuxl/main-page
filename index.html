@@ -128,6 +128,12 @@
             padding-right: var(--spacing-4);
             color: #1d2b45;
             text-shadow: 0 1px 0 var(--color-white);
+            text-decoration: none;
+        }
+
+        .menu-bar .logo:hover {
+            color: #1d2b45;
+            background: none;
         }
 
         .menu-bar .menu-items {
@@ -1191,7 +1197,7 @@
 <body>
     <!-- Menu Bar -->
     <div class="menu-bar">
-        <div class="logo">My Macintosh</div>
+        <a class="logo" href="/">My Macintosh</a>
         <div class="menu-items">
             <div class="menu-item" data-dropdown="">File</div>
             <div class="menu-item" data-dropdown="">Edit</div>
@@ -1686,19 +1692,70 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260609-1415';
+        const CONFIG_VERSION = '20260623-0002';
+        const LANGUAGE_STORAGE_KEY = 'homepage-language';
+        const IP_COUNTRY_ENDPOINT = 'https://api.country.is/';
+        const IP_COUNTRY_TIMEOUT_MS = 1800;
         let articleLaunchTimer = null;
-        const requestedLanguage = new URLSearchParams(window.location.search).get('lang');
-        let currentLanguage = requestedLanguage === 'zh' ||
-            (requestedLanguage !== 'en' && localStorage.getItem('homepage-language') === 'zh') ? 'zh' : 'en';
+        const normalizeLanguage = language => ['en', 'zh'].includes(language) ? language : null;
+        const requestedLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get('lang'));
+        const savedLanguage = readSavedLanguage();
+        let currentLanguage = requestedLanguage || savedLanguage || 'en';
+
+        function readSavedLanguage() {
+            try {
+                return normalizeLanguage(localStorage.getItem(LANGUAGE_STORAGE_KEY));
+            } catch (error) {
+                console.warn('Could not read the saved language preference:', error);
+                return null;
+            }
+        }
+
+        function saveLanguage(language) {
+            try {
+                localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+            } catch (error) {
+                console.warn('Could not save the language preference:', error);
+            }
+        }
+
+        async function detectInitialLanguage() {
+            if (requestedLanguage || savedLanguage) {
+                return currentLanguage;
+            }
+
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), IP_COUNTRY_TIMEOUT_MS);
+
+            try {
+                const response = await fetch(IP_COUNTRY_ENDPOINT, {
+                    cache: 'no-store',
+                    signal: controller.signal,
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const location = await response.json();
+                return location.country?.toUpperCase() === 'CN' ? 'zh' : 'en';
+            } catch (error) {
+                console.warn('Could not detect the visitor country; using English:', error);
+                return 'en';
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
 
         async function loadConfig() {
+            const initialLanguage = detectInitialLanguage();
+
             try {
                 const response = await fetch(`config.json?v=${CONFIG_VERSION}`, { cache: 'no-store' });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 config = await response.json();
+                currentLanguage = await initialLanguage;
                 console.log('Config loaded successfully:', config);
                 initializeUI();
             } catch (error) {
@@ -1809,7 +1866,7 @@
 
             const activeSection = document.querySelector('.mobile-content section.active')?.id || 'about';
             currentLanguage = language;
-            localStorage.setItem('homepage-language', language);
+            saveLanguage(language);
             renderHomepage();
 
             if (window.innerWidth < 768) {
