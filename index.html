@@ -368,14 +368,12 @@
         }
 
         .apps-icon-img {
+            position: relative;
             width: 64px;
             height: 64px;
             border: var(--border-width-hairline) solid rgba(37, 67, 118, 0.8);
             background:
                 linear-gradient(180deg, rgba(255,255,255,0.95), rgba(220,232,250,0.92) 48%, rgba(174,198,232,0.9));
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 32px;
             border-radius: 12px;
             box-shadow:
@@ -387,11 +385,11 @@
 
         .apps-icon-img .app-icon-image,
         .apps-icon-img .app-icon-fallback {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
         }
 
         .apps-icon-img .app-icon-image {
@@ -401,7 +399,16 @@
 
         .apps-icon-img .app-icon-fallback {
             font-size: 36px;
-            line-height: 1;
+            line-height: 64px;
+            text-align: center;
+        }
+
+        /* Guarantee the [hidden] attribute works even though .app-icon-fallback
+           sets display:block. Without this, the class selector (0,2,0) would
+           win over the user-agent [hidden] { display: none } rule (0,1,0)
+           and the fallback emoji would render alongside the image. */
+        .apps-icon-img .app-icon-fallback[hidden] {
+            display: none;
         }
 
         .apps-icon-label {
@@ -1834,7 +1841,7 @@
         // CONFIG LOADING
         // ========================================
         let config = null;
-        const CONFIG_VERSION = '20260623-0043';
+        const CONFIG_VERSION = '20260623-0059';
         const LANGUAGE_STORAGE_KEY = 'homepage-language';
         const IP_COUNTRY_ENDPOINT = 'https://api.country.is/';
         const IP_COUNTRY_TIMEOUT_MS = 1800;
